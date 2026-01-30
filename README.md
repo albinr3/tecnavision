@@ -1,36 +1,152 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TecnoVision - Next.js Application
 
-## Getting Started
+Aplicación web de TecnoVision convertida de HTML a Next.js, manteniendo el diseño exacto original.
 
-First, run the development server:
+## 🚀 Inicio Rápido
+
+Ejecutar el servidor de desarrollo:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abrir [http://localhost:3000](http://localhost:3000) en el navegador.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📁 Estructura del Proyecto
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+tecnovision-nextjs/
+├── app/
+│   ├── globals.css              # Tema personalizado con colores TecnoVision
+│   ├── layout.tsx               # Layout raíz con fuentes de Google
+│   ├── page.tsx                 # Landing page principal
+│   └── products/
+│       └── bullet-cam-pro-ai/   # Páginas de productos
+│           └── page.tsx
+```
 
-## Learn More
+## 🔧 Páginas Disponibles
 
-To learn more about Next.js, take a look at the following resources:
+- **Landing Page**: http://localhost:3000
+- **Producto - Bullet Cam Pro AI**: http://localhost:3000/products/bullet-cam-pro-ai
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## ⚠️ IMPORTANTE: Configuración de Fuentes de Íconos
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Problema Común y Solución
 
-## Deploy on Vercel
+**PROBLEMA**: Los íconos de Material Icons/Symbols no se visualizan correctamente.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**CAUSA**: En Next.js, las fuentes de íconos de Google DEBEN cargarse mediante tags `<link>` en el `<head>` del HTML, NO mediante `@import` en CSS.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**SOLUCIÓN CORRECTA**: 
+
+Las fuentes están configuradas en [`app/layout.tsx`](file:///c:/Users/Albin%20Rodriguez/Videos/Nueva%20carpeta/tecnovision-nextjs/app/layout.tsx) dentro del tag `<head>`:
+
+```tsx
+<head>
+  {/* Fuente principal Inter */}
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  />
+  
+  {/* Material Symbols Outlined - para landing page */}
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet"
+  />
+  
+  {/* Material Icons Outlined - para página de producto */}
+  <link
+    href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+    rel="stylesheet"
+  />
+</head>
+```
+
+### ❌ NO HACER:
+
+```css
+/* ❌ NO usar @import en globals.css */
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined');
+```
+
+### Por qué este problema ocurre:
+
+1. Next.js usa Server-Side Rendering (SSR)
+2. Los `@import` en CSS se cargan después de que el HTML inicial se renderiza
+3. Los íconos requieren que la fuente esté disponible durante el render inicial
+4. Los tags `<link>` en el `<head>` garantizan que las fuentes se carguen antes del render
+
+### Diferencia entre Material Icons y Material Symbols:
+
+- **Material Icons Outlined**: Fuente clásica, usa clase `material-icons-outlined`
+- **Material Symbols Outlined**: Fuente nueva, usa clase `material-symbols-outlined`
+- Este proyecto usa **AMBAS** porque las diferentes páginas fueron convertidas de diferentes HTMLs originales
+
+### Si agregas nuevas páginas:
+
+1. **NO** crees un `layout.tsx` anidado solo para metadata
+2. Exporta la metadata directamente en el `page.tsx`:
+   ```tsx
+   export const metadata: Metadata = {
+     title: "Tu Título",
+     description: "Tu descripción",
+   };
+   ```
+3. Las fuentes del layout raíz se heredarán automáticamente
+
+## 🎨 Tema y Colores
+
+**Consulte el documento completo: [Sistema de Diseño (DESIGN_SYSTEM.md)](DESIGN_SYSTEM.md)**
+
+Los colores personalizados están definidos en `app/globals.css` usando Tailwind CSS v4 con sintaxis `@theme inline`:
+
+- **Primary**: `#1301b2`
+- **Primary Dark**: `#0e018a`
+- **Surface Light**: `#f8f9fa`
+- **Surface Dark**: `#1a1d24`
+
+## 🛠️ Tecnologías
+
+- **Next.js 16.1.6** (App Router)
+- **React 19.2.3**
+- **Tailwind CSS v4** (PostCSS)
+- **TypeScript**
+- **Google Fonts**: Inter, Material Symbols Outlined, Material Icons Outlined
+
+## 📦 Scripts Disponibles
+
+```bash
+npm run dev      # Servidor de desarrollo
+npm run build    # Build de producción
+npm run start    # Servidor de producción
+npm run lint     # Ejecutar ESLint
+```
+
+## 🔍 Solución de Problemas
+
+### Los íconos no aparecen
+
+1. Verificar que las fuentes estén en `app/layout.tsx` dentro del `<head>`
+2. Hacer hard refresh del navegador: `Ctrl+Shift+R` (Windows) o `Cmd+Shift+R` (Mac)
+3. Abrir DevTools (F12) → Network → Verificar que los archivos de fuentes de Google se carguen (status 200)
+4. Verificar la consola del navegador por errores
+
+### Error "Cannot use `<head>` in layout"
+
+- En layouts anidados, NO puedes agregar un tag `<head>` manualmente
+- Solo el layout raíz (`app/layout.tsx`) puede tener `<head>`
+- Para metadata en páginas anidadas, exportar `metadata` directamente
+
+## 📝 Notas de Desarrollo
+
+- El proyecto usa Tailwind CSS v4 (sintaxis moderna con `@theme inline`)
+- Las fuentes se cargan en el `<head>` del layout raíz
+- Todos los enlaces de navegación interna usan rutas relativas simples (`href="/ruta"`)
+- Los links externos/placeholder usan `href="#"`
+
+---
+
+**Documentación creada**: Enero 2026  
+**Framework**: Next.js 16.1.6
