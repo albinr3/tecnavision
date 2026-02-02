@@ -10,19 +10,19 @@ export default async function NewProductPage() {
     return (
         <>
             {/* Page Header */}
-            <header className="bg-white border-b border-[#dcdae7] px-8 py-5 flex flex-col md:flex-row md:items-center justify-between gap-4 flex-shrink-0 z-10">
+            <header className="bg-app-surface border-b border-app-border px-8 py-5 flex flex-col md:flex-row md:items-center justify-between gap-4 flex-shrink-0 z-10">
                 <div>
                     <div className="flex items-center gap-2 text-[#645e8d] text-sm mb-1">
                         <span>Productos</span>
                         <span className="material-symbols-outlined text-[16px]">chevron_right</span>
-                        <span className="text-text-main font-medium">Crear Nuevo</span>
+                        <span className="text-app-text font-medium">Crear Nuevo</span>
                     </div>
-                    <h2 className="text-text-main text-2xl font-bold tracking-tight">Añadir Nuevo Producto</h2>
+                    <h2 className="text-app-text text-2xl font-bold tracking-tight">Añadir Nuevo Producto</h2>
                 </div>
                 <div className="flex items-center gap-3">
                     <Link
                         href="/admin/products"
-                        className="flex h-10 items-center justify-center rounded-lg px-4 border border-[#dcdae7] bg-white text-text-main text-sm font-semibold hover:bg-gray-50 transition-colors"
+                        className="flex h-10 items-center justify-center rounded-lg px-4 border border-app-border bg-app-surface text-app-text text-sm font-semibold hover:bg-app-bg-subtle transition-colors"
                     >
                         Descartar
                     </Link>

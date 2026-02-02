@@ -56,15 +56,15 @@ export default function ProductDetail({ product }: ProductDetailProps) {
     };
 
     return (
-        <div className="bg-background-light text-text-main antialiased selection:bg-primary selection:text-white">
+        <div className="bg-app-bg text-app-text antialiased selection:bg-primary selection:text-white">
             {/* Product Hero */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start mb-32">
                 {/* Product Image */}
                 <div className="relative">
-                    <div className="aspect-square bg-surface-light dark:bg-surface-dark rounded-3xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-800 flex items-center justify-center p-8">
+                    <div className="aspect-square bg-app-surface rounded-3xl overflow-hidden shadow-sm border border-app-border flex items-center justify-center p-8">
                         <img
                             alt={`${product.name} view`}
-                            className="object-contain w-full h-full mix-blend-multiply dark:mix-blend-normal dark:opacity-90"
+                            className="object-contain w-full h-full mix-blend-multiply"
                             src={images.main}
                         />
                     </div>
@@ -81,20 +81,20 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                                 </span>
                             </div>
                         )}
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-tight text-text-main-light dark:text-text-main-dark leading-tight">
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-tight text-app-text leading-tight">
                             {product.name} <span className="text-primary">{product.model}</span>
                         </h1>
                         <div className="flex items-center gap-4 mb-6">
                             <div className="flex text-primary">
                                 {[...Array(5)].map((_, i) => (
-                                    <span key={i} className={`material-icons-outlined text-lg ${i < product.rating ? "" : "text-gray-300"}`}>star</span>
+                                    <span key={i} className={`material-icons-outlined text-lg ${i < product.rating ? "" : "text-app-border"}`}>star</span>
                                 ))}
                             </div>
-                            <span className="text-sm font-medium text-text-sec-light dark:text-text-sec-dark">Grade A Security</span>
+                            <span className="text-sm font-medium text-app-text-sec">Grade A Security</span>
                         </div>
 
                         {/* Description depends on variant */}
-                        <p className="text-lg text-text-sec-light dark:text-text-sec-dark leading-relaxed font-light transition-all duration-300">
+                        <p className="text-lg text-app-text-sec leading-relaxed font-light transition-all duration-300">
                             {(selectedVariant?.description) ? (
                                 <span className="font-medium text-primary block mb-1">
                                     [{selectedVariant.name}]
@@ -106,8 +106,8 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
                     {/* Variants Selector */}
                     {product.variants.length > 0 && (
-                        <div className="py-6 border-t border-b border-gray-100 dark:border-gray-800">
-                            <label className="block text-xs font-bold uppercase tracking-wider text-text-sec-light dark:text-text-sec-dark mb-4">
+                        <div className="py-6 border-t border-b border-app-border">
+                            <label className="block text-xs font-bold uppercase tracking-wider text-app-text-sec mb-4">
                                 Seleccionar Versión
                             </label>
                             <div className="flex flex-wrap gap-3">
@@ -117,7 +117,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                                         onClick={() => setSelectedVariantId(variant.id)}
                                         className={`px-6 py-3 rounded-xl text-sm font-medium transition-all ${selectedVariantId === variant.id
                                                 ? "bg-primary text-white border border-primary shadow-lg shadow-primary/30 transform scale-105"
-                                                : "border border-gray-200 dark:border-gray-700 hover:border-primary dark:hover:border-primary hover:bg-surface-light dark:hover:bg-surface-dark"
+                                                : "border border-app-border hover:border-primary hover:bg-app-bg-subtle"
                                             }`}
                                     >
                                         {variant.name}
@@ -129,13 +129,13 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
                     {/* Resolution Options (Legacy/Base) - Show if no variants or just as info */}
                     {product.variants.length === 0 && specs.resolution_options.length > 0 && (
-                        <div className="py-6 border-t border-b border-gray-100 dark:border-gray-800">
-                            <label className="block text-xs font-bold uppercase tracking-wider text-text-sec-light dark:text-text-sec-dark mb-4">Resoluciones Soportadas</label>
+                        <div className="py-6 border-t border-b border-app-border">
+                            <label className="block text-xs font-bold uppercase tracking-wider text-app-text-sec mb-4">Resoluciones Soportadas</label>
                             <div className="flex flex-wrap gap-3">
                                 {specs.resolution_options.map((res: string, i: number) => (
                                     <span
                                         key={i}
-                                        className="px-4 py-2 rounded-lg text-xs font-medium border border-gray-200 bg-gray-50 text-gray-600"
+                                        className="px-4 py-2 rounded-lg text-xs font-medium border border-app-border bg-app-bg-subtle text-app-text-sec"
                                     >
                                         {res}
                                     </span>
@@ -154,21 +154,21 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                         {(displayData.manual || displayData.datasheet) && (
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {displayData.manual && (
-                                    <a href={displayData.manual} target="_blank" className="w-full bg-white dark:bg-surface-dark hover:bg-gray-50 dark:hover:bg-gray-800 text-text-main dark:text-text-main-dark border border-gray-200 dark:border-gray-700 font-semibold py-4 px-4 rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 group text-sm">
-                                        <span className="material-icons-outlined text-text-sec-light group-hover:text-primary transition-colors">menu_book</span>
+                                    <a href={displayData.manual} target="_blank" className="w-full bg-app-surface hover:bg-app-bg-subtle text-app-text border border-app-border font-semibold py-4 px-4 rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 group text-sm">
+                                        <span className="material-icons-outlined text-app-text-sec group-hover:text-primary transition-colors">menu_book</span>
                                         Manual
                                     </a>
                                 )}
                                 {displayData.datasheet && (
-                                    <a href={displayData.datasheet} target="_blank" className="w-full bg-white dark:bg-surface-dark hover:bg-gray-50 dark:hover:bg-gray-800 text-text-main dark:text-text-main-dark border border-gray-200 dark:border-gray-700 font-semibold py-4 px-4 rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 group text-sm">
-                                        <span className="material-icons-outlined text-text-sec-light group-hover:text-primary transition-colors">description</span>
+                                    <a href={displayData.datasheet} target="_blank" className="w-full bg-app-surface hover:bg-app-bg-subtle text-app-text border border-app-border font-semibold py-4 px-4 rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 group text-sm">
+                                        <span className="material-icons-outlined text-app-text-sec group-hover:text-primary transition-colors">description</span>
                                         Ficha Técnica
                                     </a>
                                 )}
                             </div>
                         )}
 
-                        <p className="text-center text-xs text-text-sec-light dark:text-text-sec-dark">
+                        <p className="text-center text-xs text-app-text-sec">
                             Respuesta garantizada en menos de 2 horas hábiles.
                         </p>
                     </div>
@@ -176,21 +176,21 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                     {/* Features Grid */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
                         <div className="flex items-start gap-3">
-                            <div className="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-primary">
+                            <div className="p-2 bg-primary/10 rounded-lg text-primary">
                                 <span className="material-icons-outlined">verified_user</span>
                             </div>
                             <div>
-                                <p className="font-semibold text-sm text-text-main-light dark:text-text-main-dark">Garantía Extendida</p>
-                                <p className="text-xs text-text-sec-light dark:text-text-sec-dark mt-1">{features.guarantee}</p>
+                                <p className="font-semibold text-sm text-app-text">Garantía Extendida</p>
+                                <p className="text-xs text-app-text-sec mt-1">{features.guarantee}</p>
                             </div>
                         </div>
                         <div className="flex items-start gap-3">
-                            <div className="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-primary">
+                            <div className="p-2 bg-primary/10 rounded-lg text-primary">
                                 <span className="material-icons-outlined">support_agent</span>
                             </div>
                             <div>
-                                <p className="font-semibold text-sm text-text-main-light dark:text-text-main-dark">Soporte Dedicado</p>
-                                <p className="text-xs text-text-sec-light dark:text-text-sec-dark mt-1">{features.support}</p>
+                                <p className="font-semibold text-sm text-app-text">Soporte Dedicado</p>
+                                <p className="text-xs text-app-text-sec mt-1">{features.support}</p>
                             </div>
                         </div>
                     </div>
@@ -200,22 +200,22 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             {/* Technology Features */}
             <div className="mb-32">
                 <div className="text-center mb-16 max-w-2xl mx-auto">
-                    <h2 className="text-3xl font-bold mb-4 text-text-main-light dark:text-text-main-dark">Tecnología Superior</h2>
-                    <p className="text-text-sec-light dark:text-text-sec-dark">Diseñada para operar en las condiciones más difíciles con la mayor inteligencia.</p>
+                    <h2 className="text-3xl font-bold mb-4 text-app-text">Tecnología Superior</h2>
+                    <p className="text-app-text-sec">Diseñada para operar en las condiciones más difíciles con la mayor inteligencia.</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {/* AI Detection */}
-                    <div className="bg-surface-light dark:bg-surface-dark rounded-3xl p-8 hover:shadow-lg transition-shadow duration-300 border border-transparent hover:border-gray-100 dark:hover:border-gray-700">
-                        <div className="h-14 w-14 bg-primary/10 dark:bg-primary/20 rounded-2xl flex items-center justify-center mb-6 text-primary">
+                    <div className="bg-app-surface rounded-3xl p-8 hover:shadow-lg transition-shadow duration-300 border border-transparent hover:border-app-border">
+                        <div className="h-14 w-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 text-primary">
                             <span className="material-icons-outlined text-3xl">psychology</span>
                         </div>
-                        <h3 className="text-xl font-bold mb-3 text-text-main-light dark:text-text-main-dark">Detección AI</h3>
-                        <p className="text-sm text-text-sec-light dark:text-text-sec-dark mb-6 leading-relaxed">
+                        <h3 className="text-xl font-bold mb-3 text-app-text">Detección AI</h3>
+                        <p className="text-sm text-app-text-sec mb-6 leading-relaxed">
                             Algoritmos de aprendizaje profundo que clasifican objetivos humanos y vehiculares para filtrar alarmas irrelevantes.
                         </p>
                         <ul className="space-y-3">
                             {features.ai_detection.map((feature: string, i: number) => (
-                                <li key={i} className="flex items-center gap-3 text-sm font-medium text-text-main-light dark:text-text-main-dark">
+                                <li key={i} className="flex items-center gap-3 text-sm font-medium text-app-text">
                                     <span className="material-icons-outlined text-primary text-lg">check</span>
                                     {feature}
                                 </li>
@@ -224,12 +224,12 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                     </div>
 
                     {/* Night Vision */}
-                    <div className="bg-surface-light dark:bg-surface-dark rounded-3xl p-8 hover:shadow-lg transition-shadow duration-300 border border-transparent hover:border-gray-100 dark:hover:border-gray-700 flex flex-col">
-                        <div className="h-14 w-14 bg-primary/10 dark:bg-primary/20 rounded-2xl flex items-center justify-center mb-6 text-primary">
+                    <div className="bg-app-surface rounded-3xl p-8 hover:shadow-lg transition-shadow duration-300 border border-transparent hover:border-app-border flex flex-col">
+                        <div className="h-14 w-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 text-primary">
                             <span className="material-icons-outlined text-3xl">nightlight_round</span>
                         </div>
-                        <h3 className="text-xl font-bold mb-3 text-text-main-light dark:text-text-main-dark">Visión Nocturna EXIR</h3>
-                        <p className="text-sm text-text-sec-light dark:text-text-sec-dark mb-6 leading-relaxed">
+                        <h3 className="text-xl font-bold mb-3 text-app-text">Visión Nocturna EXIR</h3>
+                        <p className="text-sm text-app-text-sec mb-6 leading-relaxed">
                             Tecnología infrarroja avanzada que proporciona una iluminación uniforme y de largo alcance hasta 30 metros en oscuridad total (0 Lux).
                         </p>
                         <div className="mt-auto rounded-xl overflow-hidden h-40 relative group">
@@ -244,29 +244,29 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                     </div>
 
                     {/* Pro Specs */}
-                    <div className="bg-surface-light dark:bg-surface-dark rounded-3xl p-8 hover:shadow-lg transition-shadow duration-300 border border-transparent hover:border-gray-100 dark:hover:border-gray-700">
-                        <div className="h-14 w-14 bg-primary/10 dark:bg-primary/20 rounded-2xl flex items-center justify-center mb-6 text-primary">
+                    <div className="bg-app-surface rounded-3xl p-8 hover:shadow-lg transition-shadow duration-300 border border-transparent hover:border-app-border">
+                        <div className="h-14 w-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 text-primary">
                             <span className="material-icons-outlined text-3xl">settings_suggest</span>
                         </div>
-                        <h3 className="text-xl font-bold mb-3 text-text-main-light dark:text-text-main-dark">Especificaciones Pro</h3>
-                        <p className="text-sm text-text-sec-light dark:text-text-sec-dark mb-6 leading-relaxed">
+                        <h3 className="text-xl font-bold mb-3 text-app-text">Especificaciones Pro</h3>
+                        <p className="text-sm text-app-text-sec mb-6 leading-relaxed">
                             Hardware robusto preparado para integraciones profesionales y condiciones climáticas adversas.
                         </p>
                         <div className="grid grid-cols-2 gap-4">
-                            <div className="bg-white dark:bg-gray-800 p-3 rounded-xl border border-gray-100 dark:border-gray-700">
-                                <p className="text-[10px] uppercase text-text-sec-light dark:text-text-sec-dark font-bold mb-1">Protección</p>
+                            <div className="bg-app-bg-subtle p-3 rounded-xl border border-app-border">
+                                <p className="text-[10px] uppercase text-app-text-sec font-bold mb-1">Protección</p>
                                 <p className="font-semibold text-primary">{specs.protection}</p>
                             </div>
-                            <div className="bg-white dark:bg-gray-800 p-3 rounded-xl border border-gray-100 dark:border-gray-700">
-                                <p className="text-[10px] uppercase text-text-sec-light dark:text-text-sec-dark font-bold mb-1">Compresión</p>
+                            <div className="bg-app-bg-subtle p-3 rounded-xl border border-app-border">
+                                <p className="text-[10px] uppercase text-app-text-sec font-bold mb-1">Compresión</p>
                                 <p className="font-semibold text-primary">{specs.compression}</p>
                             </div>
-                            <div className="bg-white dark:bg-gray-800 p-3 rounded-xl border border-gray-100 dark:border-gray-700">
-                                <p className="text-[10px] uppercase text-text-sec-light dark:text-text-sec-dark font-bold mb-1">Lente</p>
+                            <div className="bg-app-bg-subtle p-3 rounded-xl border border-app-border">
+                                <p className="text-[10px] uppercase text-app-text-sec font-bold mb-1">Lente</p>
                                 <p className="font-semibold text-primary">{specs.lens}</p>
                             </div>
-                            <div className="bg-white dark:bg-gray-800 p-3 rounded-xl border border-gray-100 dark:border-gray-700">
-                                <p className="text-[10px] uppercase text-text-sec-light dark:text-text-sec-dark font-bold mb-1">Energía</p>
+                            <div className="bg-app-bg-subtle p-3 rounded-xl border border-app-border">
+                                <p className="text-[10px] uppercase text-app-text-sec font-bold mb-1">Energía</p>
                                 <p className="font-semibold text-primary">{specs.power}</p>
                             </div>
                         </div>

@@ -1,6 +1,6 @@
-# TecnoVision - Next.js Application
+# TecnaVision - Next.js Application
 
-Aplicación web de TecnoVision convertida de HTML a Next.js, manteniendo el diseño exacto original.
+Aplicación web de TecnaVision convertida de HTML a Next.js, manteniendo el diseño exacto original.
 
 ## 🚀 Inicio Rápido
 
@@ -17,7 +17,7 @@ Abrir [http://localhost:3000](http://localhost:3000) en el navegador.
 ```
 tecnovision-nextjs/
 ├── app/
-│   ├── globals.css              # Tema personalizado con colores TecnoVision
+│   ├── globals.css              # Tema personalizado con colores TecnaVision
 │   ├── layout.tsx               # Layout raíz con fuentes de Google
 │   ├── page.tsx                 # Landing page principal
 │   └── products/

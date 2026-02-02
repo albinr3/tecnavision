@@ -48,15 +48,15 @@ export default function ContactForm() {
         <form className="space-y-6" onSubmit={handleSubmit}>
             {/* Name */}
             <div className="space-y-1">
-                <label className="block text-sm font-semibold text-text-main" htmlFor="name">
+                <label className="block text-sm font-semibold text-app-text" htmlFor="name">
                     Nombre Completo
                 </label>
                 <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-app-text-sec">
                         <span className="material-symbols-outlined text-xl">person</span>
                     </div>
                     <input
-                        className="block w-full pl-10 pr-3 py-3 rounded-lg border-transparent bg-surface-light text-text-main placeholder-gray-400 focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all sm:text-sm"
+                        className="block w-full pl-10 pr-3 py-3 rounded-lg border-transparent bg-app-surface text-app-text placeholder-app-text-sec focus:border-primary focus:bg-app-surface focus:ring-2 focus:ring-primary/20 transition-all sm:text-sm"
                         id="name"
                         name="name"
                         placeholder="Tu nombre"
@@ -70,15 +70,15 @@ export default function ContactForm() {
 
             {/* Email */}
             <div className="space-y-1">
-                <label className="block text-sm font-semibold text-text-main" htmlFor="email">
+                <label className="block text-sm font-semibold text-app-text" htmlFor="email">
                     Correo Electrónico
                 </label>
                 <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-app-text-sec">
                         <span className="material-symbols-outlined text-xl">alternate_email</span>
                     </div>
                     <input
-                        className="block w-full pl-10 pr-3 py-3 rounded-lg border-transparent bg-surface-light text-text-main placeholder-gray-400 focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all sm:text-sm"
+                        className="block w-full pl-10 pr-3 py-3 rounded-lg border-transparent bg-app-surface text-app-text placeholder-app-text-sec focus:border-primary focus:bg-app-surface focus:ring-2 focus:ring-primary/20 transition-all sm:text-sm"
                         id="email"
                         name="email"
                         placeholder="ejemplo@correo.com"
@@ -92,15 +92,15 @@ export default function ContactForm() {
 
             {/* Company (Optional) */}
             <div className="space-y-1">
-                <label className="block text-sm font-semibold text-text-main" htmlFor="company">
-                    Empresa <span className="text-text-sec-light font-normal text-xs ml-1">(Opcional)</span>
+                <label className="block text-sm font-semibold text-app-text" htmlFor="company">
+                    Empresa <span className="text-app-text-sec font-normal text-xs ml-1">(Opcional)</span>
                 </label>
                 <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-app-text-sec">
                         <span className="material-symbols-outlined text-xl">business</span>
                     </div>
                     <input
-                        className="block w-full pl-10 pr-3 py-3 rounded-lg border-transparent bg-surface-light text-text-main placeholder-gray-400 focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all sm:text-sm"
+                        className="block w-full pl-10 pr-3 py-3 rounded-lg border-transparent bg-app-surface text-app-text placeholder-app-text-sec focus:border-primary focus:bg-app-surface focus:ring-2 focus:ring-primary/20 transition-all sm:text-sm"
                         id="company"
                         name="company"
                         placeholder="Nombre de tu empresa"
@@ -113,15 +113,15 @@ export default function ContactForm() {
 
             {/* Subject */}
             <div className="space-y-1">
-                <label className="block text-sm font-semibold text-text-main" htmlFor="subject">
+                <label className="block text-sm font-semibold text-app-text" htmlFor="subject">
                     Asunto
                 </label>
                 <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-app-text-sec">
                         <span className="material-symbols-outlined text-xl">chat_bubble_outline</span>
                     </div>
                     <input
-                        className="block w-full pl-10 pr-3 py-3 rounded-lg border-transparent bg-surface-light text-text-main placeholder-gray-400 focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all sm:text-sm"
+                        className="block w-full pl-10 pr-3 py-3 rounded-lg border-transparent bg-app-surface text-app-text placeholder-app-text-sec focus:border-primary focus:bg-app-surface focus:ring-2 focus:ring-primary/20 transition-all sm:text-sm"
                         id="subject"
                         name="subject"
                         placeholder="¿En qué podemos ayudarte?"
@@ -135,11 +135,11 @@ export default function ContactForm() {
 
             {/* Message */}
             <div className="space-y-1">
-                <label className="block text-sm font-semibold text-text-main" htmlFor="message">
+                <label className="block text-sm font-semibold text-app-text" htmlFor="message">
                     Mensaje
                 </label>
                 <textarea
-                    className="block w-full px-4 py-3 rounded-lg border-transparent bg-surface-light text-text-main placeholder-gray-400 focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all sm:text-sm resize-none"
+                    className="block w-full px-4 py-3 rounded-lg border-transparent bg-app-surface text-app-text placeholder-app-text-sec focus:border-primary focus:bg-app-surface focus:ring-2 focus:ring-primary/20 transition-all sm:text-sm resize-none"
                     id="message"
                     name="message"
                     placeholder="Escribe tu mensaje aquí..."

@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import ThemeLogo from "@/app/components/ThemeLogo";
+import ThemeToggle from "@/app/components/ThemeToggle";
 import AdminSidebar from "./AdminSidebar";
 import { navItems } from "./navItems";
 
@@ -21,25 +23,28 @@ export default function AdminShell({ children }: AdminShellProps) {
     }, [isMenuOpen]);
 
     return (
-        <div className="flex min-h-screen md:h-screen w-full overflow-hidden bg-[#f6f5f8] text-text-main antialiased">
+        <div className="flex min-h-screen md:h-screen w-full overflow-hidden bg-app-bg-subtle text-app-text antialiased">
             <AdminSidebar />
             <main className="flex-1 flex flex-col h-full overflow-hidden relative">
                 {/* Mobile Header */}
-                <div className="md:hidden flex items-center justify-between p-4 bg-white border-b border-[#dcdae7]">
+                <div className="md:hidden flex items-center justify-between p-4 bg-app-surface border-b border-app-border">
                     <div className="flex items-center gap-2">
-                        <img src="/logo.png" alt="TecnoVision" className="h-8 w-auto" />
-                        <span className="text-sm font-semibold text-text-main">Admin</span>
+                        <ThemeLogo className="h-8 w-auto" />
+                        <span className="text-sm font-semibold text-app-text">Admin</span>
                     </div>
-                    <button
-                        type="button"
-                        onClick={() => setIsMenuOpen(true)}
-                        className="text-text-main p-2"
-                        aria-label="Abrir menú"
-                        aria-expanded={isMenuOpen}
-                        aria-controls="admin-mobile-drawer"
-                    >
-                        <span className="material-symbols-outlined">menu</span>
-                    </button>
+                    <div className="flex items-center gap-2">
+                        <ThemeToggle />
+                        <button
+                            type="button"
+                            onClick={() => setIsMenuOpen(true)}
+                            className="text-app-text p-2"
+                            aria-label="Abrir menú"
+                            aria-expanded={isMenuOpen}
+                            aria-controls="admin-mobile-drawer"
+                        >
+                            <span className="material-symbols-outlined">menu</span>
+                        </button>
+                    </div>
                 </div>
 
                 {children}
@@ -53,19 +58,19 @@ export default function AdminShell({ children }: AdminShellProps) {
             />
             <aside
                 id="admin-mobile-drawer"
-                className={`fixed inset-y-0 left-0 z-50 w-72 bg-white border-r border-[#dcdae7] transform transition-transform md:hidden ${isMenuOpen ? "translate-x-0" : "-translate-x-full"
+                className={`fixed inset-y-0 left-0 z-50 w-72 bg-app-surface border-r border-app-border transform transition-transform md:hidden ${isMenuOpen ? "translate-x-0" : "-translate-x-full"
                     }`}
                 aria-hidden={!isMenuOpen}
             >
-                <div className="flex items-center justify-between p-4 border-b border-[#dcdae7]">
+                <div className="flex items-center justify-between p-4 border-b border-app-border">
                     <div className="flex items-center gap-2">
-                        <img src="/logo.png" alt="TecnoVision" className="h-8 w-auto" />
-                        <span className="text-sm font-semibold text-text-main">Admin</span>
+                        <ThemeLogo className="h-8 w-auto" />
+                        <span className="text-sm font-semibold text-app-text">Admin</span>
                     </div>
                     <button
                         type="button"
                         onClick={() => setIsMenuOpen(false)}
-                        className="text-text-main p-2"
+                        className="text-app-text p-2"
                         aria-label="Cerrar menú"
                     >
                         <span className="material-symbols-outlined">close</span>
@@ -78,7 +83,7 @@ export default function AdminShell({ children }: AdminShellProps) {
                             key={item.href}
                             href={item.href}
                             onClick={() => setIsMenuOpen(false)}
-                            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#645e8d] hover:bg-[#f6f5f8] hover:text-primary transition-colors"
+                            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-app-text-sec hover:bg-app-bg-subtle hover:text-primary transition-colors"
                         >
                             <span className="material-symbols-outlined">{item.icon}</span>
                             <span className="text-sm font-medium">{item.label}</span>

@@ -110,14 +110,14 @@ export default function DistributorForm({ distributor, onClose }: DistributorFor
 
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-                <div className="sticky top-0 bg-white border-b border-[#dcdae7] px-6 py-4 flex items-center justify-between">
-                    <h3 className="text-xl font-bold text-text-main">
+            <div className="bg-app-surface rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                <div className="sticky top-0 bg-app-surface border-b border-app-border px-6 py-4 flex items-center justify-between">
+                    <h3 className="text-xl font-bold text-app-text">
                         {distributor ? "Editar Distribuidor" : "Nuevo Distribuidor"}
                     </h3>
                     <button
                         onClick={onClose}
-                        className="text-[#645e8d] hover:text-text-main"
+                        className="text-[#645e8d] hover:text-app-text"
                     >
                         <span className="material-symbols-outlined">close</span>
                     </button>
@@ -126,7 +126,7 @@ export default function DistributorForm({ distributor, onClose }: DistributorFor
                 <form onSubmit={handleSubmit} className="p-6 space-y-6">
                     {/* Name */}
                     <div>
-                        <label className="block text-sm font-semibold text-text-main mb-2">
+                        <label className="block text-sm font-semibold text-app-text mb-2">
                             Nombre *
                         </label>
                         <input
@@ -135,14 +135,14 @@ export default function DistributorForm({ distributor, onClose }: DistributorFor
                             value={formData.name}
                             onChange={handleChange}
                             required
-                            className="w-full px-4 py-3 rounded-xl border border-[#dcdae7] focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                            className="w-full px-4 py-3 rounded-xl border border-app-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                             placeholder="Ej. Seguridad Total RD"
                         />
                     </div>
 
                     {/* Icon */}
                     <div>
-                        <label className="block text-sm font-semibold text-text-main mb-2">
+                        <label className="block text-sm font-semibold text-app-text mb-2">
                             Icono *
                         </label>
                         <select
@@ -150,7 +150,7 @@ export default function DistributorForm({ distributor, onClose }: DistributorFor
                             value={formData.icon}
                             onChange={handleChange}
                             required
-                            className="w-full px-4 py-3 rounded-xl border border-[#dcdae7] focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                            className="w-full px-4 py-3 rounded-xl border border-app-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                         >
                             {iconOptions.map((icon) => (
                                 <option key={icon} value={icon}>
@@ -168,7 +168,7 @@ export default function DistributorForm({ distributor, onClose }: DistributorFor
 
                     {/* Address */}
                     <div>
-                        <label className="block text-sm font-semibold text-text-main mb-2">
+                        <label className="block text-sm font-semibold text-app-text mb-2">
                             Dirección *
                         </label>
                         <input
@@ -177,14 +177,14 @@ export default function DistributorForm({ distributor, onClose }: DistributorFor
                             value={formData.address}
                             onChange={handleChange}
                             required
-                            className="w-full px-4 py-3 rounded-xl border border-[#dcdae7] focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                            className="w-full px-4 py-3 rounded-xl border border-app-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                             placeholder="Ej. Av. Winston Churchill #1100, Piantini"
                         />
                     </div>
 
                     {/* Google Maps URL */}
                     <div>
-                        <label className="block text-sm font-semibold text-text-main mb-2">
+                        <label className="block text-sm font-semibold text-app-text mb-2">
                             URL de Google Maps
                         </label>
                         <input
@@ -192,10 +192,10 @@ export default function DistributorForm({ distributor, onClose }: DistributorFor
                             name="mapUrl"
                             value={formData.mapUrl}
                             onChange={handleChange}
-                            className="w-full px-4 py-3 rounded-xl border border-[#dcdae7] focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                            className="w-full px-4 py-3 rounded-xl border border-app-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                             placeholder="Ej. https://maps.app.goo.gl/hcZPmVWmmPHEeNSD6"
                         />
-                        <p className="text-xs text-text-secondary mt-1">
+                        <p className="text-xs text-app-text-sec mt-1">
                             Opcional. Enlace directo a la ubicación en Google Maps
                         </p>
                     </div>
@@ -203,7 +203,7 @@ export default function DistributorForm({ distributor, onClose }: DistributorFor
                     {/* City and State */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm font-semibold text-text-main mb-2">
+                            <label className="block text-sm font-semibold text-app-text mb-2">
                                 Ciudad *
                             </label>
                             <input
@@ -212,12 +212,12 @@ export default function DistributorForm({ distributor, onClose }: DistributorFor
                                 value={formData.city}
                                 onChange={handleChange}
                                 required
-                                className="w-full px-4 py-3 rounded-xl border border-[#dcdae7] focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                className="w-full px-4 py-3 rounded-xl border border-app-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                                 placeholder="Ej. Santo Domingo"
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-semibold text-text-main mb-2">
+                            <label className="block text-sm font-semibold text-app-text mb-2">
                                 Provincia *
                             </label>
                             <select
@@ -225,7 +225,7 @@ export default function DistributorForm({ distributor, onClose }: DistributorFor
                                 value={formData.state}
                                 onChange={handleChange}
                                 required
-                                className="w-full px-4 py-3 rounded-xl border border-[#dcdae7] focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                className="w-full px-4 py-3 rounded-xl border border-app-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                             >
                                 <option value="">Seleccionar Provincia</option>
                                 <option value="Azua">Azua</option>
@@ -267,7 +267,7 @@ export default function DistributorForm({ distributor, onClose }: DistributorFor
                     {/* Phone and Email */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm font-semibold text-text-main mb-2">
+                            <label className="block text-sm font-semibold text-app-text mb-2">
                                 Teléfono *
                             </label>
                             <input
@@ -276,12 +276,12 @@ export default function DistributorForm({ distributor, onClose }: DistributorFor
                                 value={formData.phone}
                                 onChange={handleChange}
                                 required
-                                className="w-full px-4 py-3 rounded-xl border border-[#dcdae7] focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                className="w-full px-4 py-3 rounded-xl border border-app-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                                 placeholder="Ej. +1 (809) 555-1234"
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-semibold text-text-main mb-2">
+                            <label className="block text-sm font-semibold text-app-text mb-2">
                                 Email *
                             </label>
                             <input
@@ -290,7 +290,7 @@ export default function DistributorForm({ distributor, onClose }: DistributorFor
                                 value={formData.email}
                                 onChange={handleChange}
                                 required
-                                className="w-full px-4 py-3 rounded-xl border border-[#dcdae7] focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                className="w-full px-4 py-3 rounded-xl border border-app-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                                 placeholder="Ej. contacto@distribuidor.do"
                             />
                         </div>
@@ -304,9 +304,9 @@ export default function DistributorForm({ distributor, onClose }: DistributorFor
                             id="isActive"
                             checked={formData.isActive}
                             onChange={handleChange}
-                            className="w-5 h-5 text-primary border-[#dcdae7] rounded focus:ring-2 focus:ring-primary/20"
+                            className="w-5 h-5 text-primary border-app-border rounded focus:ring-2 focus:ring-primary/20"
                         />
-                        <label htmlFor="isActive" className="text-sm font-medium text-text-main">
+                        <label htmlFor="isActive" className="text-sm font-medium text-app-text">
                             Distribuidor activo
                         </label>
                     </div>
@@ -316,7 +316,7 @@ export default function DistributorForm({ distributor, onClose }: DistributorFor
                         <button
                             type="button"
                             onClick={onClose}
-                            className="flex-1 px-6 py-3 border border-[#dcdae7] rounded-xl font-semibold text-text-main hover:bg-[#f6f5f8] transition-colors"
+                            className="flex-1 px-6 py-3 border border-app-border rounded-xl font-semibold text-app-text hover:bg-app-bg-subtle transition-colors"
                         >
                             Cancelar
                         </button>

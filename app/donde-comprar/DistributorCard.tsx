@@ -21,44 +21,44 @@ export default function DistributorCard({
     };
 
     return (
-        <div className="group flex flex-col bg-white rounded-2xl border border-gray-200 hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-slate-200/50 overflow-hidden h-full">
+        <div className="group flex flex-col bg-app-surface rounded-2xl border border-app-border hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-slate-200/50 overflow-hidden h-full">
             <div className="p-6 flex flex-col flex-1">
                 <div className="flex justify-between items-start mb-4">
-                    <div className="size-12 rounded-lg bg-surface-light flex items-center justify-center text-primary mb-2">
+                    <div className="size-12 rounded-lg bg-app-bg-subtle dark:bg-white flex items-center justify-center text-primary mb-2">
                         <span className="material-symbols-outlined text-3xl">{icon}</span>
                     </div>
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-primary/10 text-primary uppercase tracking-wide">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-primary/10 dark:bg-white text-primary uppercase tracking-wide">
                         <span className="size-1.5 rounded-full bg-primary"></span>
                         Distribuidor Autorizado
                     </span>
                 </div>
-                <h3 className="text-xl font-bold text-text-main mb-3 group-hover:text-primary transition-colors">
+                <h3 className="text-xl font-bold text-app-text mb-3 group-hover:text-primary transition-colors">
                     {name}
                 </h3>
                 <div className="space-y-3 mb-6">
                     <div className="flex items-start gap-3">
-                        <span className="material-symbols-outlined text-text-secondary text-[20px] mt-0.5">
+                        <span className="material-symbols-outlined text-app-text-sec text-[20px] mt-0.5">
                             location_on
                         </span>
-                        <p className="text-sm text-text-secondary">{address}</p>
+                        <p className="text-sm text-app-text-sec">{address}</p>
                     </div>
                     <div className="flex items-center gap-3">
-                        <span className="material-symbols-outlined text-text-secondary text-[20px]">
+                        <span className="material-symbols-outlined text-app-text-sec text-[20px]">
                             call
                         </span>
-                        <p className="text-sm text-text-secondary">{phone}</p>
+                        <p className="text-sm text-app-text-sec">{phone}</p>
                     </div>
                     <div className="flex items-center gap-3">
-                        <span className="material-symbols-outlined text-text-secondary text-[20px]">
+                        <span className="material-symbols-outlined text-app-text-sec text-[20px]">
                             mail
                         </span>
-                        <p className="text-sm text-text-secondary">{email}</p>
+                        <p className="text-sm text-app-text-sec">{email}</p>
                     </div>
                 </div>
                 <div className="mt-auto grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <button
                         onClick={handleMapClick}
-                        className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 text-text-main text-sm font-semibold hover:bg-slate-50 hover:border-primary/50 hover:text-primary transition-all cursor-pointer shadow-sm hover:shadow-md"
+                        className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-app-border text-app-text text-sm font-semibold hover:bg-app-bg-subtle dark:hover:bg-white hover:border-primary/50 hover:text-primary transition-all cursor-pointer shadow-sm hover:shadow-md"
                     >
                         <span className="material-symbols-outlined text-[18px]">map</span>
                         Ver en Mapa

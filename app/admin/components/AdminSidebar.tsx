@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import ThemeLogo from "@/app/components/ThemeLogo";
+import ThemeToggle from "@/app/components/ThemeToggle";
 import { navItems } from "./navItems";
 
 interface AdminSidebarProps {
@@ -18,16 +20,16 @@ export default function AdminSidebar({ variant = "desktop" }: AdminSidebarProps)
 
     const isDesktop = variant === "desktop";
     const asideClasses = isDesktop
-        ? "w-64 flex-shrink-0 bg-white border-r border-[#dcdae7] z-20 h-full overflow-y-auto hidden md:flex"
-        : "w-72 flex-shrink-0 bg-white border-r border-[#dcdae7] z-20 h-full overflow-y-auto flex";
+        ? "w-64 flex-shrink-0 bg-app-surface border-r border-app-border z-20 h-full overflow-y-auto hidden md:flex"
+        : "w-72 flex-shrink-0 bg-app-surface border-r border-app-border z-20 h-full overflow-y-auto flex";
 
     return (
         <aside className={asideClasses}>
             <div className="p-6 flex flex-col gap-1">
                 {/* Logo */}
                 <div className="mb-8">
-                    <img src="/logo.png" alt="TecnoVision" className="h-10 w-auto" />
-                    <p className="text-[#645e8d] text-[10px] font-normal mt-1 uppercase tracking-tighter opacity-70">Admin Panel</p>
+                    <ThemeLogo className="h-10 w-auto" />
+                    <p className="text-app-text-sec text-[10px] font-normal mt-1 uppercase tracking-tighter opacity-70">Admin Panel</p>
                 </div>
 
                 {/* Navigation */}
@@ -38,7 +40,7 @@ export default function AdminSidebar({ variant = "desktop" }: AdminSidebarProps)
                             href={item.href}
                             className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors group ${isActive(item.href)
                                 ? "bg-primary/10 text-primary"
-                                : "text-[#645e8d] hover:bg-[#f6f5f8] hover:text-primary"
+                                : "text-app-text-sec hover:bg-app-bg-subtle hover:text-primary"
                                 }`}
                         >
                             <span className={`material-symbols-outlined ${isActive(item.href) ? "fill" : ""} group-hover:text-primary transition-colors`}>
@@ -52,10 +54,14 @@ export default function AdminSidebar({ variant = "desktop" }: AdminSidebarProps)
                 </nav>
             </div>
 
-            {/* User Profile Footer */}
-            <div className="mt-auto p-6 border-t border-[#dcdae7]">
+            {/* Theme toggle + User Profile Footer */}
+            <div className="mt-auto p-6 border-t border-app-border space-y-4">
+                <div className="flex items-center justify-between">
+                    <span className="text-xs font-medium text-app-text-sec">Tema</span>
+                    <ThemeToggle />
+                </div>
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden relative">
+                    <div className="w-10 h-10 rounded-full bg-app-border overflow-hidden relative">
                         <img
                             className="object-cover w-full h-full"
                             alt="Admin User Profile"
@@ -63,8 +69,8 @@ export default function AdminSidebar({ variant = "desktop" }: AdminSidebarProps)
                         />
                     </div>
                     <div className="flex flex-col">
-                        <p className="text-sm font-semibold text-text-main">Admin User</p>
-                        <p className="text-xs text-[#645e8d]">admin@tecnovision.com</p>
+                        <p className="text-sm font-semibold text-app-text">Admin User</p>
+                        <p className="text-xs text-app-text-sec">admin@tecnovision.com</p>
                     </div>
                 </div>
             </div>

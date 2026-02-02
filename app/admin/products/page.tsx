@@ -50,14 +50,14 @@ export default function AdminProductsPage() {
     return (
         <>
             {/* Page Header */}
-            <header className="bg-white border-b border-[#dcdae7] px-8 py-5 flex flex-col md:flex-row md:items-center justify-between gap-4 flex-shrink-0 z-10">
+            <header className="bg-app-surface border-b border-app-border px-8 py-5 flex flex-col md:flex-row md:items-center justify-between gap-4 flex-shrink-0 z-10">
                 <div>
                     <div className="flex items-center gap-2 text-[#645e8d] text-sm mb-1">
                         <span>Dashboard</span>
                         <span className="material-symbols-outlined text-[16px]">chevron_right</span>
-                        <span className="text-text-main font-medium">Productos</span>
+                        <span className="text-app-text font-medium">Productos</span>
                     </div>
-                    <h2 className="text-text-main text-2xl font-bold tracking-tight">Gestión de Productos</h2>
+                    <h2 className="text-app-text text-2xl font-bold tracking-tight">Gestión de Productos</h2>
                 </div>
                 <Link
                     href="/admin/products/new"
@@ -72,14 +72,14 @@ export default function AdminProductsPage() {
             <div className="flex-1 overflow-y-auto p-4 md:p-8">
                 <div className="mx-auto max-w-5xl">
                     {loading ? (
-                        <div className="bg-white rounded-xl border border-[#dcdae7] p-12 text-center shadow-sm">
+                        <div className="bg-app-surface rounded-xl border border-app-border p-12 text-center shadow-sm">
                             <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
                             <p className="text-[#645e8d]">Cargando productos...</p>
                         </div>
                     ) : error ? (
                         <div className="bg-white rounded-xl border border-red-200 p-12 text-center shadow-sm">
                             <span className="material-symbols-outlined text-red-500 text-4xl mb-4">error</span>
-                            <h3 className="text-lg font-bold text-text-main mb-2">Error</h3>
+                            <h3 className="text-lg font-bold text-app-text mb-2">Error</h3>
                             <p className="text-[#645e8d] mb-4">{error}</p>
                             <button
                                 onClick={() => { setLoading(true); setError(null); fetchProducts(); }}
@@ -90,11 +90,11 @@ export default function AdminProductsPage() {
                             </button>
                         </div>
                     ) : products.length === 0 ? (
-                        <div className="bg-white rounded-xl border border-[#dcdae7] p-12 text-center shadow-sm">
-                            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <div className="bg-app-surface rounded-xl border border-app-border p-12 text-center shadow-sm">
+                            <div className="w-16 h-16 bg-app-bg-subtle rounded-full flex items-center justify-center mx-auto mb-4">
                                 <span className="material-symbols-outlined text-gray-400 text-3xl">inventory_2</span>
                             </div>
-                            <h3 className="text-lg font-bold text-text-main mb-2">No hay productos</h3>
+                            <h3 className="text-lg font-bold text-app-text mb-2">No hay productos</h3>
                             <p className="text-[#645e8d] mb-6">Comienza añadiendo tu primer producto al catálogo.</p>
                             <Link
                                 href="/admin/products/new"
@@ -105,23 +105,23 @@ export default function AdminProductsPage() {
                             </Link>
                         </div>
                     ) : (
-                        <div className="bg-white rounded-xl border border-[#dcdae7] shadow-sm overflow-hidden">
+                        <div className="bg-app-surface rounded-xl border border-app-border shadow-sm overflow-hidden">
                             <div className="overflow-x-auto">
                                 <table className="w-full min-w-[720px]">
-                                <thead className="bg-[#f6f5f8] border-b border-[#dcdae7]">
+                                <thead className="bg-app-bg-subtle border-b border-app-border">
                                     <tr>
-                                        <th className="text-left px-6 py-4 text-sm font-semibold text-text-main">Producto</th>
-                                        <th className="text-left px-6 py-4 text-sm font-semibold text-text-main hidden md:table-cell">Slug</th>
-                                        <th className="text-left px-6 py-4 text-sm font-semibold text-text-main hidden lg:table-cell">Badge</th>
-                                        <th className="text-right px-6 py-4 text-sm font-semibold text-text-main">Acciones</th>
+                                        <th className="text-left px-6 py-4 text-sm font-semibold text-app-text">Producto</th>
+                                        <th className="text-left px-6 py-4 text-sm font-semibold text-app-text hidden md:table-cell">Slug</th>
+                                        <th className="text-left px-6 py-4 text-sm font-semibold text-app-text hidden lg:table-cell">Badge</th>
+                                        <th className="text-right px-6 py-4 text-sm font-semibold text-app-text">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-[#dcdae7]">
                                     {products.map((product) => (
-                                        <tr key={product.id} className="hover:bg-[#f6f5f8] transition-colors">
+                                        <tr key={product.id} className="hover:bg-app-bg-subtle transition-colors">
                                             <td className="px-6 py-4">
                                                 <div className="flex items-center gap-4">
-                                                    <div className="w-12 h-12 rounded-lg bg-gray-100 overflow-hidden flex-shrink-0">
+                                                    <div className="w-12 h-12 rounded-lg bg-app-bg-subtle overflow-hidden flex-shrink-0">
                                                         {product.mainImage && (
                                                             <img
                                                                 src={product.mainImage}
@@ -131,13 +131,13 @@ export default function AdminProductsPage() {
                                                         )}
                                                     </div>
                                                     <div>
-                                                        <p className="font-semibold text-text-main">{product.name} {product.model}</p>
+                                                        <p className="font-semibold text-app-text">{product.name} {product.model}</p>
                                                         <p className="text-sm text-[#645e8d] line-clamp-1">{product.subtitle}</p>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4 hidden md:table-cell">
-                                                <code className="text-sm bg-gray-100 px-2 py-1 rounded">{product.slug}</code>
+                                                <code className="text-sm bg-app-bg-subtle px-2 py-1 rounded">{product.slug}</code>
                                             </td>
                                             <td className="px-6 py-4 hidden lg:table-cell">
                                                 {product.badge && (

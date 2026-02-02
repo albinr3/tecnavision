@@ -13,6 +13,7 @@ interface Distributor {
     state: string | null;
     phone: string;
     email: string;
+    mapUrl: string | null;
     isActive: boolean;
 }
 
@@ -73,10 +74,10 @@ export default function DistribuidoresPage() {
     return (
         <>
             {/* Page Header */}
-            <header className="bg-white border-b border-[#dcdae7] px-8 py-5 flex-shrink-0 z-10">
+            <header className="bg-app-surface border-b border-app-border px-8 py-5 flex-shrink-0 z-10">
                 <div className="flex items-center justify-between">
                     <div>
-                        <h2 className="text-text-main text-2xl font-bold tracking-tight">Distribuidores</h2>
+                        <h2 className="text-app-text text-2xl font-bold tracking-tight">Distribuidores</h2>
                         <p className="text-[#645e8d] text-sm mt-1">Gestiona la red de distribuidores autorizados</p>
                     </div>
                     <button
@@ -97,38 +98,38 @@ export default function DistribuidoresPage() {
                             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
                         </div>
                     ) : (
-                        <div className="bg-white rounded-xl border border-[#dcdae7] shadow-sm overflow-hidden">
+                        <div className="bg-app-surface rounded-xl border border-app-border shadow-sm overflow-hidden">
                             <div className="overflow-x-auto">
                                 <table className="w-full">
-                                    <thead className="bg-[#f6f5f8] border-b border-[#dcdae7]">
+                                    <thead className="bg-app-bg-subtle border-b border-app-border">
                                         <tr>
-                                            <th className="px-6 py-3 text-left text-xs font-bold text-text-main uppercase tracking-wider">
+                                            <th className="px-6 py-3 text-left text-xs font-bold text-app-text uppercase tracking-wider">
                                                 Nombre
                                             </th>
-                                            <th className="px-6 py-3 text-left text-xs font-bold text-text-main uppercase tracking-wider">
+                                            <th className="px-6 py-3 text-left text-xs font-bold text-app-text uppercase tracking-wider">
                                                 Ciudad
                                             </th>
-                                            <th className="px-6 py-3 text-left text-xs font-bold text-text-main uppercase tracking-wider">
+                                            <th className="px-6 py-3 text-left text-xs font-bold text-app-text uppercase tracking-wider">
                                                 Teléfono
                                             </th>
 
-                                            <th className="px-6 py-3 text-left text-xs font-bold text-text-main uppercase tracking-wider">
+                                            <th className="px-6 py-3 text-left text-xs font-bold text-app-text uppercase tracking-wider">
                                                 Estado
                                             </th>
-                                            <th className="px-6 py-3 text-right text-xs font-bold text-text-main uppercase tracking-wider">
+                                            <th className="px-6 py-3 text-right text-xs font-bold text-app-text uppercase tracking-wider">
                                                 Acciones
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-[#dcdae7]">
                                         {distributors.map((distributor) => (
-                                            <tr key={distributor.id} className="hover:bg-[#f6f5f8] transition-colors">
+                                            <tr key={distributor.id} className="hover:bg-app-bg-subtle transition-colors">
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <div className="flex items-center gap-3">
                                                         <div className="size-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
                                                             <span className="material-symbols-outlined text-xl">{distributor.icon}</span>
                                                         </div>
-                                                        <div className="font-medium text-text-main">{distributor.name}</div>
+                                                        <div className="font-medium text-app-text">{distributor.name}</div>
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-[#645e8d]">
@@ -142,7 +143,7 @@ export default function DistribuidoresPage() {
                                                     <span
                                                         className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${distributor.isActive
                                                             ? "bg-green-100 text-green-800"
-                                                            : "bg-gray-100 text-gray-800"
+                                                            : "bg-app-bg-subtle text-app-text"
                                                             }`}
                                                     >
                                                         {distributor.isActive ? "Activo" : "Inactivo"}

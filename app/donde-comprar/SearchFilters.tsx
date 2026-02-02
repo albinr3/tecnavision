@@ -49,18 +49,18 @@ export default function SearchFilters({ onSearch }: SearchFiltersProps) {
     };
 
     return (
-        <div className="max-w-4xl mx-auto bg-white p-4 rounded-2xl shadow-xl shadow-primary/5 border border-gray-100">
+        <div className="max-w-4xl mx-auto bg-app-surface p-4 rounded-2xl shadow-xl shadow-primary/5 border border-app-border">
             <div className="flex flex-col md:flex-row items-end gap-4">
                 <label className="flex flex-col w-full md:flex-[2]">
-                    <span className="text-text-main text-sm font-bold pb-2 ml-1">
+                    <span className="text-app-text text-sm font-bold pb-2 ml-1">
                         Buscar por nombre
                     </span>
                     <div className="relative">
-                        <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary">
+                        <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-app-text-sec">
                             search
                         </span>
                         <input
-                            className="w-full bg-slate-50 border border-gray-200 rounded-xl px-4 pl-12 py-3.5 text-text-main placeholder:text-text-secondary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
+                            className="w-full bg-app-bg-subtle border border-app-border rounded-xl px-4 pl-12 py-3.5 text-app-text placeholder:text-app-text-sec focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
                             placeholder="Ej. Seguridad Total"
                             type="text"
                             value={searchName}
@@ -70,15 +70,15 @@ export default function SearchFilters({ onSearch }: SearchFiltersProps) {
                     </div>
                 </label>
                 <label className="flex flex-col w-full md:flex-1">
-                    <span className="text-text-main text-sm font-bold pb-2 ml-1">
+                    <span className="text-app-text text-sm font-bold pb-2 ml-1">
                         Provincia
                     </span>
                     <div className="relative">
-                        <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary">
+                        <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-app-text-sec">
                             location_on
                         </span>
                         <select
-                            className="w-full bg-slate-50 border border-gray-200 rounded-xl px-4 pl-12 py-3.5 text-text-main appearance-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none cursor-pointer"
+                            className="w-full bg-app-bg-subtle border border-app-border rounded-xl px-4 pl-12 py-3.5 text-app-text appearance-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none cursor-pointer"
                             value={location}
                             onChange={(e) => setLocation(e.target.value)}
                         >
@@ -89,7 +89,7 @@ export default function SearchFilters({ onSearch }: SearchFiltersProps) {
                                 </option>
                             ))}
                         </select>
-                        <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-text-secondary pointer-events-none">
+                        <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-app-text-sec pointer-events-none">
                             expand_more
                         </span>
                     </div>

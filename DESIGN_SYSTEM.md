@@ -1,6 +1,6 @@
-# Sistema de Diseño TecnoVision
+# Sistema de Diseño TecnaVision
 
-Este documento define las especificaciones visuales y de UI para el proyecto TecnoVision. Todas las nuevas páginas y componentes deben adherirse a estos lineamientos para asegurar consistencia.
+Este documento define las especificaciones visuales y de UI para el proyecto TecnaVision. Todas las nuevas páginas y componentes deben adherirse a estos lineamientos para asegurar consistencia.
 
 ## 🎨 Paleta de Colores
 
