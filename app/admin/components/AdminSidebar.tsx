@@ -20,8 +20,8 @@ export default function AdminSidebar({ variant = "desktop" }: AdminSidebarProps)
 
     const isDesktop = variant === "desktop";
     const asideClasses = isDesktop
-        ? "w-64 flex-shrink-0 bg-app-surface border-r border-app-border z-20 h-full overflow-y-auto hidden md:flex"
-        : "w-72 flex-shrink-0 bg-app-surface border-r border-app-border z-20 h-full overflow-y-auto flex";
+        ? "w-64 flex-shrink-0 bg-app-surface border-r border-app-border z-20 h-full overflow-y-auto hidden md:flex flex-col"
+        : "w-72 flex-shrink-0 bg-app-surface border-r border-app-border z-20 h-full overflow-y-auto flex flex-col";
 
     return (
         <aside className={asideClasses}>
