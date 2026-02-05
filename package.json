@@ -10,6 +10,8 @@
     "postinstall": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:seed": "npx ts-node --project prisma/tsconfig.seed.json prisma/seed.ts",
+    "db:seed:export": "npx ts-node --project prisma/tsconfig.seed.json prisma/seed-export.ts",
+    "db:seed:from-data": "npx ts-node --project prisma/tsconfig.seed.json prisma/seed-from-data.ts",
     "db:seed:distributors-rd": "npx ts-node --project prisma/tsconfig.seed.json prisma/update-distributors-rd.ts",
     "db:push": "prisma db push"
   },
