@@ -117,9 +117,9 @@ export default async function ShopPage() {
                                 placeholder="Buscar modelo, SKU o característica..."
                             />
                         </div>
-                        <div className="flex items-center justify-between md:justify-end gap-4 w-full md:w-auto">
+                        <div className="flex w-full flex-wrap items-center justify-between gap-3 md:w-auto md:justify-end">
                             <p className="text-app-text-sec text-sm whitespace-nowrap hidden sm:block">Mostrando {products.length} productos</p>
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-2 sm:gap-3">
                                 <span className="text-app-text-sec text-sm font-medium whitespace-nowrap">Ordenar por:</span>
                                 <div className="relative">
                                     <select className="appearance-none bg-transparent border-none text-app-text text-sm font-bold pr-8 focus:ring-0 cursor-pointer">
@@ -182,7 +182,7 @@ export default async function ShopPage() {
                     {/* Pagination - Static for now */}
                     {products.length > 12 && (
                         <div className="mt-12 flex justify-center pb-12">
-                            <nav className="flex items-center gap-2">
+                            <nav className="flex flex-wrap items-center justify-center gap-2">
                                 <button className="size-10 flex items-center justify-center rounded-lg border border-app-border text-app-text-sec hover:bg-app-bg-subtle transition-colors disabled:opacity-50">
                                     <span className="material-symbols-outlined text-xl">chevron_left</span>
                                 </button>

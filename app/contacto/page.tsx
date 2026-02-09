@@ -40,7 +40,7 @@ export default function ContactPage() {
                                         </div>
                                         <div>
                                             <p className="text-xs font-semibold text-app-text-sec uppercase tracking-wider mb-1">Ubicación</p>
-                                            <p className="text-app-text text-base font-medium">Calle Principal 123, Ciudad de México</p>
+                                            <p className="text-app-text text-base font-medium">Cibao, República Dominicana</p>
                                         </div>
                                     </div>
 
@@ -51,7 +51,7 @@ export default function ContactPage() {
                                         </div>
                                         <div>
                                             <p className="text-xs font-semibold text-app-text-sec uppercase tracking-wider mb-1">Teléfono</p>
-                                            <p className="text-app-text text-base font-medium">+52 55 1234 5678</p>
+                                            <p className="text-app-text text-base font-medium break-all">+1 829-796-0509</p>
                                         </div>
                                     </div>
 
@@ -62,7 +62,7 @@ export default function ContactPage() {
                                         </div>
                                         <div>
                                             <p className="text-xs font-semibold text-app-text-sec uppercase tracking-wider mb-1">Correo Electrónico</p>
-                                            <p className="text-app-text text-base font-medium">contacto@tecnovision.mx</p>
+                                            <p className="text-app-text text-base font-medium break-all">Tecnavision1@gmail.com</p>
                                         </div>
                                     </div>
 
@@ -83,7 +83,7 @@ export default function ContactPage() {
                             <div className="relative w-full h-64 rounded-xl overflow-hidden shadow-sm group">
                                 {/* Map Image */}
                                 <img
-                                    alt="Map of TecnaVision office location in Mexico City"
+                                    alt="Ubicación de TecnaVision en la región del Cibao, República Dominicana"
                                     className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300 grayscale hover:grayscale-0"
                                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJNQ0FrOGvGts1oFUdzPT-4OaeFRS9QFjfUyEQIg36VHW8SIhkwGEBAkoD1kt507T0ANm1RJ-0a1GKHZ3X1glnGQG4SmepUY-3q_c4j3BOfmvtLzumMdmsUyfqQ2Xyu8zK7VicfQZHYTM84jJ1XlV_36RHxuRoKjT-ZC_9s8jEqDNgMJ7Bw0pAt1hgyWOVORQvyQ-iIKZmb2D3PuOSYsWunHegLLts4BtQgMTHhLX_r4O9zYO7LRbT2FPh5BIPaaWqpSRZFKEPmoBY"
                                 />

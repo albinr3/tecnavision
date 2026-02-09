@@ -30,8 +30,17 @@ type SeedProduct = {
   rating: number;
   reviewsCount: number;
   mainImage: string | null;
+  galleryImages: string[];
   nightVisionImg: string | null;
   appDemoImg: string | null;
+  appDemoBadge: string | null;
+  appDemoTitle: string | null;
+  appDemoDesc: string | null;
+  aiSectionIcon: string | null;
+  nightVisionIcon: string | null;
+  specsSectionIcon: string | null;
+  guaranteeIcon: string | null;
+  supportIcon: string | null;
   protection: string | null;
   compression: string | null;
   lens: string | null;
@@ -90,8 +99,17 @@ async function main() {
         rating: product.rating,
         reviewsCount: product.reviewsCount,
         mainImage: product.mainImage,
+        galleryImages: product.galleryImages || [],
         nightVisionImg: product.nightVisionImg,
         appDemoImg: product.appDemoImg,
+        appDemoBadge: product.appDemoBadge,
+        appDemoTitle: product.appDemoTitle,
+        appDemoDesc: product.appDemoDesc,
+        aiSectionIcon: product.aiSectionIcon,
+        nightVisionIcon: product.nightVisionIcon,
+        specsSectionIcon: product.specsSectionIcon,
+        guaranteeIcon: product.guaranteeIcon,
+        supportIcon: product.supportIcon,
         protection: product.protection,
         compression: product.compression,
         lens: product.lens,
@@ -114,8 +132,17 @@ async function main() {
         rating: product.rating,
         reviewsCount: product.reviewsCount,
         mainImage: product.mainImage,
+        galleryImages: product.galleryImages || [],
         nightVisionImg: product.nightVisionImg,
         appDemoImg: product.appDemoImg,
+        appDemoBadge: product.appDemoBadge,
+        appDemoTitle: product.appDemoTitle,
+        appDemoDesc: product.appDemoDesc,
+        aiSectionIcon: product.aiSectionIcon,
+        nightVisionIcon: product.nightVisionIcon,
+        specsSectionIcon: product.specsSectionIcon,
+        guaranteeIcon: product.guaranteeIcon,
+        supportIcon: product.supportIcon,
         protection: product.protection,
         compression: product.compression,
         lens: product.lens,

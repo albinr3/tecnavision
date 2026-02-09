@@ -49,8 +49,8 @@ export default function SearchFilters({ onSearch }: SearchFiltersProps) {
     };
 
     return (
-        <div className="max-w-4xl mx-auto bg-app-surface p-4 rounded-2xl shadow-xl shadow-primary/5 border border-app-border">
-            <div className="flex flex-col md:flex-row items-end gap-4">
+        <div className="max-w-4xl mx-auto bg-app-surface p-4 sm:p-5 rounded-2xl shadow-xl shadow-primary/5 border border-app-border">
+            <div className="flex flex-col md:flex-row items-stretch md:items-end gap-4">
                 <label className="flex flex-col w-full md:flex-[2]">
                     <span className="text-app-text text-sm font-bold pb-2 ml-1">
                         Buscar por nombre

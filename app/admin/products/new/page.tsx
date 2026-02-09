@@ -13,7 +13,9 @@ export default async function NewProductPage() {
             <header className="bg-app-surface border-b border-app-border px-8 py-5 flex flex-col md:flex-row md:items-center justify-between gap-4 flex-shrink-0 z-10">
                 <div>
                     <div className="flex items-center gap-2 text-[#645e8d] text-sm mb-1">
-                        <span>Productos</span>
+                        <Link href="/admin/products" className="hover:text-primary transition-colors">
+                            Productos
+                        </Link>
                         <span className="material-symbols-outlined text-[16px]">chevron_right</span>
                         <span className="text-app-text font-medium">Crear Nuevo</span>
                     </div>

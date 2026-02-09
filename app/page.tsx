@@ -21,38 +21,42 @@ export default function Home() {
                 Seguridad inteligente para tu hogar y negocio
               </h1>
               <p className="text-lg leading-relaxed text-app-text-sec mb-8 max-w-lg">
-                Monitoreo avanzado con AI, resolución 4K ultra nítida e integración perfecta con la app para una tranquilidad total, estés donde estés.
+                Protege lo que más importa con nuestras cámaras de seguridad inteligentes de última generación. Monitoreo en tiempo real, detección avanzada y acceso inmediato desde tu celular.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="/products" className="inline-flex h-12 items-center justify-center rounded-xl bg-primary px-8 text-base font-bold text-white transition-all hover:bg-primary-dark shadow-lg shadow-blue-900/20">
                   Ver productos
                 </Link>
-                <button className="h-12 rounded-xl bg-app-surface border border-app-border px-8 text-base font-bold text-app-text dark:text-white transition-all hover:bg-app-bg-subtle flex items-center justify-center gap-2">
-                  <span className="material-symbols-outlined text-primary dark:text-white text-on-dark-surface">play_circle</span>
-                  Ver demo
-                </button>
+                <Link href="/donde-comprar" className="h-12 rounded-xl bg-app-surface border border-app-border px-8 text-base font-bold text-app-text dark:text-white transition-all hover:bg-app-bg-subtle flex items-center justify-center gap-2">
+                  <span className="material-symbols-outlined text-primary dark:text-white text-on-dark-surface">storefront</span>
+                  Ver distribuidores
+                </Link>
               </div>
-              <div className="mt-10 flex items-center gap-4 text-sm font-medium text-app-text-sec">
+              <div className="mt-10 flex flex-wrap items-center gap-3 text-sm font-medium text-app-text-sec">
                 <div className="flex -space-x-2">
-                  <div className="size-8 rounded-full border-2 border-app-surface bg-app-border bg-cover bg-center" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuDNXDCU8XSm7mnJ7xt4XB4VHmFNzas02LZotdRuFFlg3FAb6G1sZ3v0g-UKg62Fyk2SjYM6_xQ-r5pTdHn2mH5dDGUp60PN6_-yvqcSMWyaxuR6h9NdyxwcJ6DgP66FvL0YlIvccIUcVzRS8K_NXKBf0u9qt4imJBhLFzszAFRVMp3IphwcD-3UhuCJMnIv_SYuAOi1X8KgM5SPVGZ83CJGZXm4s9RSSxFuW3kIKuwxXMU6Cbc2zJFroEjFfSk2sx_VyToqBdfnKlou')" }}></div>
-                  <div className="size-8 rounded-full border-2 border-app-surface bg-app-border bg-cover bg-center" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuDd9wxK-vB2P53IYdbX23pnPUTzYrgjzAVImL50BxDp2RHOibvbcvkLN79NqE-exTKYJf34dlGJFbMR1Ohak3TTynPqaPu2tIGA9NSJZuYnwwfT8RezM48ieJxBapYfpM5nmTi6LxYpw8xNvo0uwqnt4gIxMqxU5HpSC_UGk4KWZjwjAIeQt164fT-nGbUjzhLGqepoRVsoSnaQnD335t6tjB2lysGSCIEbbt8BKTFSZDT8E2rW0qIMpyBLEBObodqGYrT2ofS_-4_U')" }}></div>
-                  <div className="size-8 rounded-full border-2 border-app-surface bg-app-border bg-cover bg-center" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuAgvOmDjcPBTwft__rpYfVT_IIjAXMcfBoEVYMOPJCvWqnJTw58VqK29CEjHke_wr8SruSVRVPS3t-f52Xoas853eXsENXf17NNzkJzlQgjMO-6R8P-9VRwMvqePbcUxES6Y5f12N3RU5e-ISEL2p5Ewtu-oFkSmp8dNDUEfTtZX5r7zAOT8j_hsv53gevDPf0L8gvMwvOAG_Cj9OkJyT31tUQ7R_rW0r2_PC9MzEmNBfZthtPilEjOv0Xl9kTfxP9ZcEWO8opEuO1C')" }}></div>
+                  <div className="size-8 rounded-full border-2 border-app-surface bg-app-border bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150&h=150')" }}></div>
+                  <div className="size-8 rounded-full border-2 border-app-surface bg-app-border bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150&h=150')" }}></div>
+                  <div className="size-8 rounded-full border-2 border-app-surface bg-app-border bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150&h=150')" }}></div>
                 </div>
-                <p>Con la confianza de más de 10,000 clientes</p>
+                <p>Con la confianza de más de 100+ clientes</p>
               </div>
             </div>
             <div className="relative lg:h-auto">
               {/* Abstract Background Blob */}
               <div className="absolute -right-20 -top-20 -z-10 h-[500px] w-[500px] rounded-full bg-gradient-to-br from-blue-100 to-purple-100 opacity-70 blur-3xl"></div>
               <div className="relative rounded-2xl bg-app-surface p-4 shadow-2xl ring-1 ring-app-border aspect-[4/3] flex items-center justify-center">
-                <div className="absolute inset-0 overflow-hidden rounded-2xl bg-cover bg-center" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuAHrAxyBMIyJ11TMpMRm_kC1MqNHFOS1KTFOWFwRZlzBN0O0_0NvMkTAwFv55TrQafnvw2Ftd6n1kHN7_Xgy6aQ_7E2-5iS5CBYuTgDmsaXdhHx70revVYE33Ht6NjD17a4kMq25K-FGcnjVj49TEfI3vQSHiiqkHtMiXbVj4XEaQcyMjkNQrtYI7ACwHjaRasCedRc9Pg4tvnyScFPLadtJXZT62oRo6zHT6mPpbjPkZR29xTXxhTSwD_8RrkO5_wo-MpsTyujkhCe')" }}></div>
+                <div className="absolute inset-0 overflow-hidden rounded-2xl bg-cover bg-center" style={{ backgroundImage: "url('/cameraHome.png')" }}></div>
                 {/* Floating UI Element Mockup */}
-                <div className="absolute -bottom-6 -left-6 w-52 min-w-0 rounded-xl bg-app-surface p-3 shadow-xl ring-1 ring-app-border animate-bounce" style={{ animationDuration: '3s' }}>
+                <div className="absolute -bottom-6 -left-6 hidden w-52 min-w-0 rounded-xl bg-app-surface p-3 shadow-xl ring-1 ring-app-border animate-bounce sm:block" style={{ animationDuration: '3s' }}>
                   <div className="flex items-center justify-between gap-2 mb-2">
-                    <span className="text-xs font-bold text-app-text shrink-0">Puerta principal</span>
+                    <span className="text-xs font-bold text-app-text shrink-0">Patio Trasero</span>
                     <span className="flex h-2 w-2 rounded-full bg-green-500"></span>
                   </div>
-                  <div className="h-24 w-full rounded-lg bg-app-bg-subtle bg-cover bg-center" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuDD5E4QDqKjj-id0RUEhuih9-0yN-nS6VYNQjaXbMphMqwB4kuPW4OoNcpZ9lBanW43GIHFevDGnKM_QdUoXqTS__nF59MR_Hkz6QaoomR0qB7JYcAjwO3_yz3fJyHytPToSMV8ZXVKrUQh4kIuax65I49psWYK1pYy2nBdJGui6xRkez52FYOUhGdj9bBgJO0QGZeGX_qdNk45q-7z8M17gDpWfPwP9iiAWsPDUgop57-sSqEU6VCQZD1EUroSy1rnc4KSjxMCuQXK')" }}></div>
+                  <div className="relative h-24 w-full overflow-hidden rounded-lg bg-app-bg-subtle bg-cover bg-center" style={{ backgroundImage: "url('/outview.png')" }}>
+                    <div className="absolute bottom-1 right-2 text-[10px] font-medium text-white drop-shadow-md">
+                      08/02/2026 14:30:22
+                    </div>
+                  </div>
                   <div className="mt-2 flex gap-2">
                     <div className="h-1.5 w-1/2 rounded-full bg-app-border"></div>
                     <div className="h-1.5 w-1/3 rounded-full bg-primary/20"></div>
@@ -62,10 +66,10 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* Why Choose Us */}
-      <section className="bg-app-bg-subtle py-20">
+      < section className="bg-app-bg-subtle py-20" >
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="flex flex-col gap-10">
             <div className="max-w-2xl">
@@ -136,10 +140,10 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* Products Section */}
-      <section className="py-20">
+      < section className="py-20" >
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="flex flex-col gap-6">
             <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
@@ -222,10 +226,10 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* Solutions Section */}
-      <section className="bg-app-bg-subtle py-20">
+      < section className="bg-app-bg-subtle py-20" >
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="mb-12 text-center">
             <h2 className="text-3xl font-bold tracking-tight text-app-text">Soluciones a medida</h2>
@@ -266,44 +270,42 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* How It Works */}
+      {/* Professional Value Proposition */}
       <section className="py-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="mb-16 text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-app-text">Configúralo en minutos</h2>
-            <p className="mt-2 text-app-text-sec">No requiere instalación profesional. Solo conecta y listo.</p>
+            <h2 className="text-3xl font-bold tracking-tight text-app-text">Calidad y Respaldo Profesional</h2>
+            <p className="mt-2 text-app-text-sec">Soluciones robustas de videovigilancia, diseñadas para durar. La opción favorita de instaladores y personas exigentes para proteger sus hogares y negocios.</p>
           </div>
           <div className="relative grid gap-12 md:grid-cols-3">
             {/* Connecting Line (Desktop) */}
             <div className="absolute left-0 top-12 hidden h-0.5 w-full -translate-y-1/2 border-t-2 border-dashed border-app-border md:block lg:w-[80%] lg:left-[10%]"></div>
-            {/* Paso 1 */}
+            {/* Value 1 */}
             <div className="relative flex flex-col items-center text-center">
               <div className="mb-6 flex size-24 items-center justify-center rounded-full bg-app-surface border-4 border-app-border text-primary dark:text-white shadow-lg z-10">
-                <span className="material-symbols-outlined text-4xl text-on-dark-surface">power</span>
+                <span className="material-symbols-outlined text-4xl text-on-dark-surface">devices</span>
               </div>
-              <span className="mb-2 text-sm font-bold uppercase tracking-wider text-primary dark:text-white">Paso 1</span>
-              <h3 className="text-xl font-bold text-app-text">Encender</h3>
-              <p className="mt-2 max-w-xs text-sm text-app-text-sec">Conecta tu dispositivo TecnaVision a cualquier toma de corriente estándar.</p>
+              <h3 className="text-xl font-bold text-app-text">Hardware Premium</h3>
+              <p className="mt-2 max-w-xs text-sm text-app-text-sec">Cámaras IP y NVRs con componentes de grado industrial, diseñados para operar 24/7 sin interrupciones.</p>
             </div>
-            {/* Paso 2 */}
+            {/* Value 2 */}
             <div className="relative flex flex-col items-center text-center">
               <div className="mb-6 flex size-24 items-center justify-center rounded-full bg-app-surface border-4 border-app-border text-primary dark:text-white shadow-lg z-10">
-                <span className="material-symbols-outlined text-4xl text-on-dark-surface">wifi</span>
+                <span className="material-symbols-outlined text-4xl text-on-dark-surface">storefront</span>
               </div>
-              <span className="mb-2 text-sm font-bold uppercase tracking-wider text-primary dark:text-white">Paso 2</span>
-              <h3 className="text-xl font-bold text-app-text">Conectar WiFi</h3>
-              <p className="mt-2 max-w-xs text-sm text-app-text-sec">Descarga la app y conéctate a tu red local al instante.</p>
+              <h3 className="text-xl font-bold text-app-text">Disponible en Distribuidores</h3>
+              <p className="mt-2 max-w-xs text-sm text-app-text-sec">Encuentra nuestros productos en las principales tiendas de tecnología y mayoristas de seguridad del país.</p>
             </div>
-            {/* Paso 3 */}
+            {/* Value 3 */}
             <div className="relative flex flex-col items-center text-center">
               <div className="mb-6 flex size-24 items-center justify-center rounded-full bg-app-surface border-4 border-app-border text-primary dark:text-white shadow-lg z-10">
-                <span className="material-symbols-outlined text-4xl text-on-dark-surface">verified_user</span>
+                <span className="material-symbols-outlined text-4xl text-on-dark-surface">shield_with_heart</span>
               </div>
-              <span className="mb-2 text-sm font-bold uppercase tracking-wider text-primary dark:text-white">Paso 3</span>
-              <h3 className="text-xl font-bold text-app-text">Asegurar</h3>
-              <p className="mt-2 max-w-xs text-sm text-app-text-sec">Personaliza tus zonas y comienza a monitorear de inmediato.</p>
+              <h3 className="text-xl font-bold text-app-text">Soporte de Fábrica</h3>
+              <p className="mt-2 max-w-xs text-sm text-app-text-sec">Respaldo técnico directo, actualizaciones de firmware constantes y garantía local asegurada.</p>
             </div>
           </div>
         </div>
@@ -325,12 +327,12 @@ export default function Home() {
                     <span className="material-symbols-outlined text-lg">star</span>
                     <span className="material-symbols-outlined text-lg">star</span>
                   </div>
-                  <p className="text-app-text italic">&quot;The image quality is absolutely stunning, even at night. I can check on my shop from anywhere in the world without any lag.&quot;</p>
+                  <p className="text-app-text italic">&quot;La imagen se ve nítida durísimo, hasta de noche. Yo reviso mi colmado desde el celular y todo corre rápido, sin lío.&quot;</p>
                   <div className="mt-4 flex items-center gap-3">
-                    <div className="size-10 rounded-full bg-app-border bg-cover bg-center" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuCgBi-hGJnk8YSxsw0R1z_QbPjeDt1zgTw_vlkJrGz0rrVTRViUiGUfzcr5dVtCJIbsoomT-2EctbDhONkbCry7AJr3sE_XeYhwEWxknu6uoIbcvTPAUHdexw0X4gy32gmBS7pJLW_iQh_Nt4BJIcP0-0Iegj-LP5l0xYxMybCspGNhqKPWz2FWF7eHBr16eEDDQmtmsJaj6DKbHyq87pXPKqKfBTBzSGDwlgwLV_XlfKyzmO263Bm2Mvfk_cwdRErlp72Mr6IX3M-5')" }}></div>
+                    <div className="size-10 rounded-full bg-app-border bg-cover bg-center" style={{ backgroundImage: "url('https://randomuser.me/api/portraits/women/63.jpg')" }}></div>
                     <div>
-                      <p className="text-sm font-bold text-app-text">Sarah Jenkins</p>
-                      <p className="text-xs text-app-text-sec">Dueña(o) de pequeño negocio</p>
+                      <p className="text-sm font-bold text-app-text">Yudelka Pérez</p>
+                      <p className="text-xs text-app-text-sec">Dueña de colmado</p>
                     </div>
                   </div>
                 </div>
@@ -342,12 +344,12 @@ export default function Home() {
                     <span className="material-symbols-outlined text-lg">star</span>
                     <span className="material-symbols-outlined text-lg">star</span>
                   </div>
-                  <p className="text-app-text italic">&quot;Best investment for my home. The AI detection actually works and doesn&apos;t spam me when my cat walks by.&quot;</p>
+                  <p className="text-app-text italic">&quot;Ha sido de las mejores compras para mi casa. La detección inteligente funciona de verdad y no me vive mandando alertas por cualquier cosa.&quot;</p>
                   <div className="mt-4 flex items-center gap-3">
-                    <div className="size-10 rounded-full bg-app-border bg-cover bg-center" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuB2TKDQ2bpYNZUTbOpP31xpkpdQMYeWLkqYKeN3DaulT4StNvnjhG2u9MBgVWSdMjjoFgjtbWD8rRh3bjP3Y6ASBrWYROybr4apoLLE7Q6zjyhRv5joj5_XIRrj7gap7ig1sRWggIwIU1ES6qYyYgPw8eqYclCdqusKJtM3M20gCOoizamQMq2nuyPGbIuJg_xPW3U5sKFm4gDgcF6JCFkCcCoZ3ATEeKdCCpLpN13nGBxr8xiuNSGnjhiOpqdTppIauTYy8LbvZoyj')" }}></div>
+                    <div className="size-10 rounded-full bg-app-border bg-cover bg-center" style={{ backgroundImage: "url('https://randomuser.me/api/portraits/men/52.jpg')" }}></div>
                     <div>
-                      <p className="text-sm font-bold text-app-text">Mark Thompson</p>
-                      <p className="text-xs text-app-text-sec">Propietario(a)</p>
+                      <p className="text-sm font-bold text-app-text">Rafael de la Cruz</p>
+                      <p className="text-xs text-app-text-sec">Propietario</p>
                     </div>
                   </div>
                 </div>
@@ -359,46 +361,127 @@ export default function Home() {
               <div className="flex flex-col gap-4">
                 <details className="group rounded-xl bg-app-surface p-4 shadow-sm border border-app-border" open>
                   <summary className="flex cursor-pointer list-none items-center justify-between font-bold text-app-text">
-                    <span>¿Necesito una suscripción?</span>
+                    <span>¿Qué tipo de soluciones ofrece TecnaVision?</span>
                     <span className="transition group-open:rotate-180">
                       <span className="material-symbols-outlined">expand_more</span>
                     </span>
                   </summary>
                   <p className="mt-3 text-sm text-app-text-sec">
-                    La grabación local básica es gratis. Ofrecemos suscripciones opcionales en la nube desde $3.99/mes para un historial ampliado y funciones avanzadas de AI.
+                    TecnaVision ofrece soluciones profesionales de videovigilancia IP, incluyendo cámaras IP, grabadores NVR y switches PoE, diseñadas para hogares, comercios, oficinas y empresas que requieren seguridad confiable y de alto rendimiento.
                   </p>
                 </details>
                 <details className="group rounded-xl bg-app-surface p-4 shadow-sm border border-app-border">
                   <summary className="flex cursor-pointer list-none items-center justify-between font-bold text-app-text">
-                    <span>¿La instalación es difícil?</span>
+                    <span>¿Dónde puedo comprar los productos TecnaVision?</span>
                     <span className="transition group-open:rotate-180">
                       <span className="material-symbols-outlined">expand_more</span>
                     </span>
                   </summary>
                   <p className="mt-3 text-sm text-app-text-sec">
-                    Para nada. La mayoría de los clientes configura el sistema en menos de 15 minutos. Nuestros modelos a batería no requieren cableado.
+                    TecnaVision comercializa sus productos a través de instaladores y distribuidores autorizados a nivel nacional en República Dominicana. Para conocer el distribuidor más cercano, visita nuestra sección &quot;Donde comprar&quot; o contáctanos a través de la página de contacto y con gusto te orientaremos.
                   </p>
                 </details>
                 <details className="group rounded-xl bg-app-surface p-4 shadow-sm border border-app-border">
                   <summary className="flex cursor-pointer list-none items-center justify-between font-bold text-app-text">
-                    <span>¿Qué pasa si se va la luz?</span>
+                    <span>¿TecnaVision instala los equipos?</span>
                     <span className="transition group-open:rotate-180">
                       <span className="material-symbols-outlined">expand_more</span>
                     </span>
                   </summary>
                   <p className="mt-3 text-sm text-app-text-sec">
-                    Nuestra unidad de batería de respaldo (se vende por separado) puede mantener tu sistema funcionando hasta 24 horas durante apagones.
+                    No. TecnaVision se dedica exclusivamente a la fabricación y venta de equipos de videovigilancia. La instalación debe ser realizada por instaladores profesionales, lo que garantiza una correcta configuración y desempeño del sistema.
                   </p>
                 </details>
                 <details className="group rounded-xl bg-app-surface p-4 shadow-sm border border-app-border">
                   <summary className="flex cursor-pointer list-none items-center justify-between font-bold text-app-text">
-                    <span>¿Puedo acceder a varias ubicaciones?</span>
+                    <span>¿Los equipos son compatibles con otras marcas?</span>
                     <span className="transition group-open:rotate-180">
                       <span className="material-symbols-outlined">expand_more</span>
                     </span>
                   </summary>
                   <p className="mt-3 text-sm text-app-text-sec">
-                    Sí, la app TecnaVision admite ubicaciones ilimitadas. Ideal para dueños de negocios con varias sucursales o casas de vacaciones.
+                    Sí. Nuestros equipos cumplen con estándares abiertos como ONVIF, permitiendo integrarse con otros dispositivos y sistemas compatibles del mercado.
+                  </p>
+                </details>
+                <details className="group rounded-xl bg-app-surface p-4 shadow-sm border border-app-border">
+                  <summary className="flex cursor-pointer list-none items-center justify-between font-bold text-app-text">
+                    <span>¿Qué necesito para instalar un sistema de cámaras IP?</span>
+                    <span className="transition group-open:rotate-180">
+                      <span className="material-symbols-outlined">expand_more</span>
+                    </span>
+                  </summary>
+                  <div className="mt-3 text-sm text-app-text-sec">
+                    <p>Un sistema típico puede incluir:</p>
+                    <ul className="mt-2 list-inside list-disc space-y-1">
+                      <li>Cámaras IP</li>
+                      <li>Grabador NVR</li>
+                      <li>Switch PoE</li>
+                      <li>Cableado de red (UTP)</li>
+                      <li>Disco duro para grabación</li>
+                    </ul>
+                    <p className="mt-2 text-xs opacity-75">Un instalador puede ayudarte a definir la solución ideal según tu necesidad.</p>
+                  </div>
+                </details>
+                <details className="group rounded-xl bg-app-surface p-4 shadow-sm border border-app-border">
+                  <summary className="flex cursor-pointer list-none items-center justify-between font-bold text-app-text">
+                    <span>¿Las cámaras funcionan sin internet?</span>
+                    <span className="transition group-open:rotate-180">
+                      <span className="material-symbols-outlined">expand_more</span>
+                    </span>
+                  </summary>
+                  <p className="mt-3 text-sm text-app-text-sec">
+                    Sí. Las cámaras graban directamente en el NVR, incluso sin conexión a internet. El internet solo es necesario para el acceso remoto desde celular o computadora.
+                  </p>
+                </details>
+                <details className="group rounded-xl bg-app-surface p-4 shadow-sm border border-app-border">
+                  <summary className="flex cursor-pointer list-none items-center justify-between font-bold text-app-text">
+                    <span>¿Puedo ver las cámaras desde mi celular?</span>
+                    <span className="transition group-open:rotate-180">
+                      <span className="material-symbols-outlined">expand_more</span>
+                    </span>
+                  </summary>
+                  <p className="mt-3 text-sm text-app-text-sec">
+                    Sí. Los sistemas permiten visualización remota en tiempo real desde dispositivos móviles y computadoras mediante aplicaciones seguras.
+                  </p>
+                </details>
+                <details className="group rounded-xl bg-app-surface p-4 shadow-sm border border-app-border">
+                  <summary className="flex cursor-pointer list-none items-center justify-between font-bold text-app-text">
+                    <span>¿Qué ventajas tiene un sistema IP con NVR frente a cámaras WiFi?</span>
+                    <span className="transition group-open:rotate-180">
+                      <span className="material-symbols-outlined">expand_more</span>
+                    </span>
+                  </summary>
+                  <div className="mt-3 text-sm text-app-text-sec">
+                    <p>Los sistemas IP con NVR ofrecen:</p>
+                    <ul className="mt-2 list-inside list-disc space-y-1">
+                      <li>Grabación continua 24/7</li>
+                      <li>Mayor estabilidad</li>
+                      <li>Mejor calidad de imagen</li>
+                      <li>Mayor seguridad de la información</li>
+                    </ul>
+                    <p className="mt-2">Ideal para hogares y negocios que requieren confiabilidad.</p>
+                  </div>
+                </details>
+                <details className="group rounded-xl bg-app-surface p-4 shadow-sm border border-app-border">
+                  <summary className="flex cursor-pointer list-none items-center justify-between font-bold text-app-text">
+                    <span>¿Los equipos soportan tecnología PoE?</span>
+                    <span className="transition group-open:rotate-180">
+                      <span className="material-symbols-outlined">expand_more</span>
+                    </span>
+                  </summary>
+                  <p className="mt-3 text-sm text-app-text-sec">
+                    Sí. Nuestras cámaras IP y switches están diseñados bajo el estándar PoE (Power over Ethernet), permitiendo transmitir energía y datos por un solo cable, logrando instalaciones más limpias y profesionales.
+                  </p>
+                </details>
+                <details className="group rounded-xl bg-app-surface p-4 shadow-sm border border-app-border">
+                  <summary className="flex cursor-pointer list-none items-center justify-between font-bold text-app-text">
+                    <span>¿Los productos cuentan con garantía?</span>
+                    <span className="transition group-open:rotate-180">
+                      <span className="material-symbols-outlined">expand_more</span>
+                    </span>
+                  </summary>
+                  <p className="mt-3 text-sm text-app-text-sec">
+                    Sí. Todos los productos TecnaVision cuentan con garantía oficial, respaldada por nuestros distribuidores autorizados en República Dominicana.
                   </p>
                 </details>
               </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import ThemeLogo from "./ThemeLogo";
 
 export default function Footer() {
@@ -18,18 +19,18 @@ export default function Footer() {
             devolución de dinero de 30 días.
           </p>
           <div className="relative mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <button
-              type="button"
-              className="h-12 w-full min-w-[160px] rounded-xl bg-app-surface px-6 font-bold text-primary dark:text-white transition hover:bg-app-bg-subtle sm:w-auto"
+            <Link
+              href="/products"
+              className="flex h-12 w-full items-center justify-center min-w-[160px] rounded-xl bg-app-surface px-6 font-bold text-primary dark:text-white transition hover:bg-app-bg-subtle sm:w-auto"
             >
               Comenzar
-            </button>
-            <button
-              type="button"
-              className="h-12 w-full min-w-[160px] rounded-xl border border-white/30 bg-primary/20 px-6 font-bold text-white transition hover:bg-primary/30 sm:w-auto"
+            </Link>
+            <Link
+              href="/contacto"
+              className="flex h-12 w-full items-center justify-center min-w-[160px] rounded-xl border border-white/30 bg-primary/20 px-6 font-bold text-white transition hover:bg-primary/30 sm:w-auto"
             >
               Contactar ventas
-            </button>
+            </Link>
           </div>
         </div>
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4 lg:grid-cols-5">
@@ -38,8 +39,9 @@ export default function Footer() {
               <ThemeLogo className="h-10 w-auto" />
             </div>
             <p className="mb-6 max-w-xs text-sm text-app-text-sec">
-              Innovando el futuro de la seguridad con tecnología impulsada por
-              AI y experiencias de usuario sin fricciones.
+              Seguridad inteligente para casas y negocios con cámaras
+              confiables, monitoreo en tiempo real y control total desde tu
+              celular.
             </p>
             <div className="flex gap-4">
               <a
@@ -76,22 +78,22 @@ export default function Footer() {
             <h3 className="mb-4 text-sm font-bold text-app-text">Productos</h3>
             <ul className="flex flex-col gap-2 text-sm text-app-text-sec">
               <li>
-                <a className="hover:text-primary" href="#">
+                <a className="hover:text-primary" href="/products">
                   Cámaras
                 </a>
               </li>
               <li>
-                <a className="hover:text-primary" href="#">
+                <a className="hover:text-primary" href="/products">
                   NVR
                 </a>
               </li>
               <li>
-                <a className="hover:text-primary" href="#">
+                <a className="hover:text-primary" href="/products">
                   Cerraduras inteligentes
                 </a>
               </li>
               <li>
-                <a className="hover:text-primary" href="#">
+                <a className="hover:text-primary" href="/products">
                   Accesorios
                 </a>
               </li>
@@ -101,7 +103,7 @@ export default function Footer() {
             <h3 className="mb-4 text-sm font-bold text-app-text">Empresa</h3>
             <ul className="flex flex-col gap-2 text-sm text-app-text-sec">
               <li>
-                <a className="hover:text-primary" href="#">
+                <a className="hover:text-primary" href="/sobre-nosotros">
                   Sobre nosotros
                 </a>
               </li>
@@ -123,9 +125,9 @@ export default function Footer() {
             </ul>
           </div>
         </div>
-        <div className="mt-12 flex flex-col items-center justify-between border-t border-app-border pt-8 text-sm text-app-text-sec md:flex-row">
-          <p>© {new Date().getFullYear()} TecnaVision Inc. Todos los derechos reservados.</p>
-          <div className="flex gap-6 mt-4 md:mt-0">
+        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-app-border pt-8 text-sm text-app-text-sec md:flex-row md:gap-0">
+          <p className="text-center md:text-left">© {new Date().getFullYear()} TecnaVision Inc. Todos los derechos reservados.</p>
+          <div className="mt-1 flex flex-wrap items-center justify-center gap-4 md:mt-0 md:justify-end md:gap-6">
             <a className="hover:text-app-text" href="/privacidad">
               Política de privacidad
             </a>

@@ -22,8 +22,17 @@ model Product {
   
   // Images
   mainImage       String?
+  galleryImages   String[] @default([])
   nightVisionImg  String?
   appDemoImg      String?
+  appDemoBadge    String?
+  appDemoTitle    String?
+  appDemoDesc     String?
+  aiSectionIcon   String?
+  nightVisionIcon String?
+  specsSectionIcon String?
+  guaranteeIcon   String?
+  supportIcon     String?
   
   // Specs
   protection      String?

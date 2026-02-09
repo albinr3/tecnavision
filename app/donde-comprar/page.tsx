@@ -81,9 +81,9 @@ export default function DondeComprarPage() {
                 {/* Results Section */}
                 <section className="flex-1 bg-app-surface py-12 border-t border-app-border">
                     <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-                        <div className="flex items-center justify-between mb-8">
+                        <div className="mb-8 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
                             <h2 className="text-2xl font-bold text-app-text">Resultados de Búsqueda</h2>
-                            <span className="text-sm font-medium text-app-text-sec bg-slate-100 dark:bg-white dark:text-primary px-3 py-1 rounded-full">
+                            <span className="text-sm font-medium text-app-text-sec bg-slate-100 dark:bg-white dark:text-primary px-3 py-1 rounded-full text-center">
                                 {loading ? "Cargando..." : `${distributors.length} Distribuidores encontrados`}
                             </span>
                         </div>
@@ -173,17 +173,17 @@ export default function DondeComprarPage() {
                                 <div className="relative w-full aspect-[4/3] bg-app-surface rounded-2xl shadow-xl overflow-hidden border border-app-border">
                                     {/* Placeholder for Map Visualization */}
                                     <div
-                                        className="absolute inset-0 bg-cover bg-center"
+                                        className="absolute inset-0 bg-contain bg-center bg-no-repeat"
                                         style={{
-                                            backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuCbr1isMVK9sEKlql2WuTu_i3ftrMEFIuHESXy38nBMJLZ4r_0FdyA4oKrzUiTyc7ewURO324D98KYyvpC8DabtyX0APEjzUF3ZJ-OKc4lQLU9jRxBeM2ecYyLob0H9DwA_ef2-uH6wGzp_zimTf7ufhSWKFV00F58OSH_E3_K_VmEaM26r3SB3GwJJ2lz-3fkCvVgQeruJj6KhPs05nY23Y8jC5Jm2j-5spWWmDWhB3L6acELd5mZlz8eC5C2C5wAXjoIIbg0eBlRE')",
-                                            opacity: 0.8,
+                                            backgroundImage: "url('/dr-map.svg')",
+                                            opacity: 0.3,
                                         }}
                                     ></div>
                                     <div className="absolute inset-0 bg-primary/10"></div>
                                     {/* Decorative Map Pins */}
-                                    <div className="absolute top-1/4 left-1/3 size-4 bg-primary border-2 border-white rounded-full shadow-lg animate-pulse"></div>
-                                    <div className="absolute top-1/2 left-1/2 size-4 bg-primary border-2 border-white rounded-full shadow-lg"></div>
-                                    <div className="absolute bottom-1/3 right-1/4 size-4 bg-primary border-2 border-white rounded-full shadow-lg"></div>
+                                    <div className="absolute top-[32%] left-[44%] size-4 bg-primary border-2 border-white rounded-full shadow-lg animate-pulse" title="Santiago"></div>
+                                    <div className="absolute top-[56%] left-[58%] size-4 bg-primary border-2 border-white rounded-full shadow-lg" title="Santo Domingo"></div>
+                                    <div className="absolute top-[48%] left-[85%] size-4 bg-primary border-2 border-white rounded-full shadow-lg" title="Punta Cana"></div>
                                     <div className="absolute bottom-6 left-6 right-6 bg-app-surface/90 backdrop-blur-sm p-4 rounded-xl shadow-lg border border-app-border/20">
                                         <div className="flex items-center gap-3">
                                             <div className="p-2 bg-primary rounded-lg text-white">
@@ -191,9 +191,9 @@ export default function DondeComprarPage() {
                                             </div>
                                             <div>
                                                 <p className="text-xs text-app-text-sec uppercase tracking-wider font-bold">
-                                                    Presencia Global
+                                                    Cobertura Nacional
                                                 </p>
-                                                <p className="text-sm text-app-text font-bold">México, LATAM y USA</p>
+                                                <p className="text-sm text-app-text font-bold">República Dominicana</p>
                                             </div>
                                         </div>
                                     </div>
