@@ -13,10 +13,10 @@ export default function Home() {
       <section className="relative overflow-hidden pt-12 pb-16 lg:pt-[35px] lg:pb-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
-            <div className="max-w-2xl">
+            <div className="max-w-2xl order-2 lg:order-1">
               <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1 text-xs font-bold uppercase tracking-wide text-primary mb-6 border border-blue-100">
                 <span className="size-2 rounded-full bg-primary animate-pulse"></span>
-                Nueva generación V4 lanzada
+                Nueva generación de camaras
               </div>
               <h1 className="text-4xl font-black leading-tight tracking-tight text-app-text sm:text-5xl lg:text-6xl mb-6">
                 Seguridad inteligente para tu hogar y negocio
@@ -42,7 +42,7 @@ export default function Home() {
                 <p>Con la confianza de más de 100+ clientes</p>
               </div>
             </div>
-            <div className="relative lg:h-auto">
+            <div className="relative order-1 lg:order-2 lg:h-auto">
               {/* Abstract Background Blob */}
               <div className="absolute -right-20 -top-20 -z-10 h-[500px] w-[500px] rounded-full bg-gradient-to-br from-blue-100 to-purple-100 opacity-70 blur-3xl"></div>
               <div className="relative rounded-2xl bg-app-surface p-4 shadow-2xl ring-1 ring-app-border aspect-[4/3] flex items-center justify-center">
@@ -501,7 +501,7 @@ export default function Home() {
                     </span>
                   </summary>
                   <p className="mt-3 text-sm text-app-text-sec">
-                    Sí. Todos los productos TecnaVision cuentan con garantía oficial, respaldada por nuestros distribuidores autorizados en República Dominicana.
+                    Sí. Todos los productos TecnaVision cuentan con garantía oficial de 3 años, respaldada por nuestros distribuidores autorizados en República Dominicana.
                   </p>
                 </details>
               </div>
