@@ -1,6 +1,13 @@
 import Link from "next/link";
+import { prisma } from "@/lib/db";
 
-export default function AdminDashboard() {
+export default async function AdminDashboard() {
+    const [productsCount, pendingQuotesCount, categoriesCount] = await Promise.all([
+        prisma.product.count(),
+        prisma.quote.count({ where: { status: "pending" } }),
+        prisma.category.count(),
+    ]);
+
     return (
         <>
             {/* Page Header */}
@@ -20,7 +27,7 @@ export default function AdminDashboard() {
                                     <span className="material-symbols-outlined text-primary text-2xl">inventory_2</span>
                                 </div>
                                 <div>
-                                    <p className="text-2xl font-bold text-app-text">2</p>
+                                    <p className="text-2xl font-bold text-app-text">{productsCount}</p>
                                     <p className="text-sm text-[#645e8d]">Productos Activos</p>
                                 </div>
                             </div>
@@ -31,7 +38,7 @@ export default function AdminDashboard() {
                                     <span className="material-symbols-outlined text-green-600 text-2xl">request_quote</span>
                                 </div>
                                 <div>
-                                    <p className="text-2xl font-bold text-app-text">0</p>
+                                    <p className="text-2xl font-bold text-app-text">{pendingQuotesCount}</p>
                                     <p className="text-sm text-[#645e8d]">Cotizaciones Pendientes</p>
                                 </div>
                             </div>
@@ -42,7 +49,7 @@ export default function AdminDashboard() {
                                     <span className="material-symbols-outlined text-orange-600 text-2xl">category</span>
                                 </div>
                                 <div>
-                                    <p className="text-2xl font-bold text-app-text">4</p>
+                                    <p className="text-2xl font-bold text-app-text">{categoriesCount}</p>
                                     <p className="text-sm text-[#645e8d]">Categorías</p>
                                 </div>
                             </div>

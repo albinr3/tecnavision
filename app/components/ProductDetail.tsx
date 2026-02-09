@@ -1,6 +1,6 @@
 "use client";
 
-import { type MouseEvent, useState } from "react";
+import { type FormEvent, type MouseEvent, useState } from "react";
 import { Product, ProductVariant, Category } from "@prisma/client";
 
 type ProductWithRelations = Product & {
@@ -19,6 +19,12 @@ export default function ProductDetail({ product }: ProductDetailProps) {
     const [activeImage, setActiveImage] = useState<string>(product.mainImage || "");
     const [isZoomActive, setIsZoomActive] = useState(false);
     const [zoomPosition, setZoomPosition] = useState({ x: 50, y: 50 });
+    const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
+    const [clientEmail, setClientEmail] = useState("");
+    const [quoteMessage, setQuoteMessage] = useState("");
+    const [isSendingQuote, setIsSendingQuote] = useState(false);
+    const [quoteError, setQuoteError] = useState<string | null>(null);
+    const [quoteSuccess, setQuoteSuccess] = useState<string | null>(null);
 
     const selectedVariant = product.variants.find(v => v.id === selectedVariantId);
 
@@ -76,6 +82,69 @@ export default function ProductDetail({ product }: ProductDetailProps) {
     const isNvrProduct = (product.category?.slug || "").toLowerCase().includes("nvr")
         || (product.category?.name || "").toLowerCase().includes("nvr");
     const activeImageSrc = activeImage || images.main;
+    const quoteProductName = selectedVariant
+        ? `${product.name} ${product.model} (${selectedVariant.name})`
+        : `${product.name} ${product.model}`;
+
+    const getDefaultQuoteMessage = () => {
+        return [
+            "Hola equipo de TecnaVision,",
+            "",
+            `Deseo una cotización para el producto: ${quoteProductName}.`,
+            "",
+            "Quedo atento(a) a su respuesta.",
+        ]
+            .filter(Boolean)
+            .join("\n");
+    };
+
+    const openQuoteModal = () => {
+        setQuoteError(null);
+        setQuoteSuccess(null);
+        setQuoteMessage(getDefaultQuoteMessage());
+        setIsQuoteModalOpen(true);
+    };
+
+    const submitQuote = async (e: FormEvent) => {
+        e.preventDefault();
+        setQuoteError(null);
+        setQuoteSuccess(null);
+
+        const email = clientEmail.trim().toLowerCase();
+        if (!email) {
+            setQuoteError("Ingresa un correo electrónico.");
+            return;
+        }
+
+        setIsSendingQuote(true);
+
+        try {
+            const res = await fetch("/api/quotes", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    productSlug: product.slug,
+                    productName: quoteProductName,
+                    clientEmail: email,
+                    message: quoteMessage.trim(),
+                }),
+            });
+
+            const data = await res.json();
+            if (!res.ok) {
+                throw new Error(data?.error || "No se pudo enviar la solicitud.");
+            }
+
+            setQuoteSuccess("Solicitud enviada. Puedes verla en /admin/quotes.");
+            setTimeout(() => {
+                setIsQuoteModalOpen(false);
+            }, 900);
+        } catch (error) {
+            setQuoteError(error instanceof Error ? error.message : "No se pudo enviar la solicitud.");
+        } finally {
+            setIsSendingQuote(false);
+        }
+    };
 
     const handleImageMouseMove = (e: MouseEvent<HTMLDivElement>) => {
         const rect = e.currentTarget.getBoundingClientRect();
@@ -101,7 +170,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                     >
                         <img
                             alt={`${product.name} view`}
-                            className="object-contain w-full h-full mix-blend-multiply"
+                            className="object-contain w-full h-full mix-blend-multiply dark:mix-blend-normal"
                             src={activeImageSrc}
                         />
                         {activeImageSrc && isZoomActive && (
@@ -226,7 +295,11 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
                     {/* Quote CTA */}
                     <div className="space-y-4" id="quote">
-                        <button className="w-full bg-primary hover:bg-primary-dark text-white text-lg font-semibold py-5 px-8 rounded-2xl shadow-xl shadow-primary/25 transform hover:-translate-y-1 transition-all duration-300 flex flex-wrap items-center justify-center gap-3 text-center">
+                        <button
+                            type="button"
+                            onClick={openQuoteModal}
+                            className="w-full bg-primary hover:bg-primary-dark text-white text-lg font-semibold py-5 px-8 rounded-2xl shadow-xl shadow-primary/25 transform hover:-translate-y-1 transition-all duration-300 flex flex-wrap items-center justify-center gap-3 text-center"
+                        >
                             <span className="material-icons-outlined">request_quote</span>
                             Solicitar Cotización {selectedVariant ? `(${selectedVariant.name})` : ""}
                         </button>
@@ -285,9 +358,9 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                             <p className="text-app-text-sec">Diseñado para monitoreo profesional con procesamiento eficiente, almacenamiento confiable y acceso rápido a evidencia.</p>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                            <div className="bg-app-surface rounded-3xl p-8 hover:shadow-lg transition-shadow duration-300 border border-transparent hover:border-app-border">
-                                <div className="h-14 w-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 text-primary">
-                                    <span className="material-icons-outlined text-3xl">{sectionIcons.ai}</span>
+                            <div className="group bg-app-surface rounded-3xl p-8 hover:shadow-lg transition-shadow duration-300 border border-transparent hover:border-app-border">
+                                <div className="flex size-12 items-center justify-center rounded-lg bg-blue-50 text-primary transition-colors group-hover:bg-primary group-hover:text-white mb-6">
+                                    <span className="material-symbols-outlined">{sectionIcons.ai}</span>
                                 </div>
                                 <h3 className="text-xl font-bold mb-3 text-app-text">Inteligencia de Datos</h3>
                                 <p className="text-sm text-app-text-sec mb-6 leading-relaxed">
@@ -302,9 +375,9 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                                     ))}
                                 </ul>
                             </div>
-                            <div className="bg-app-surface rounded-3xl p-8 hover:shadow-lg transition-shadow duration-300 border border-transparent hover:border-app-border flex flex-col">
-                                <div className="h-14 w-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 text-primary">
-                                    <span className="material-icons-outlined text-3xl">storage</span>
+                            <div className="group bg-app-surface rounded-3xl p-8 hover:shadow-lg transition-shadow duration-300 border border-transparent hover:border-app-border flex flex-col">
+                                <div className="flex size-12 items-center justify-center rounded-lg bg-blue-50 text-primary transition-colors group-hover:bg-primary group-hover:text-white mb-6">
+                                    <span className="material-symbols-outlined">storage</span>
                                 </div>
                                 <h3 className="text-xl font-bold mb-3 text-app-text">Almacenamiento Inteligente</h3>
                                 <p className="text-sm text-app-text-sec mb-6 leading-relaxed">
@@ -314,9 +387,9 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                                     <img alt="Gráfico NVR" className="w-full h-full object-cover" src="/graficonvr.png" />
                                 </div>
                             </div>
-                            <div className="bg-app-surface rounded-3xl p-8 hover:shadow-lg transition-shadow duration-300 border border-transparent hover:border-app-border">
-                                <div className="h-14 w-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 text-primary">
-                                    <span className="material-icons-outlined text-3xl">settings_input_component</span>
+                            <div className="group bg-app-surface rounded-3xl p-8 hover:shadow-lg transition-shadow duration-300 border border-transparent hover:border-app-border">
+                                <div className="flex size-12 items-center justify-center rounded-lg bg-blue-50 text-primary transition-colors group-hover:bg-primary group-hover:text-white mb-6">
+                                    <span className="material-symbols-outlined">settings_input_component</span>
                                 </div>
                                 <h3 className="text-xl font-bold mb-3 text-app-text">Especificaciones NVR</h3>
                                 <p className="text-sm text-app-text-sec mb-6 leading-relaxed">
@@ -380,9 +453,9 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {/* AI Detection */}
-                    <div className="bg-app-surface rounded-3xl p-8 hover:shadow-lg transition-shadow duration-300 border border-transparent hover:border-app-border">
-                        <div className="h-14 w-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 text-primary">
-                            <span className="material-icons-outlined text-3xl">{sectionIcons.ai}</span>
+                    <div className="group bg-app-surface rounded-3xl p-8 hover:shadow-lg transition-shadow duration-300 border border-transparent hover:border-app-border">
+                        <div className="flex size-12 items-center justify-center rounded-lg bg-blue-50 text-primary transition-colors group-hover:bg-primary group-hover:text-white mb-6">
+                            <span className="material-symbols-outlined">{sectionIcons.ai}</span>
                         </div>
                         <h3 className="text-xl font-bold mb-3 text-app-text">Detección AI</h3>
                         <p className="text-sm text-app-text-sec mb-6 leading-relaxed">
@@ -399,9 +472,9 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                     </div>
 
                     {/* Night Vision */}
-                    <div className="bg-app-surface rounded-3xl p-8 hover:shadow-lg transition-shadow duration-300 border border-transparent hover:border-app-border flex flex-col">
-                        <div className="h-14 w-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 text-primary">
-                            <span className="material-icons-outlined text-3xl">{sectionIcons.nightVision}</span>
+                    <div className="group bg-app-surface rounded-3xl p-8 hover:shadow-lg transition-shadow duration-300 border border-transparent hover:border-app-border flex flex-col">
+                        <div className="flex size-12 items-center justify-center rounded-lg bg-blue-50 text-primary transition-colors group-hover:bg-primary group-hover:text-white mb-6">
+                            <span className="material-symbols-outlined">{sectionIcons.nightVision}</span>
                         </div>
                         <h3 className="text-xl font-bold mb-3 text-app-text">Visión Nocturna EXIR</h3>
                         <p className="text-sm text-app-text-sec mb-6 leading-relaxed">
@@ -419,9 +492,9 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                     </div>
 
                     {/* Pro Specs */}
-                    <div className="bg-app-surface rounded-3xl p-8 hover:shadow-lg transition-shadow duration-300 border border-transparent hover:border-app-border">
-                        <div className="h-14 w-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 text-primary">
-                            <span className="material-icons-outlined text-3xl">{sectionIcons.specs}</span>
+                    <div className="group bg-app-surface rounded-3xl p-8 hover:shadow-lg transition-shadow duration-300 border border-transparent hover:border-app-border">
+                        <div className="flex size-12 items-center justify-center rounded-lg bg-blue-50 text-primary transition-colors group-hover:bg-primary group-hover:text-white mb-6">
+                            <span className="material-symbols-outlined">{sectionIcons.specs}</span>
                         </div>
                         <h3 className="text-xl font-bold mb-3 text-app-text">Especificaciones Pro</h3>
                         <p className="text-sm text-app-text-sec mb-6 leading-relaxed">
@@ -513,6 +586,77 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 </div>
             </section>
                 </>
+            )}
+
+            {isQuoteModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+                    <div className="w-full max-w-xl rounded-2xl border border-app-border bg-app-surface shadow-2xl">
+                        <div className="flex items-center justify-between border-b border-app-border px-5 py-4">
+                            <h3 className="text-lg font-bold text-app-text">Solicitar cotización</h3>
+                            <button
+                                type="button"
+                                onClick={() => setIsQuoteModalOpen(false)}
+                                className="flex h-9 w-9 items-center justify-center rounded-lg text-app-text-sec hover:bg-app-bg-subtle"
+                                aria-label="Cerrar modal de cotización"
+                            >
+                                <span className="material-symbols-outlined">close</span>
+                            </button>
+                        </div>
+
+                        <form onSubmit={submitQuote} className="space-y-4 px-5 py-5">
+                            <div>
+                                <p className="text-sm font-semibold text-app-text">{quoteProductName}</p>
+                            </div>
+
+                            <label className="flex flex-col gap-2">
+                                <span className="text-sm font-medium text-app-text">Correo electrónico</span>
+                                <input
+                                    type="email"
+                                    value={clientEmail}
+                                    onChange={(e) => setClientEmail(e.target.value)}
+                                    placeholder="tu-correo@empresa.com"
+                                    className="h-11 rounded-lg border border-app-border bg-app-bg-subtle px-3 text-sm text-app-text focus:border-primary focus:outline-none"
+                                    required
+                                />
+                            </label>
+
+                            <label className="flex flex-col gap-2">
+                                <span className="text-sm font-medium text-app-text">Mensaje</span>
+                                <textarea
+                                    value={quoteMessage}
+                                    onChange={(e) => setQuoteMessage(e.target.value)}
+                                    rows={7}
+                                    className="rounded-lg border border-app-border bg-app-bg-subtle px-3 py-2 text-sm text-app-text focus:border-primary focus:outline-none resize-y"
+                                    required
+                                />
+                            </label>
+
+                            {quoteError && (
+                                <p className="text-sm text-red-600">{quoteError}</p>
+                            )}
+                            {quoteSuccess && (
+                                <p className="text-sm text-green-600">{quoteSuccess}</p>
+                            )}
+
+                            <div className="flex items-center justify-end gap-3 pt-2">
+                                <button
+                                    type="button"
+                                    onClick={() => setIsQuoteModalOpen(false)}
+                                    className="h-10 rounded-lg border border-app-border px-4 text-sm font-semibold text-app-text hover:bg-app-bg-subtle"
+                                >
+                                    Cancelar
+                                </button>
+                                <button
+                                    type="submit"
+                                    disabled={isSendingQuote}
+                                    className="h-10 rounded-lg bg-primary px-4 text-sm font-semibold text-white hover:bg-primary-dark disabled:opacity-60"
+                                >
+                                    {isSendingQuote ? "Enviando..." : "Enviar solicitud"}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             )}
         </div>
     );

@@ -1,11 +1,48 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import ThemeLogo from "./ThemeLogo";
 import ThemeToggle from "./ThemeToggle";
 
+type MenuCategory = {
+    id: string;
+    name: string;
+    slug: string;
+    icon: string | null;
+};
+
+const FALLBACK_MENU_CATEGORIES: MenuCategory[] = [
+    { id: "camaras-seguridad", name: "Cámaras de Seguridad", slug: "camaras-seguridad", icon: "videocam" },
+    { id: "grabadores-nvr", name: "Grabadores (NVR)", slug: "nvr-grabadores", icon: "dns" },
+    { id: "control-acceso", name: "Control de Acceso", slug: "control-acceso", icon: "lock_open" },
+    { id: "accesorios", name: "Accesorios", slug: "accesorios", icon: "cable" },
+];
+
+const normalizeText = (value: string) =>
+    value
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+
+const getCategoryPriority = (category: MenuCategory) => {
+    const key = `${normalizeText(category.name)} ${normalizeText(category.slug)}`;
+    if (key.includes("camara")) return 0;
+    if (key.includes("nvr") || key.includes("grabador")) return 1;
+    if (key.includes("accesorio")) return 99;
+    return 50;
+};
+
+const sortMenuCategories = (categories: MenuCategory[]) =>
+    [...categories].sort((a, b) => {
+        const diff = getCategoryPriority(a) - getCategoryPriority(b);
+        if (diff !== 0) return diff;
+        return a.name.localeCompare(b.name, "es", { sensitivity: "base" });
+    });
+
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [menuCategories, setMenuCategories] = useState<MenuCategory[]>(sortMenuCategories(FALLBACK_MENU_CATEGORIES));
 
     useEffect(() => {
         if (typeof document === "undefined") return;
@@ -15,6 +52,32 @@ export default function Header() {
         };
     }, [isMenuOpen]);
 
+    useEffect(() => {
+        const loadCategories = async () => {
+            try {
+                const res = await fetch("/api/categories", { cache: "no-store" });
+                if (!res.ok) return;
+                const data = await res.json();
+                if (!Array.isArray(data) || data.length === 0) return;
+                const normalized = data
+                    .filter((item) => item?.id && item?.name && item?.slug)
+                    .map((item) => ({
+                        id: item.id as string,
+                        name: item.name as string,
+                        slug: item.slug as string,
+                        icon: (item.icon as string | null) || null,
+                    }));
+                if (normalized.length > 0) {
+                    setMenuCategories(sortMenuCategories(normalized));
+                }
+            } catch {
+                // Keep fallback menu when request fails.
+            }
+        };
+
+        loadCategories();
+    }, []);
+
     const handleNavClick = () => {
         setIsMenuOpen(false);
     };
@@ -23,83 +86,33 @@ export default function Header() {
         <>
             <header className="sticky top-0 z-50 w-full border-b border-app-border bg-app-surface/80 backdrop-blur-md">
                 <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-10">
-                    <a href="/" className="flex items-center hover:opacity-80 transition-opacity">
+                    <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
                         <ThemeLogo className="h-8 w-auto" />
-                    </a>
+                    </Link>
 
                     <nav className="hidden md:flex items-center gap-8">
                         {/* Productos Dropdown */}
                         <div className="group relative">
-                            <a className="flex items-center gap-1 text-[17px] font-medium text-app-text hover:text-primary transition-colors py-6 px-3 -mx-1 rounded-xl dark:hover:bg-white dark:hover:text-primary cursor-pointer" href="/products">
+                            <Link className="flex items-center gap-1 text-[17px] font-medium text-app-text hover:text-primary transition-colors py-6 px-3 -mx-1 rounded-xl dark:hover:bg-white dark:hover:text-primary cursor-pointer" href="/products">
                                 Productos
                                 <span className="material-symbols-outlined text-[18px] transition-transform group-hover:rotate-180">expand_more</span>
-                            </a>
+                            </Link>
 
                             {/* Mega Menu Dropdown */}
                             <div className="absolute left-1/2 -translate-x-1/2 top-full w-[600px] bg-app-surface rounded-2xl shadow-xl border border-app-border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 translate-y-2 group-hover:translate-y-0 p-6 z-50">
-                                <div className="grid grid-cols-2 gap-8">
-                                    {/* Column 1 */}
-                                    <div className="space-y-6">
-                                        <div>
-                                            <div className="flex items-center gap-2 mb-3">
-                                                <span className="flex size-9 items-center justify-center rounded-lg bg-primary/10 dark:bg-white text-primary shrink-0">
-                                                    <span className="material-symbols-outlined text-[22px]">videocam</span>
-                                                </span>
-                                                <h3 className="font-bold text-app-text text-sm uppercase tracking-wider">Cámaras de Seguridad</h3>
-                                            </div>
-                                            <ul className="space-y-2 pl-8 border-l border-app-border">
-                                                <li><a href="/products" className="text-sm text-app-text-sec hover:text-primary transition-colors block py-0.5">Cámaras de Interior</a></li>
-                                                <li><a href="/products" className="text-sm text-app-text-sec hover:text-primary transition-colors block py-0.5">Seguridad Exterior</a></li>
-                                                <li><a href="/products" className="text-sm text-app-text-sec hover:text-primary transition-colors block py-0.5">PTZ (Pan-Tilt-Zoom)</a></li>
-                                                <li><a href="/products" className="text-sm text-app-text-sec hover:text-primary transition-colors block py-0.5">Térmicas e Industriales</a></li>
-                                            </ul>
-                                        </div>
-
-                                        <div>
-                                            <div className="flex items-center gap-2 mb-3">
-                                                <span className="flex size-9 items-center justify-center rounded-lg bg-primary/10 dark:bg-white text-primary shrink-0">
-                                                    <span className="material-symbols-outlined text-[22px]">dns</span>
-                                                </span>
-                                                <h3 className="font-bold text-app-text text-sm uppercase tracking-wider">Grabadores (NVR)</h3>
-                                            </div>
-                                            <ul className="space-y-2 pl-8 border-l border-app-border">
-                                                <li><a href="#" className="text-sm text-app-text-sec hover:text-primary transition-colors block py-0.5">NVR Series 4K</a></li>
-                                                <li><a href="#" className="text-sm text-app-text-sec hover:text-primary transition-colors block py-0.5">Sistemas Híbridos DVR</a></li>
-                                                <li><a href="#" className="text-sm text-app-text-sec hover:text-primary transition-colors block py-0.5">Almacenamiento Cloud</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                    {/* Column 2 */}
-                                    <div className="space-y-6">
-                                        <div>
-                                            <div className="flex items-center gap-2 mb-3">
-                                                <span className="flex size-9 items-center justify-center rounded-lg bg-primary/10 dark:bg-white text-primary shrink-0">
-                                                    <span className="material-symbols-outlined text-[22px]">lock_open</span>
-                                                </span>
-                                                <h3 className="font-bold text-app-text text-sm uppercase tracking-wider">Control de Acceso</h3>
-                                            </div>
-                                            <ul className="space-y-2 pl-8 border-l border-app-border">
-                                                <li><a href="#" className="text-sm text-app-text-sec hover:text-primary transition-colors block py-0.5">Lectores Biométricos</a></li>
-                                                <li><a href="#" className="text-sm text-app-text-sec hover:text-primary transition-colors block py-0.5">Cerraduras Inteligentes</a></li>
-                                                <li><a href="#" className="text-sm text-app-text-sec hover:text-primary transition-colors block py-0.5">Intercomunicadores IP</a></li>
-                                            </ul>
-                                        </div>
-
-                                        <div>
-                                            <div className="flex items-center gap-2 mb-3">
-                                                <span className="flex size-9 items-center justify-center rounded-lg bg-primary/10 dark:bg-white text-primary shrink-0">
-                                                    <span className="material-symbols-outlined text-[22px]">cable</span>
-                                                </span>
-                                                <h3 className="font-bold text-app-text text-sm uppercase tracking-wider">Accesorios</h3>
-                                            </div>
-                                            <ul className="space-y-2 pl-8 border-l border-app-border">
-                                                <li><a href="#" className="text-sm text-app-text-sec hover:text-primary transition-colors block py-0.5">Soportes y Monturas</a></li>
-                                                <li><a href="#" className="text-sm text-app-text-sec hover:text-primary transition-colors block py-0.5">Cables Estructurados</a></li>
-                                                <li><a href="#" className="text-sm text-app-text-sec hover:text-primary transition-colors block py-0.5">Fuentes de Poder PoE</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                    {menuCategories.map((category) => (
+                                        <Link
+                                            key={category.id}
+                                            href={`/products?category=${category.slug}`}
+                                            className="flex items-center gap-3 rounded-xl border border-app-border bg-app-bg-subtle/50 p-3 hover:border-primary/40 hover:bg-primary/5 transition-colors"
+                                        >
+                                            <span className="flex size-10 items-center justify-center rounded-lg bg-primary/10 dark:bg-white text-primary shrink-0">
+                                                <span className="material-symbols-outlined text-[22px]">{category.icon || "category"}</span>
+                                            </span>
+                                            <h3 className="font-bold text-app-text text-sm uppercase tracking-wider">{category.name}</h3>
+                                        </Link>
+                                    ))}
                                 </div>
 
                                 <div className="mt-6 pt-4 border-t border-app-border flex justify-between items-center bg-app-bg-subtle/50 -mx-6 -mb-6 p-6 rounded-b-2xl">
@@ -112,22 +125,22 @@ export default function Header() {
                                             <p className="text-xs text-app-text-sec">Nuestros expertos te asesoran gratis</p>
                                         </div>
                                     </div>
-                                    <a href="#" className="text-sm font-bold text-primary hover:text-primary-dark flex items-center gap-1 dark:text-white dark:hover:text-white dark:font-extrabold">
+                                    <Link href="/contacto" className="text-sm font-bold text-primary hover:text-primary-dark flex items-center gap-1 dark:text-white dark:hover:text-white dark:font-extrabold">
                                         Contactar Soporte <span className="material-symbols-outlined text-[16px] dark:text-white">arrow_forward</span>
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
 
-                        <a className="text-[17px] font-medium text-app-text hover:text-primary transition-colors px-3 py-2 rounded-xl dark:hover:bg-white dark:hover:text-primary" href="/sobre-nosotros">Sobre nosotros</a>
-                        <a className="text-[17px] font-bold text-app-text hover:text-primary transition-colors px-3 py-2 rounded-xl dark:hover:bg-white dark:hover:text-primary" href="/donde-comprar">¿Donde comprar?</a>
+                        <Link className="text-[17px] font-medium text-app-text hover:text-primary transition-colors px-3 py-2 rounded-xl dark:hover:bg-white dark:hover:text-primary" href="/sobre-nosotros">Sobre nosotros</Link>
+                        <Link className="text-[17px] font-bold text-app-text hover:text-primary transition-colors px-3 py-2 rounded-xl dark:hover:bg-white dark:hover:text-primary" href="/donde-comprar">¿Donde comprar?</Link>
                     </nav>
 
                     <div className="flex items-center gap-4">
                         <ThemeToggle />
-                        <a href="/contacto" className="hidden sm:flex h-10 items-center justify-center rounded-xl bg-primary px-6 text-sm font-bold text-white transition-transform hover:scale-105 hover:bg-primary-dark">
+                        <Link href="/contacto" className="hidden sm:flex h-10 items-center justify-center rounded-xl bg-primary px-6 text-sm font-bold text-white transition-transform hover:scale-105 hover:bg-primary-dark">
                             Solicitar cotización
-                        </a>
+                        </Link>
                         <button
                             type="button"
                             onClick={() => setIsMenuOpen(true)}
@@ -171,116 +184,45 @@ export default function Header() {
                             Productos
                         </p>
                         <div className="flex flex-col gap-2">
-                            <details className="group rounded-lg border border-app-border bg-app-surface">
-                                <summary className="flex cursor-pointer list-none items-center justify-between px-3 py-2 text-sm font-semibold text-app-text hover:bg-app-bg-subtle">
-                                    Cámaras de Seguridad
-                                    <span className="material-symbols-outlined text-[18px] transition-transform group-open:rotate-180">
-                                        expand_more
-                                    </span>
-                                </summary>
-                                <div className="flex flex-col gap-1 px-4 pb-2">
-                                    <a href="/products" onClick={handleNavClick} className="py-1 text-sm text-app-text-sec hover:text-primary">
-                                        Cámaras de Interior
-                                    </a>
-                                    <a href="/products" onClick={handleNavClick} className="py-1 text-sm text-app-text-sec hover:text-primary">
-                                        Seguridad Exterior
-                                    </a>
-                                    <a href="/products" onClick={handleNavClick} className="py-1 text-sm text-app-text-sec hover:text-primary">
-                                        PTZ (Pan-Tilt-Zoom)
-                                    </a>
-                                    <a href="/products" onClick={handleNavClick} className="py-1 text-sm text-app-text-sec hover:text-primary">
-                                        Térmicas e Industriales
-                                    </a>
-                                </div>
-                            </details>
-
-                            <details className="group rounded-lg border border-app-border bg-app-surface">
-                                <summary className="flex cursor-pointer list-none items-center justify-between px-3 py-2 text-sm font-semibold text-app-text hover:bg-app-bg-subtle">
-                                    Grabadores (NVR)
-                                    <span className="material-symbols-outlined text-[18px] transition-transform group-open:rotate-180">
-                                        expand_more
-                                    </span>
-                                </summary>
-                                <div className="flex flex-col gap-1 px-4 pb-2">
-                                    <a href="#" onClick={handleNavClick} className="py-1 text-sm text-app-text-sec hover:text-primary">
-                                        NVR Series 4K
-                                    </a>
-                                    <a href="#" onClick={handleNavClick} className="py-1 text-sm text-app-text-sec hover:text-primary">
-                                        Sistemas Híbridos DVR
-                                    </a>
-                                    <a href="#" onClick={handleNavClick} className="py-1 text-sm text-app-text-sec hover:text-primary">
-                                        Almacenamiento Cloud
-                                    </a>
-                                </div>
-                            </details>
-
-                            <details className="group rounded-lg border border-app-border bg-app-surface">
-                                <summary className="flex cursor-pointer list-none items-center justify-between px-3 py-2 text-sm font-semibold text-app-text hover:bg-app-bg-subtle">
-                                    Control de Acceso
-                                    <span className="material-symbols-outlined text-[18px] transition-transform group-open:rotate-180">
-                                        expand_more
-                                    </span>
-                                </summary>
-                                <div className="flex flex-col gap-1 px-4 pb-2">
-                                    <a href="#" onClick={handleNavClick} className="py-1 text-sm text-app-text-sec hover:text-primary">
-                                        Lectores Biométricos
-                                    </a>
-                                    <a href="#" onClick={handleNavClick} className="py-1 text-sm text-app-text-sec hover:text-primary">
-                                        Cerraduras Inteligentes
-                                    </a>
-                                    <a href="#" onClick={handleNavClick} className="py-1 text-sm text-app-text-sec hover:text-primary">
-                                        Intercomunicadores IP
-                                    </a>
-                                </div>
-                            </details>
-
-                            <details className="group rounded-lg border border-app-border bg-app-surface">
-                                <summary className="flex cursor-pointer list-none items-center justify-between px-3 py-2 text-sm font-semibold text-app-text hover:bg-app-bg-subtle">
-                                    Accesorios
-                                    <span className="material-symbols-outlined text-[18px] transition-transform group-open:rotate-180">
-                                        expand_more
-                                    </span>
-                                </summary>
-                                <div className="flex flex-col gap-1 px-4 pb-2">
-                                    <a href="#" onClick={handleNavClick} className="py-1 text-sm text-app-text-sec hover:text-primary">
-                                        Soportes y Monturas
-                                    </a>
-                                    <a href="#" onClick={handleNavClick} className="py-1 text-sm text-app-text-sec hover:text-primary">
-                                        Cables Estructurados
-                                    </a>
-                                    <a href="#" onClick={handleNavClick} className="py-1 text-sm text-app-text-sec hover:text-primary">
-                                        Fuentes de Poder PoE
-                                    </a>
-                                </div>
-                            </details>
+                            {menuCategories.map((category) => (
+                                <Link
+                                    key={category.id}
+                                    href={`/products?category=${category.slug}`}
+                                    onClick={handleNavClick}
+                                    className="flex items-center gap-3 rounded-lg border border-app-border bg-app-surface px-3 py-2 text-sm font-semibold text-app-text hover:bg-app-bg-subtle hover:text-primary transition-colors"
+                                >
+                                    <span className="material-symbols-outlined text-[18px] text-primary">{category.icon || "category"}</span>
+                                    {category.name}
+                                </Link>
+                            ))}
                         </div>
                     </div>
 
-                    <a
+                    <Link
                         href="/sobre-nosotros"
                         onClick={handleNavClick}
                         className="rounded-lg px-3 py-2 text-base font-medium text-app-text hover:bg-app-bg-subtle"
                     >
                         Sobre nosotros
-                    </a>
-                    <a
+                    </Link>
+                    <Link
                         href="/donde-comprar"
                         onClick={handleNavClick}
                         className="rounded-lg px-3 py-2 text-base font-semibold text-primary hover:bg-primary/10"
                     >
                         ¿Dónde comprar?
-                    </a>
+                    </Link>
                     <div className="mt-2 flex items-center justify-between rounded-lg px-3 py-2">
                         <span className="text-sm font-medium text-app-text-sec">Tema</span>
                         <ThemeToggle />
                     </div>
-                    <a
+                    <Link
                         href="/contacto"
                         onClick={handleNavClick}
                         className="mt-2 flex h-12 items-center justify-center rounded-xl bg-primary text-sm font-bold text-white"
                     >
                         Solicitar cotización
-                    </a>
+                    </Link>
                 </nav>
             </aside>
         </>

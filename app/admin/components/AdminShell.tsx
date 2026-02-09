@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import ThemeLogo from "@/app/components/ThemeLogo";
 import ThemeToggle from "@/app/components/ThemeToggle";
 import AdminSidebar from "./AdminSidebar";
@@ -13,6 +14,8 @@ interface AdminShellProps {
 
 export default function AdminShell({ children }: AdminShellProps) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const pathname = usePathname();
+    const isLoginPage = pathname === "/admin/login";
 
     useEffect(() => {
         if (typeof document === "undefined") return;
@@ -21,6 +24,10 @@ export default function AdminShell({ children }: AdminShellProps) {
             document.body.style.overflow = "";
         };
     }, [isMenuOpen]);
+
+    if (isLoginPage) {
+        return <>{children}</>;
+    }
 
     return (
         <div className="flex min-h-screen md:h-screen w-full overflow-hidden bg-app-bg-subtle text-app-text antialiased">

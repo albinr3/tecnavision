@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import ThemeLogo from "@/app/components/ThemeLogo";
 import ThemeToggle from "@/app/components/ThemeToggle";
 import { navItems } from "./navItems";
@@ -12,6 +12,13 @@ interface AdminSidebarProps {
 
 export default function AdminSidebar({ variant = "desktop" }: AdminSidebarProps) {
     const pathname = usePathname();
+    const router = useRouter();
+
+    const handleLogout = async () => {
+        await fetch("/api/auth/logout", { method: "POST" });
+        router.push("/admin/login");
+        router.refresh();
+    };
 
     const isActive = (href: string) => {
         if (href === "/admin") return pathname === "/admin";
@@ -70,9 +77,16 @@ export default function AdminSidebar({ variant = "desktop" }: AdminSidebarProps)
                     </div>
                     <div className="flex flex-col">
                         <p className="text-sm font-semibold text-app-text">Admin User</p>
-                        <p className="text-xs text-app-text-sec">admin@tecnovision.com</p>
+                        <p className="text-xs text-app-text-sec">Tecnavision1@gmail.com</p>
                     </div>
                 </div>
+                <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-red-500 hover:bg-red-500/10 transition-colors"
+                >
+                    <span className="material-symbols-outlined text-xl">logout</span>
+                    <span className="text-sm font-medium">Cerrar Sesión</span>
+                </button>
             </div>
         </aside>
     );

@@ -375,7 +375,7 @@ export default function ProductPreview({
                                 {mainImage ? (
                                     <img
                                         alt={`${name} view`}
-                                        className="object-contain w-full h-full mix-blend-multiply"
+                                        className="object-contain w-full h-full mix-blend-multiply dark:mix-blend-normal"
                                         src={mainImage}
                                     />
                                 ) : (

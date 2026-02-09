@@ -31,6 +31,9 @@ const NVR_SPEC_TEMPLATE = [
     { key: "PoE", value: "" },
 ];
 
+const CAMERA_NIGHT_VISION_DEFAULT = "/NIGHT.png";
+const NVR_NIGHT_VISION_DEFAULT = "/graficonvr.png";
+
 export default function ProductForm({ categories, initialData }: ProductFormProps) {
     const router = useRouter();
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -51,7 +54,7 @@ export default function ProductForm({ categories, initialData }: ProductFormProp
     const [category, setCategory] = useState(initialData?.categoryId || "");
     const [mainImage, setMainImage] = useState(initialData?.mainImage || "");
     const [galleryImages, setGalleryImages] = useState<string[]>(initialData?.galleryImages || []);
-    const [nightVisionImg, setNightVisionImg] = useState(initialData?.nightVisionImg || "/NIGHT.png");
+    const [nightVisionImg, setNightVisionImg] = useState(initialData?.nightVisionImg || CAMERA_NIGHT_VISION_DEFAULT);
     const [appDemoImg, setAppDemoImg] = useState(initialData?.appDemoImg || "");
     const [appDemoBadge, setAppDemoBadge] = useState(initialData?.appDemoBadge || "Live Monitoring");
     const [appDemoTitle, setAppDemoTitle] = useState(initialData?.appDemoTitle || "Control total en la palma de tu mano.");
@@ -81,6 +84,14 @@ export default function ProductForm({ categories, initialData }: ProductFormProp
     const selectedCategory = categories.find((cat) => cat.id === category);
     const isNvrCategory = (selectedCategory?.slug || "").toLowerCase().includes("nvr")
         || (selectedCategory?.name || "").toLowerCase().includes("nvr");
+    const defaultNightVisionImg = isNvrCategory ? NVR_NIGHT_VISION_DEFAULT : CAMERA_NIGHT_VISION_DEFAULT;
+
+    const normalizeNightVisionForCategory = (value: string) => {
+        if (!value) return "";
+        if (isNvrCategory && value === CAMERA_NIGHT_VISION_DEFAULT) return NVR_NIGHT_VISION_DEFAULT;
+        if (!isNvrCategory && value === NVR_NIGHT_VISION_DEFAULT) return CAMERA_NIGHT_VISION_DEFAULT;
+        return value;
+    };
 
     const handleSpecChange = (index: number, field: "key" | "value", value: string) => {
         const updated = [...specs];
@@ -134,6 +145,15 @@ export default function ProductForm({ categories, initialData }: ProductFormProp
             }));
         });
     }, [isNvrCategory]);
+
+    useEffect(() => {
+        setNightVisionImg((prev) => {
+            if (!prev) return defaultNightVisionImg;
+            if (isNvrCategory && prev === CAMERA_NIGHT_VISION_DEFAULT) return NVR_NIGHT_VISION_DEFAULT;
+            if (!isNvrCategory && prev === NVR_NIGHT_VISION_DEFAULT) return CAMERA_NIGHT_VISION_DEFAULT;
+            return prev;
+        });
+    }, [defaultNightVisionImg, isNvrCategory]);
 
     const getSpecValue = (aliases: string[]) => {
         const match = specs.find((spec) => {
@@ -348,6 +368,7 @@ export default function ProductForm({ categories, initialData }: ProductFormProp
         try {
             const url = initialData ? `/api/products/${initialData.slug}` : "/api/products";
             const method = initialData ? "PUT" : "POST";
+            const normalizedNightVisionImg = normalizeNightVisionForCategory(nightVisionImg);
 
             const res = await fetch(url, {
                 method,
@@ -360,7 +381,7 @@ export default function ProductForm({ categories, initialData }: ProductFormProp
                     badge: badge || null,
                     mainImage: mainImage || null,
                     galleryImages,
-                    nightVisionImg: nightVisionImg || null,
+                    nightVisionImg: normalizedNightVisionImg || null,
                     appDemoImg: appDemoImg || null,
                     appDemoBadge: appDemoBadge || null,
                     appDemoTitle: appDemoTitle || null,
@@ -859,9 +880,13 @@ export default function ProductForm({ categories, initialData }: ProductFormProp
                                 {isUploading ? "Subiendo..." : "Subir imagen"}
                             </button>
                             <p className="mt-2 text-[11px] text-app-text-sec">También puedes arrastrar y soltar una imagen aquí.</p>
-                            {(nightVisionImg || mainImage || "/NIGHT.png") && (
+                            {(normalizeNightVisionForCategory(nightVisionImg) || mainImage || defaultNightVisionImg) && (
                                 <div className="mt-3 h-28 rounded-lg overflow-hidden border border-app-border bg-app-surface relative">
-                                    <img src={nightVisionImg || mainImage || "/NIGHT.png"} alt="Imagen de visión nocturna" className="w-full h-full object-cover" />
+                                    <img
+                                        src={normalizeNightVisionForCategory(nightVisionImg) || mainImage || defaultNightVisionImg}
+                                        alt="Imagen de visión nocturna"
+                                        className="w-full h-full object-cover"
+                                    />
                                     <button
                                         type="button"
                                         onClick={() => setNightVisionImg("")}

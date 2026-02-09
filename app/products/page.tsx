@@ -3,31 +3,105 @@ import Footer from "@/app/components/Footer";
 import Header from "@/app/components/Header";
 import { prisma } from "@/lib/db";
 import Link from "next/link";
+import type { Prisma } from "@prisma/client";
+
+const PRODUCTS_PER_PAGE = 10;
 
 export const metadata: Metadata = {
     title: "Catálogo de Productos - TecnaVision",
     description: "Explora nuestra gama completa de cámaras de seguridad con IA, visión nocturna y tecnología 4K.",
 };
 
-async function getProducts() {
+async function getProducts(categoryFilter?: string, searchFilter?: string, page = 1) {
     try {
-        const products = await prisma.product.findMany({
+        const filters: Prisma.ProductWhereInput[] = [];
+
+        if (categoryFilter) {
+            filters.push({
+                category: {
+                    is: {
+                        OR: [
+                            { slug: { equals: categoryFilter, mode: "insensitive" as const } },
+                            { name: { contains: categoryFilter.replace(/-/g, " "), mode: "insensitive" as const } },
+                        ],
+                    },
+                },
+            });
+        }
+
+        if (searchFilter) {
+            filters.push({
+                OR: [
+                    { name: { contains: searchFilter, mode: "insensitive" } },
+                    { model: { contains: searchFilter, mode: "insensitive" } },
+                    { subtitle: { contains: searchFilter, mode: "insensitive" } },
+                    { description: { contains: searchFilter, mode: "insensitive" } },
+                ],
+            });
+        }
+
+        const where: Prisma.ProductWhereInput | undefined = filters.length > 0
+            ? { AND: filters }
+            : undefined;
+
+        const total = await prisma.product.count({ where });
+        const totalPages = Math.max(1, Math.ceil(total / PRODUCTS_PER_PAGE));
+        const safePage = Math.min(Math.max(page, 1), totalPages);
+
+        const items = await prisma.product.findMany({
+            where,
             include: {
                 category: true
             },
             orderBy: {
-                createdAt: 'desc'
-            }
+                createdAt: "desc"
+            },
+            skip: (safePage - 1) * PRODUCTS_PER_PAGE,
+            take: PRODUCTS_PER_PAGE,
         });
-        return products;
+
+        return { total, items, page: safePage, totalPages };
     } catch (error) {
         console.error("Error fetching products:", error);
-        return [];
+        return { total: 0, items: [], page: 1, totalPages: 1 };
     }
 }
 
-export default async function ShopPage() {
-    const products = await getProducts();
+type SearchParamsInput = Record<string, string | string[] | undefined>;
+
+interface ShopPageProps {
+    searchParams?: SearchParamsInput | Promise<SearchParamsInput>;
+}
+
+function resolveFirstParam(value: string | string[] | undefined) {
+    if (Array.isArray(value)) return value[0] || "";
+    return value || "";
+}
+
+export default async function ShopPage({ searchParams }: ShopPageProps) {
+    const resolvedSearchParams = searchParams
+        ? ("then" in searchParams ? await searchParams : searchParams)
+        : {};
+
+    const requestedCategory = resolveFirstParam(resolvedSearchParams.category).trim();
+    const requestedQuery = resolveFirstParam(resolvedSearchParams.q).trim();
+    const requestedPage = Number.parseInt(resolveFirstParam(resolvedSearchParams.page), 10);
+    const currentPage = Number.isFinite(requestedPage) && requestedPage > 0 ? requestedPage : 1;
+    const { total, items: products, page: safeCurrentPage, totalPages } = await getProducts(
+        requestedCategory || undefined,
+        requestedQuery || undefined,
+        currentPage
+    );
+    const activeCategoryName = products[0]?.category?.name
+        || (requestedCategory ? requestedCategory.replace(/-/g, " ") : "Todas las categorías");
+    const createPageHref = (page: number) => {
+        const params = new URLSearchParams();
+        if (requestedCategory) params.set("category", requestedCategory);
+        if (requestedQuery) params.set("q", requestedQuery);
+        if (page > 1) params.set("page", String(page));
+        const query = params.toString();
+        return query ? `/products?${query}` : "/products";
+    };
 
     return (
         <div className="bg-app-bg text-app-text antialiased selection:bg-primary selection:text-white min-h-screen flex flex-col">
@@ -68,19 +142,6 @@ export default async function ShopPage() {
                         </div>
                     </div>
 
-                    {/* Connectivity */}
-                    <div className="mb-8">
-                        <h4 className="text-xs font-bold text-app-text-sec mb-4 uppercase tracking-wider">Conectividad</h4>
-                        <div className="space-y-3">
-                            {["Wi-Fi 6", "PoE", "5G Celular"].map((item, i) => (
-                                <label key={i} className="flex items-center gap-3 cursor-pointer group">
-                                    <input type="checkbox" className="size-4 rounded border-app-border bg-transparent text-primary focus:ring-primary focus:ring-offset-app-surface" />
-                                    <span className="text-sm text-app-text group-hover:text-primary transition-colors">{item}</span>
-                                </label>
-                            ))}
-                        </div>
-                    </div>
-
                     {/* Features */}
                     <div className="mb-8">
                         <h4 className="text-xs font-bold text-app-text-sec mb-4 uppercase tracking-wider">Características</h4>
@@ -103,22 +164,25 @@ export default async function ShopPage() {
                         <span className="text-gray-300 text-sm font-medium">/</span>
                         <Link className="text-app-text-sec text-sm font-medium hover:text-primary transition-colors" href="/products">Productos</Link>
                         <span className="text-gray-300 text-sm font-medium">/</span>
-                        <span className="text-app-text text-sm font-medium">Cámaras de Seguridad</span>
+                        <span className="text-app-text text-sm font-medium">{activeCategoryName}</span>
                     </div>
 
                     {/* Controls Bar */}
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
-                        <div className="relative w-full md:max-w-md">
+                        <form action="/products" method="get" className="relative w-full md:max-w-md">
+                            {requestedCategory && <input type="hidden" name="category" value={requestedCategory} />}
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <span className="material-symbols-outlined text-gray-400 text-xl">search</span>
                             </div>
                             <input
+                                name="q"
+                                defaultValue={requestedQuery}
                                 className="block w-full pl-10 pr-4 py-3 border-none rounded-xl bg-app-bg-subtle text-app-text placeholder:text-app-text-sec focus:ring-2 focus:ring-primary sm:text-sm shadow-sm"
                                 placeholder="Buscar modelo, SKU o característica..."
                             />
-                        </div>
+                        </form>
                         <div className="flex w-full flex-wrap items-center justify-between gap-3 md:w-auto md:justify-end">
-                            <p className="text-app-text-sec text-sm whitespace-nowrap hidden sm:block">Mostrando {products.length} productos</p>
+                            <p className="text-app-text-sec text-sm whitespace-nowrap hidden sm:block">Mostrando {products.length} de {total} productos</p>
                             <div className="flex items-center gap-2 sm:gap-3">
                                 <span className="text-app-text-sec text-sm font-medium whitespace-nowrap">Ordenar por:</span>
                                 <div className="relative">
@@ -151,7 +215,7 @@ export default async function ShopPage() {
                                     <div className="relative w-full aspect-square bg-app-bg-subtle p-6 flex items-center justify-center overflow-hidden">
                                         <img
                                             alt={product.name}
-                                            className="object-contain w-full h-full mix-blend-multiply group-hover:scale-105 transition-transform duration-500"
+                                            className="object-contain w-full h-full mix-blend-multiply dark:mix-blend-normal group-hover:scale-105 transition-transform duration-500"
                                             src={product.mainImage || "/placeholder-camera.png"}
                                         />
                                         {product.badge && (
@@ -180,19 +244,32 @@ export default async function ShopPage() {
                     </div>
 
                     {/* Pagination - Static for now */}
-                    {products.length > 12 && (
+                    {total > PRODUCTS_PER_PAGE && (
                         <div className="mt-12 flex justify-center pb-12">
                             <nav className="flex flex-wrap items-center justify-center gap-2">
-                                <button className="size-10 flex items-center justify-center rounded-lg border border-app-border text-app-text-sec hover:bg-app-bg-subtle transition-colors disabled:opacity-50">
+                                <Link
+                                    href={createPageHref(Math.max(1, safeCurrentPage - 1))}
+                                    aria-disabled={safeCurrentPage <= 1}
+                                    className={`size-10 flex items-center justify-center rounded-lg border border-app-border transition-colors ${safeCurrentPage <= 1 ? "text-app-text-sec/40 pointer-events-none" : "text-app-text-sec hover:bg-app-bg-subtle"}`}
+                                >
                                     <span className="material-symbols-outlined text-xl">chevron_left</span>
-                                </button>
-                                <button className="size-10 flex items-center justify-center rounded-lg bg-primary text-white font-bold text-sm">1</button>
-                                <button className="size-10 flex items-center justify-center rounded-lg border border-app-border text-app-text-sec hover:bg-app-bg-subtle hover:text-app-text transition-colors text-sm font-medium">2</button>
-                                <button className="size-10 flex items-center justify-center rounded-lg border border-app-border text-app-text-sec hover:bg-app-bg-subtle hover:text-app-text transition-colors text-sm font-medium">3</button>
-                                <span className="text-gray-400 px-1">...</span>
-                                <button className="size-10 flex items-center justify-center rounded-lg border border-app-border text-app-text-sec hover:bg-app-bg-subtle transition-colors">
+                                </Link>
+                                {Array.from({ length: totalPages }, (_, idx) => idx + 1).map((pageNum) => (
+                                    <Link
+                                        key={pageNum}
+                                        href={createPageHref(pageNum)}
+                                        className={`size-10 flex items-center justify-center rounded-lg text-sm font-medium transition-colors ${pageNum === safeCurrentPage ? "bg-primary text-white font-bold" : "border border-app-border text-app-text-sec hover:bg-app-bg-subtle hover:text-app-text"}`}
+                                    >
+                                        {pageNum}
+                                    </Link>
+                                ))}
+                                <Link
+                                    href={createPageHref(Math.min(totalPages, safeCurrentPage + 1))}
+                                    aria-disabled={safeCurrentPage >= totalPages}
+                                    className={`size-10 flex items-center justify-center rounded-lg border border-app-border transition-colors ${safeCurrentPage >= totalPages ? "text-app-text-sec/40 pointer-events-none" : "text-app-text-sec hover:bg-app-bg-subtle"}`}
+                                >
                                     <span className="material-symbols-outlined text-xl">chevron_right</span>
-                                </button>
+                                </Link>
                             </nav>
                         </div>
                     )}
