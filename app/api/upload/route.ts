@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { writeFile } from "fs/promises";
+import { mkdir, writeFile } from "fs/promises";
 import path from "path";
-import { v4 as uuidv4 } from "uuid";
+import { randomUUID } from "crypto";
 
 export async function POST(request: NextRequest) {
     try {
@@ -16,18 +16,11 @@ export async function POST(request: NextRequest) {
         }
 
         const buffer = Buffer.from(await file.arrayBuffer());
-        const filename = `${uuidv4()}-${file.name.replace(/\s+/g, "-")}`;
+        const filename = `${randomUUID()}-${file.name.replace(/\s+/g, "-")}`;
         const relativePath = `/uploads/${filename}`;
         const absolutePath = path.join(process.cwd(), "public", "uploads", filename);
-
-        // Ensure uploads directory exists
-        // (writeFile will throw if the directory doesn't exist, normally we'd mkdir -p)
-        // Let's assume public/uploads exists or create it.
-        const fs = require('fs');
         const uploadDir = path.join(process.cwd(), "public", "uploads");
-        if (!fs.existsSync(uploadDir)) {
-            fs.mkdirSync(uploadDir, { recursive: true });
-        }
+        await mkdir(uploadDir, { recursive: true });
 
         await writeFile(absolutePath, buffer);
 
