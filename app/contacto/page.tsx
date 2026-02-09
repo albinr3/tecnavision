@@ -35,7 +35,7 @@ export default function ContactPage() {
                                 <div className="flex flex-col gap-1">
                                     {/* Address */}
                                     <div className="flex items-start gap-4 py-4 border-b border-app-border last:border-0">
-                                        <div className="shrink-0 flex items-center justify-center size-10 rounded-lg bg-primary/10 text-primary">
+                                        <div className="shrink-0 flex items-center justify-center size-10 rounded-lg bg-primary/10 text-primary dark:bg-white/15 dark:text-white dark:border dark:border-white/20">
                                             <span className="material-symbols-outlined">location_on</span>
                                         </div>
                                         <div>
@@ -46,7 +46,7 @@ export default function ContactPage() {
 
                                     {/* Phone */}
                                     <div className="flex items-start gap-4 py-4 border-b border-app-border last:border-0">
-                                        <div className="shrink-0 flex items-center justify-center size-10 rounded-lg bg-primary/10 text-primary">
+                                        <div className="shrink-0 flex items-center justify-center size-10 rounded-lg bg-primary/10 text-primary dark:bg-white/15 dark:text-white dark:border dark:border-white/20">
                                             <span className="material-symbols-outlined">call</span>
                                         </div>
                                         <div>
@@ -57,7 +57,7 @@ export default function ContactPage() {
 
                                     {/* Email */}
                                     <div className="flex items-start gap-4 py-4 border-b border-app-border last:border-0">
-                                        <div className="shrink-0 flex items-center justify-center size-10 rounded-lg bg-primary/10 text-primary">
+                                        <div className="shrink-0 flex items-center justify-center size-10 rounded-lg bg-primary/10 text-primary dark:bg-white/15 dark:text-white dark:border dark:border-white/20">
                                             <span className="material-symbols-outlined">mail</span>
                                         </div>
                                         <div>
@@ -68,7 +68,7 @@ export default function ContactPage() {
 
                                     {/* Hours */}
                                     <div className="flex items-start gap-4 py-4 border-b border-app-border last:border-0">
-                                        <div className="shrink-0 flex items-center justify-center size-10 rounded-lg bg-primary/10 text-primary">
+                                        <div className="shrink-0 flex items-center justify-center size-10 rounded-lg bg-primary/10 text-primary dark:bg-white/15 dark:text-white dark:border dark:border-white/20">
                                             <span className="material-symbols-outlined">schedule</span>
                                         </div>
                                         <div>
