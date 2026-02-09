@@ -171,6 +171,9 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                         <img
                             alt={`${product.name} view`}
                             className="object-contain w-full h-full mix-blend-multiply dark:mix-blend-normal"
+                            decoding="async"
+                            fetchPriority={activeImage === images.main ? "high" : "auto"}
+                            loading={activeImage === images.main ? "eager" : "lazy"}
                             src={activeImageSrc}
                         />
                         {activeImageSrc && isZoomActive && (
@@ -207,7 +210,14 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                                     onClick={() => setActiveImage(img)}
                                     className={`rounded-lg overflow-hidden border transition-colors ${activeImage === img ? "border-primary" : "border-app-border hover:border-primary/60"}`}
                                 >
-                                    <img src={img} alt={`Vista ${idx + 1}`} className="w-full h-16 object-cover" />
+                                    <img
+                                        alt={`Vista ${idx + 1}`}
+                                        className="w-full h-16 object-cover"
+                                        decoding="async"
+                                        fetchPriority="low"
+                                        loading="lazy"
+                                        src={img}
+                                    />
                                 </button>
                             ))}
                         </div>
@@ -384,7 +394,14 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                                     Optimización de espacio con compresión avanzada que reduce el ancho de banda y el consumo de almacenamiento sin perder calidad.
                                 </p>
                                 <div className="mt-auto rounded-xl overflow-hidden h-40 relative group bg-app-bg-subtle border border-app-border flex items-center justify-center">
-                                    <img alt="Gráfico NVR" className="w-full h-full object-cover" src="/graficonvr.png" />
+                                    <img
+                                        alt="Gráfico NVR"
+                                        className="w-full h-full object-cover"
+                                        decoding="async"
+                                        fetchPriority="low"
+                                        loading="lazy"
+                                        src="/graficonvr.png"
+                                    />
                                 </div>
                             </div>
                             <div className="group bg-app-surface rounded-3xl p-8 hover:shadow-lg transition-shadow duration-300 border border-transparent hover:border-app-border">
@@ -422,6 +439,9 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                             <img
                                 alt="Control room monitoring background"
                                 className="w-full h-full object-cover opacity-20"
+                                decoding="async"
+                                fetchPriority="low"
+                                loading="lazy"
                                 src={images.app_demo}
                             />
                             <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/95 to-transparent"></div>
@@ -437,7 +457,14 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                             </div>
                             <div className="flex justify-center lg:justify-end">
                                 <div className="relative w-full max-w-lg aspect-video bg-gray-800 rounded-xl border-4 border-gray-700 shadow-2xl overflow-hidden transform hover:scale-[1.02] transition-transform duration-500">
-                                    <img alt="Vista NVR con cámaras" className="w-full h-full object-cover" src="/nvrcamaras.png" />
+                                    <img
+                                        alt="Vista NVR con cámaras"
+                                        className="w-full h-full object-cover"
+                                        decoding="async"
+                                        fetchPriority="low"
+                                        loading="lazy"
+                                        src="/nvrcamaras.png"
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -484,6 +511,9 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                             <img
                                 alt="Night vision sample"
                                 className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+                                decoding="async"
+                                fetchPriority="low"
+                                loading="lazy"
                                 src={images.night_vision}
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
@@ -528,6 +558,9 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                     <img
                         alt="Modern home interior blurred"
                         className="w-full h-full object-cover opacity-20"
+                        decoding="async"
+                        fetchPriority="low"
+                        loading="lazy"
                         src={images.app_demo}
                     />
                     <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/95 to-transparent"></div>
@@ -554,6 +587,9 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                                 <img
                                     alt="Security footage on phone"
                                     className="w-full h-full object-cover opacity-80"
+                                    decoding="async"
+                                    fetchPriority="low"
+                                    loading="lazy"
                                     src="/humano.png"
                                 />
                                 <div className="absolute top-2 right-2 bg-red-600 rounded-full h-2 w-2 animate-pulse"></div>
