@@ -2,6 +2,16 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
+  images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "utfs.io" },
+      { protocol: "https", hostname: "**.utfs.io" },
+      { protocol: "https", hostname: "ufs.sh" },
+      { protocol: "https", hostname: "**.ufs.sh" },
+    ],
+    formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 60 * 60 * 24 * 30,
+  },
   async headers() {
     const longCacheHeader = {
       key: "Cache-Control",

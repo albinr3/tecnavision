@@ -3,6 +3,7 @@ import Footer from "@/app/components/Footer";
 import Header from "@/app/components/Header";
 import { prisma } from "@/lib/db";
 import Link from "next/link";
+import Image from "next/image";
 import type { Prisma } from "@prisma/client";
 
 const PRODUCTS_PER_PAGE = 10;
@@ -206,16 +207,21 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
                                 <p className="text-app-text-sec">No se encontraron productos disponibles.</p>
                             </div>
                         ) : (
-                            products.map((product) => (
+                            products.map((product, index) => (
                                 <Link
                                     key={product.id}
                                     href={`/products/${product.slug}`}
                                     className="group flex flex-col bg-app-surface rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 border border-app-border hover:border-primary/20"
                                 >
                                     <div className="relative w-full aspect-square bg-app-bg-subtle p-6 flex items-center justify-center overflow-hidden">
-                                        <img
+                                        {/* First cards are likely LCP candidates on desktop/tablet viewports. */}
+                                        <Image
                                             alt={product.name}
-                                            className="object-contain w-full h-full mix-blend-multiply dark:mix-blend-normal group-hover:scale-105 transition-transform duration-500"
+                                            className="object-contain mix-blend-multiply dark:mix-blend-normal group-hover:scale-105 transition-transform duration-500"
+                                            fetchPriority={index < 8 ? "high" : "auto"}
+                                            fill
+                                            priority={index === 0}
+                                            sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                                             src={product.mainImage || "/placeholder-camera.png"}
                                         />
                                         {product.badge && (

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 
@@ -45,14 +46,33 @@ export default function Home() {
               {/* Abstract Background Blob */}
               <div className="absolute -right-20 -top-20 -z-10 h-[500px] w-[500px] rounded-full bg-gradient-to-br from-blue-100 to-purple-100 opacity-70 blur-3xl"></div>
               <div className="relative rounded-2xl bg-app-surface p-4 shadow-2xl ring-1 ring-app-border aspect-[4/3] flex items-center justify-center">
-                <div className="absolute inset-0 overflow-hidden rounded-2xl bg-cover bg-center" style={{ backgroundImage: "url('/cameraHome.png')" }}></div>
+                <div className="absolute inset-0 overflow-hidden rounded-2xl">
+                  <Image
+                    alt="Monitoreo de seguridad en tiempo real"
+                    className="object-cover"
+                    fetchPriority="high"
+                    fill
+                    priority
+                    sizes="(min-width: 1024px) 50vw, 100vw"
+                    src="/cameraHome.png"
+                  />
+                </div>
                 {/* Floating UI Element Mockup */}
                 <div className="absolute -bottom-6 -left-6 hidden w-52 min-w-0 rounded-xl bg-app-surface p-3 shadow-xl ring-1 ring-app-border animate-bounce sm:block" style={{ animationDuration: '3s' }}>
                   <div className="flex items-center justify-between gap-2 mb-2">
                     <span className="text-xs font-bold text-app-text shrink-0">Patio Trasero</span>
                     <span className="flex h-2 w-2 rounded-full bg-green-500"></span>
                   </div>
-                  <div className="relative h-24 w-full overflow-hidden rounded-lg bg-app-bg-subtle bg-cover bg-center" style={{ backgroundImage: "url('/outview.png')" }}>
+                  <div className="relative h-24 w-full overflow-hidden rounded-lg bg-app-bg-subtle">
+                    <Image
+                      alt="Vista exterior"
+                      className="object-cover"
+                      fetchPriority="low"
+                      fill
+                      loading="lazy"
+                      sizes="208px"
+                      src="/outview.png"
+                    />
                     <div className="absolute bottom-1 right-2 text-[10px] font-medium text-white drop-shadow-md">
                       08/02/2026 14:30:22
                     </div>
@@ -190,7 +210,7 @@ export default function Home() {
                 </div>
               </div>
               {/* Product 2 */}
-              <a href="/products/bullet-cam-pro-ai" className="group relative flex flex-col rounded-2xl border border-app-border bg-app-surface shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl">
+              <Link href="/products/bullet-cam-pro-ai" className="group relative flex flex-col rounded-2xl border border-app-border bg-app-surface shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl">
                 <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-2xl bg-app-bg-subtle">
                   <div className="absolute right-3 top-3 z-10 rounded-md bg-app-surface/90 px-2 py-1 text-xs font-bold text-primary dark:text-white backdrop-blur-sm">WEATHERPROOF</div>
                   <div className="h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuB3uW4QsH-90gg_Y3YK3sFlpg4geiwCYAjWKBe7yKPYlvh7Kej91QK-3b7R9EkmCzrKxLuOkwYpSpgmhvL9UCsVMpRebjRtg_xw39wYKqs7ckOd4LYKBxOJqwdnaICWogskF0RpGuBPqHqpYQK_W4wqkxKofjOAmWpgpWws1Otcp-Op-_9TsQFbVMEyRI8ysWfIRep4hDN5RWcv2pFv8i10HDGVWczkvjSRrBQd0RGnsHoSgVfhaJ6WT-eIdYFdTzhhaE9trC0w8wo4')" }}></div>
@@ -205,7 +225,7 @@ export default function Home() {
                     </button>
                   </div>
                 </div>
-              </a>
+              </Link>
               {/* Product 3 */}
               <div className="group relative flex flex-col rounded-2xl border border-app-border bg-app-surface shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl">
                 <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-2xl bg-app-bg-subtle">

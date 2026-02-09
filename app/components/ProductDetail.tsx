@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { type FormEvent, type MouseEvent, useState } from "react";
 import { Product, ProductVariant, Category } from "@prisma/client";
 
@@ -82,6 +83,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
     const isNvrProduct = (product.category?.slug || "").toLowerCase().includes("nvr")
         || (product.category?.name || "").toLowerCase().includes("nvr");
     const activeImageSrc = activeImage || images.main;
+    const isMainImageActive = !activeImage || activeImage === images.main;
     const quoteProductName = selectedVariant
         ? `${product.name} ${product.model} (${selectedVariant.name})`
         : `${product.name} ${product.model}`;
@@ -168,14 +170,17 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                         onMouseLeave={() => setIsZoomActive(false)}
                         onMouseMove={handleImageMouseMove}
                     >
-                        <img
-                            alt={`${product.name} view`}
-                            className="object-contain w-full h-full mix-blend-multiply dark:mix-blend-normal"
-                            decoding="async"
-                            fetchPriority={activeImage === images.main ? "high" : "auto"}
-                            loading={activeImage === images.main ? "eager" : "lazy"}
-                            src={activeImageSrc}
-                        />
+                        {activeImageSrc ? (
+                            <Image
+                                key={activeImageSrc}
+                                alt={`${product.name} view`}
+                                className="object-contain mix-blend-multiply dark:mix-blend-normal"
+                                fill
+                                priority={isMainImageActive}
+                                sizes="(min-width: 1024px) 50vw, 100vw"
+                                src={activeImageSrc}
+                            />
+                        ) : null}
                         {activeImageSrc && isZoomActive && (
                             <div
                                 className="hidden lg:block absolute w-28 h-28 rounded-md border border-white/80 shadow-lg bg-white/10 pointer-events-none"
