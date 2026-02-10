@@ -574,7 +574,7 @@ export default function ProductPreview({
                                 </Editable>
                                 {isNvrProduct ? (
                                     <div className="mt-auto rounded-xl overflow-hidden h-24 relative border border-app-border bg-app-bg-subtle">
-                                        <img alt="Gráfico NVR" className="w-full h-full object-cover" src="/graficonvr.png" />
+                                        <img alt="Gráfico NVR" className="w-full h-full object-cover" src="/graficonvr.webp" />
                                     </div>
                                 ) : (
                                     <div
@@ -584,7 +584,7 @@ export default function ProductPreview({
                                         <img
                                             alt="Night vision sample"
                                             className="w-full h-full object-cover opacity-80"
-                                            src={nightVisionImg || mainImage || "/NIGHT.png"}
+                                            src={nightVisionImg || mainImage || "/NIGHT.webp"}
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                                         <span className="absolute bottom-2 left-2 text-[10px] text-white font-medium px-2 py-0.5 bg-black/50 rounded">Modo Nocturno</span>
@@ -681,7 +681,7 @@ export default function ProductPreview({
                                 {isNvrProduct && (
                                     <div className="flex justify-center lg:justify-end">
                                         <div className="w-full max-w-sm aspect-video bg-gray-800 rounded-xl border-2 border-gray-700 overflow-hidden shadow-2xl">
-                                            <img alt="Vista NVR con cámaras" className="w-full h-full object-cover" src="/nvrcamaras.png" />
+                                            <img alt="Vista NVR con cámaras" className="w-full h-full object-cover" src="/nvrcamaras.webp" />
                                         </div>
                                     </div>
                                 )}

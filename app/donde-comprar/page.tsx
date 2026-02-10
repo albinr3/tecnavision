@@ -175,7 +175,7 @@ export default function DondeComprarPage() {
                                     <div
                                         className="absolute inset-0 bg-contain bg-center bg-no-repeat"
                                         style={{
-                                            backgroundImage: "url('/dr-map.svg')",
+                                            backgroundImage: "url('/dr-map.webp')",
                                             opacity: 0.3,
                                         }}
                                     ></div>

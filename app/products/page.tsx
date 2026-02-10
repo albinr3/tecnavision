@@ -6,7 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Prisma } from "@prisma/client";
 
-const PRODUCTS_PER_PAGE = 10;
+const PRODUCTS_PER_PAGE = 9;
 
 export const metadata: Metadata = {
     title: "Catálogo de Productos - TecnaVision",

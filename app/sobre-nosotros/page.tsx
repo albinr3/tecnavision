@@ -10,14 +10,20 @@ export default function SobreNosotros() {
                 {/* Hero Section */}
                 <section className="relative overflow-hidden pt-16 pb-20 lg:pt-24 lg:pb-32 bg-app-bg-subtle">
                     <div className="mx-auto max-w-7xl px-6 lg:px-10">
-                        <div className="max-w-3xl">
-                            <h2 className="text-primary font-bold uppercase tracking-wider text-sm mb-4">Sobre Nosotros</h2>
-                            <h1 className="text-4xl font-black leading-tight tracking-tight text-app-text sm:text-5xl lg:text-6xl mb-8">
-                                Tecnología confiable para proteger lo que importa.
-                            </h1>
-                            <p className="text-xl leading-relaxed text-app-text-sec">
-                                TecnaVision nace en 2026 con una visión clara: desarrollar soluciones profesionales de videovigilancia que combinen tecnología confiable, diseño inteligente y facilidad de integración para hogares y negocios.
-                            </p>
+                        <div className="grid lg:grid-cols-2 gap-12 items-center">
+                            <div className="max-w-3xl">
+                                <h2 className="text-primary font-bold uppercase tracking-wider text-sm mb-4">Sobre Nosotros</h2>
+                                <h1 className="text-4xl font-black leading-tight tracking-tight text-app-text sm:text-5xl lg:text-6xl mb-8">
+                                    Tecnología confiable para proteger lo que importa.
+                                </h1>
+                                <p className="text-xl leading-relaxed text-app-text-sec">
+                                    TecnaVision nace en 2026 con una visión clara: desarrollar soluciones profesionales de videovigilancia que combinen tecnología confiable, diseño inteligente y facilidad de integración para hogares y negocios.
+                                </p>
+                            </div>
+                            <div className="relative h-[400px] w-full rounded-3xl overflow-hidden shadow-2xl border border-app-border group">
+                                <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: "url('/steptodown.com932948.jpg')" }}></div>
+                                <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent mix-blend-overlay"></div>
+                            </div>
                         </div>
                     </div>
 
@@ -39,7 +45,7 @@ export default function SobreNosotros() {
                             </div>
                             <div className="relative group">
                                 <div className="aspect-square rounded-3xl bg-app-surface border border-app-border shadow-2xl overflow-hidden">
-                                    <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style={{ backgroundImage: "url('/nosotros.png')" }}></div>
+                                    <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style={{ backgroundImage: "url('/nosotros.webp')" }}></div>
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                                     <div className="absolute bottom-6 left-6 text-white">
                                         <h3 className="text-2xl font-bold tracking-tight">Visión 2026</h3>

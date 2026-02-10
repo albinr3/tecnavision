@@ -54,7 +54,7 @@ export default function Home() {
                     fill
                     priority
                     sizes="(min-width: 1024px) 50vw, 100vw"
-                    src="/cameraHome.png"
+                    src="/cameraHome.webp"
                   />
                 </div>
                 {/* Floating UI Element Mockup */}
@@ -71,7 +71,7 @@ export default function Home() {
                       fill
                       loading="lazy"
                       sizes="208px"
-                      src="/outview.png"
+                      src="/outview.webp"
                     />
                     <div className="absolute bottom-1 right-2 text-[10px] font-medium text-white drop-shadow-md">
                       08/02/2026 14:30:22
@@ -195,13 +195,13 @@ export default function Home() {
               {/* Product 1 */}
               <div className="group relative flex flex-col rounded-2xl border border-app-border bg-app-surface shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl">
                 <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-2xl bg-app-bg-subtle">
-                  <div className="absolute right-3 top-3 z-10 rounded-md bg-app-surface/90 px-2 py-1 text-xs font-bold text-primary dark:text-white backdrop-blur-sm">4K ULTRA HD</div>
-                  <div className="h-full w-full bg-contain bg-center bg-no-repeat transition-transform duration-500 group-hover:scale-110" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuDGS_ppqnO8TaIt1h6yIuuK3xQRAkCuncV6beWJLSO4uUYXl8yQlSJvp_GcEDYPmyH2oviZo6vwZXVHO9wKi4SXPr4P_I26YdJISpaPP51boEtpVEeFSVSsXuUb23e4HOrsBiBKRGlFNyJG2MChfA5HBTRCjCuTt7mrUDgmAawn-LIlWTNGy82Jj5j2HJvBaxRmIrbTybPDgNGe16YHyriKrK_tMm__BD_AtnMWFroX8Zn9Ik5PdYDVw_MGlyPhiFFcgpI2XUR4_I3N')" }}></div>
+                  <div className="absolute right-3 top-3 z-10 rounded-md bg-app-surface/90 px-2 py-1 text-xs font-bold text-primary dark:text-white backdrop-blur-sm">3K HD</div>
+                  <div className="h-full w-full bg-contain bg-center bg-no-repeat transition-transform duration-500 group-hover:scale-110" style={{ backgroundImage: "url('/turrethome.webp')" }}></div>
                 </div>
                 <div className="flex flex-1 flex-col p-5">
-                  <div className="mb-2 text-xs font-medium uppercase tracking-wider text-app-text-sec">Serie Interior</div>
-                  <h3 className="text-xl font-bold text-app-text">TecnoCam Pro 4K</h3>
-                  <p className="mt-2 line-clamp-2 text-sm text-app-text-sec">Nuestra cámara interior insignia con paneo/inclinación 360° y seguimiento con AI.</p>
+                  <div className="mb-2 text-xs font-medium uppercase tracking-wider text-app-text-sec">CAMARAS IP</div>
+                  <h3 className="text-xl font-bold text-app-text">Camara Active Deterrence Turret</h3>
+                  <p className="mt-2 line-clamp-2 text-sm text-app-text-sec">Seguridad que se ve y se escucha. Combina imagen ultra nítida con luces y alertas disuasorias para proteger tu espacio en todo momento.</p>
                   <div className="mt-auto flex items-center justify-end pt-6">
                     <button className="flex size-10 items-center justify-center rounded-full bg-app-border text-primary dark:text-white font-semibold transition-colors hover:bg-primary hover:text-white">
                       <span className="material-symbols-outlined text-on-dark-surface">arrow_forward</span>
@@ -213,11 +213,11 @@ export default function Home() {
               <Link href="/products/bullet-cam-pro-ai" className="group relative flex flex-col rounded-2xl border border-app-border bg-app-surface shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl">
                 <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-2xl bg-app-bg-subtle">
                   <div className="absolute right-3 top-3 z-10 rounded-md bg-app-surface/90 px-2 py-1 text-xs font-bold text-primary dark:text-white backdrop-blur-sm">WEATHERPROOF</div>
-                  <div className="h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuB3uW4QsH-90gg_Y3YK3sFlpg4geiwCYAjWKBe7yKPYlvh7Kej91QK-3b7R9EkmCzrKxLuOkwYpSpgmhvL9UCsVMpRebjRtg_xw39wYKqs7ckOd4LYKBxOJqwdnaICWogskF0RpGuBPqHqpYQK_W4wqkxKofjOAmWpgpWws1Otcp-Op-_9TsQFbVMEyRI8ysWfIRep4hDN5RWcv2pFv8i10HDGVWczkvjSRrBQd0RGnsHoSgVfhaJ6WT-eIdYFdTzhhaE9trC0w8wo4')" }}></div>
+                  <div className="h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style={{ backgroundImage: "url('/bullethome.webp')" }}></div>
                 </div>
                 <div className="flex flex-1 flex-col p-5">
-                  <div className="mb-2 text-xs font-medium uppercase tracking-wider text-app-text-sec">Serie Exterior</div>
-                  <h3 className="text-xl font-bold text-app-text">Bullet Cam Pro AI</h3>
+                  <div className="mb-2 text-xs font-medium uppercase tracking-wider text-app-text-sec">CAMARAS IP</div>
+                  <h3 className="text-xl font-bold text-app-text">Camara Bullet</h3>
                   <p className="mt-2 line-clamp-2 text-sm text-app-text-sec">Vigilancia de última generación con AI avanzada, visión nocturna EXIR y protección IP67.</p>
                   <div className="mt-auto flex items-center justify-end pt-6">
                     <button className="flex size-10 items-center justify-center rounded-full bg-app-border text-primary dark:text-white font-semibold transition-colors hover:bg-primary hover:text-white">
@@ -229,13 +229,13 @@ export default function Home() {
               {/* Product 3 */}
               <div className="group relative flex flex-col rounded-2xl border border-app-border bg-app-surface shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl">
                 <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-2xl bg-app-bg-subtle">
-                  <div className="absolute right-3 top-3 z-10 rounded-md bg-app-surface/90 px-2 py-1 text-xs font-bold text-primary dark:text-white backdrop-blur-sm">WIRELESS</div>
-                  <div className="h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuAocVgf7M27K6ElRfITdPZVaAL3HxlZOVa-43qGAwltqvXk_oLJDs6ppT5_-cvXh5f4IGwbz5brZklaUHJDihimFj2ovWQiLqPhiozk3eSn1QIU_Tp71yfTjEok9IqJ4xMRWCpvPyWFyQMHTZfm2ykwTD5xuquz9E1SxiBT5ZN_ub78dztluKQWSF8FyAgOIjWlw0TYWiCFwszBGKw0Ghr3tC1_dJlkVxBrO_qnmj1I9xbVL0N686Q_H0b5ZQLxYTMSJsm9NWcknjUn')" }}></div>
+                  <div className="absolute right-3 top-3 z-10 rounded-md bg-app-surface/90 px-2 py-1 text-xs font-bold text-primary dark:text-white backdrop-blur-sm">HDMI</div>
+                  <div className="h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style={{ backgroundImage: "url('/nvrhome.webp')" }}></div>
                 </div>
                 <div className="flex flex-1 flex-col p-5">
-                  <div className="mb-2 text-xs font-medium uppercase tracking-wider text-app-text-sec">Serie de entrada</div>
-                  <h3 className="text-xl font-bold text-app-text">Doorbell Connect</h3>
-                  <p className="mt-2 line-clamp-2 text-sm text-app-text-sec">Timbre inteligente a batería con funciones de detección de paquetes.</p>
+                  <div className="mb-2 text-xs font-medium uppercase tracking-wider text-app-text-sec">GRABADORES</div>
+                  <h3 className="text-xl font-bold text-app-text">NVR Pro</h3>
+                  <p className="mt-2 line-clamp-2 text-sm text-app-text-sec">Destaca por su alto rendimiento, grabación estable y gestión inteligente de cámaras, asegurando que cada detalle quede protegido sin interrupciones.</p>
                   <div className="mt-auto flex items-center justify-end pt-6">
                     <button className="flex size-10 items-center justify-center rounded-full bg-app-border text-primary dark:text-white font-semibold transition-colors hover:bg-primary hover:text-white">
                       <span className="material-symbols-outlined text-on-dark-surface">arrow_forward</span>
@@ -266,7 +266,7 @@ export default function Home() {
                   <h3 className="text-2xl font-bold text-app-text">Seguridad para el hogar</h3>
                   <p className="mt-4 text-sm leading-relaxed text-app-text-sec">Protege lo que más importa con cámaras discretas, cerraduras inteligentes y sensores que se integran con tu decoración, mientras brindan protección de grado militar.</p>
                   <a className="mt-6 inline-flex items-center text-sm font-bold text-primary hover:underline" href="#">
-                    Explorar planes para el hogar <span className="material-symbols-outlined ml-1 text-sm">arrow_forward</span>
+                    Explora nuestros productos <span className="material-symbols-outlined ml-1 text-sm">arrow_forward</span>
                   </a>
                 </div>
                 <div className="order-1 h-64 w-full bg-cover bg-center lg:order-2 lg:h-auto" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuByTf9LYbkROr_ZScXqQP1EBVH10c_4n2U43qi1LIZIIMX590KEetED9S8ZghVd5YCxPhv7RtPn99DOBdAIbBcb5HrKpfGgnImTBjEyQEc_4hLReSaX_TzgfbUdAVcmm9T2EOFx5rOXTYT-KGPmCvyIFe_RlHFNeQX_FluhR4hdKSMIRa5hzbT4zkByRXcgc_bKf-ZI785zUuzo82Y_BoMQ3gqQuib_xSAXwY306V6Pb9EaSaal0oFKTutxW89_Zeljt3SuM8-dakud')" }}></div>
@@ -280,12 +280,12 @@ export default function Home() {
                     <span className="material-symbols-outlined">business</span>
                   </div>
                   <h3 className="text-2xl font-bold text-app-text">Vigilancia para negocios</h3>
-                  <p className="mt-4 text-sm leading-relaxed text-app-text-sec">Escala tu seguridad desde un solo local hasta una empresa con múltiples sedes. Incluye integración con POS, seguimiento de ocupación y control de acceso multiusuario.</p>
+                  <p className="mt-4 text-sm leading-relaxed text-app-text-sec">Escala tu seguridad desde un solo local hasta una empresa con múltiples sedes.</p>
                   <a className="mt-6 inline-flex items-center text-sm font-bold text-primary hover:underline" href="#">
-                    Explorar planes para negocios <span className="material-symbols-outlined ml-1 text-sm">arrow_forward</span>
+                    Explora nuestros productos <span className="material-symbols-outlined ml-1 text-sm">arrow_forward</span>
                   </a>
                 </div>
-                <div className="order-1 h-64 w-full bg-cover bg-center lg:order-2 lg:h-auto" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuARDD-7yFq4-tDC19obft_EaKDUtaj6ch_ROuRXpJl9jDLQvOnQdFD4H1_Jh5Ga-McdQyaJh5j61vLGQoViewk8phKDhWYVYP5S3yyZXuH3sJ6Ir_hOuFYJ-8pHRBKJGzbTiwdo6tt-8xIKTFAlv43GohMhZbutiZHN_lXgNgpYLBsFIADbM6Q2f2TOmrrRB7kgWENPLMYpNg8ryj3V-56ESs_Jen2EddiAR-cNM_1yX-jLThb8vM_gGEQ7uF9fvXJYdJiqi27IDFSH')" }}></div>
+                <div className="order-1 h-64 w-full bg-cover bg-center lg:order-2 lg:h-auto" style={{ backgroundImage: "url('/business-hero.jpg')" }}></div>
               </div>
             </div>
           </div>
@@ -347,12 +347,12 @@ export default function Home() {
                     <span className="material-symbols-outlined text-lg">star</span>
                     <span className="material-symbols-outlined text-lg">star</span>
                   </div>
-                  <p className="text-app-text italic">&quot;La imagen se ve nítida durísimo, hasta de noche. Yo reviso mi colmado desde el celular y todo corre rápido, sin lío.&quot;</p>
+                  <p className="text-app-text italic">&quot;Ha sido de las mejores compras para mi casa. La detección inteligente funciona de verdad y no me vive mandando alertas por cualquier cosa.&quot;</p>
                   <div className="mt-4 flex items-center gap-3">
                     <div className="size-10 rounded-full bg-app-border bg-cover bg-center" style={{ backgroundImage: "url('https://randomuser.me/api/portraits/women/63.jpg')" }}></div>
                     <div>
                       <p className="text-sm font-bold text-app-text">Yudelka Pérez</p>
-                      <p className="text-xs text-app-text-sec">Dueña de colmado</p>
+                      <p className="text-xs text-app-text-sec">Dueña de negocio</p>
                     </div>
                   </div>
                 </div>
@@ -364,7 +364,7 @@ export default function Home() {
                     <span className="material-symbols-outlined text-lg">star</span>
                     <span className="material-symbols-outlined text-lg">star</span>
                   </div>
-                  <p className="text-app-text italic">&quot;Ha sido de las mejores compras para mi casa. La detección inteligente funciona de verdad y no me vive mandando alertas por cualquier cosa.&quot;</p>
+                  <p className="text-app-text italic">&quot;La imagen se ve nítida durísimo, hasta de noche. Yo reviso mi colmado desde el celular y todo corre rápido, sin lío.&quot;</p>
                   <div className="mt-4 flex items-center gap-3">
                     <div className="size-10 rounded-full bg-app-border bg-cover bg-center" style={{ backgroundImage: "url('https://randomuser.me/api/portraits/men/52.jpg')" }}></div>
                     <div>

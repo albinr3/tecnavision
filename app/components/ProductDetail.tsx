@@ -280,8 +280,8 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                                         key={variant.id}
                                         onClick={() => setSelectedVariantId(variant.id)}
                                         className={`px-6 py-3 rounded-xl text-sm font-medium transition-all ${selectedVariantId === variant.id
-                                                ? "bg-primary text-white border border-primary shadow-lg shadow-primary/30 transform scale-105"
-                                                : "border border-app-border hover:border-primary hover:bg-app-bg-subtle"
+                                            ? "bg-primary text-white border border-primary shadow-lg shadow-primary/30 transform scale-105"
+                                            : "border border-app-border hover:border-primary hover:bg-app-bg-subtle"
                                             }`}
                                     >
                                         {variant.name}
@@ -405,7 +405,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                                         decoding="async"
                                         fetchPriority="low"
                                         loading="lazy"
-                                        src="/graficonvr.png"
+                                        src="/graficonvr.webp"
                                     />
                                 </div>
                             </div>
@@ -468,7 +468,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                                         decoding="async"
                                         fetchPriority="low"
                                         loading="lazy"
-                                        src="/nvrcamaras.png"
+                                        src="/nvrcamaras.webp"
                                     />
                                 </div>
                             </div>
@@ -477,155 +477,155 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 </>
             ) : (
                 <>
-            {/* Technology Features */}
-            <div className="mb-32">
-                <div className="text-center mb-16 max-w-2xl mx-auto">
-                    <h2 className="text-3xl font-bold mb-4 text-app-text">Tecnología Superior</h2>
-                    <p className="text-app-text-sec">Diseñada para operar en las condiciones más difíciles con la mayor inteligencia.</p>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {/* AI Detection */}
-                    <div className="group bg-app-surface rounded-3xl p-8 hover:shadow-lg transition-shadow duration-300 border border-transparent hover:border-app-border">
-                        <div className="flex size-12 items-center justify-center rounded-lg bg-blue-50 text-primary transition-colors group-hover:bg-primary group-hover:text-white mb-6">
-                            <span className="material-symbols-outlined">{sectionIcons.ai}</span>
+                    {/* Technology Features */}
+                    <div className="mb-32">
+                        <div className="text-center mb-16 max-w-2xl mx-auto">
+                            <h2 className="text-3xl font-bold mb-4 text-app-text">Tecnología Superior</h2>
+                            <p className="text-app-text-sec">Diseñada para operar en las condiciones más difíciles con la mayor inteligencia.</p>
                         </div>
-                        <h3 className="text-xl font-bold mb-3 text-app-text">Detección AI</h3>
-                        <p className="text-sm text-app-text-sec mb-6 leading-relaxed">
-                            Algoritmos de aprendizaje profundo que clasifican objetivos humanos y vehiculares para filtrar alarmas irrelevantes.
-                        </p>
-                        <ul className="space-y-3">
-                            {features.ai_detection.map((feature: string, i: number) => (
-                                <li key={i} className="flex items-center gap-3 text-sm font-medium text-app-text">
-                                    <span className="material-icons-outlined text-primary text-lg">check</span>
-                                    {feature}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            {/* AI Detection */}
+                            <div className="group bg-app-surface rounded-3xl p-8 hover:shadow-lg transition-shadow duration-300 border border-transparent hover:border-app-border">
+                                <div className="flex size-12 items-center justify-center rounded-lg bg-blue-50 text-primary transition-colors group-hover:bg-primary group-hover:text-white mb-6">
+                                    <span className="material-symbols-outlined">{sectionIcons.ai}</span>
+                                </div>
+                                <h3 className="text-xl font-bold mb-3 text-app-text">Detección AI</h3>
+                                <p className="text-sm text-app-text-sec mb-6 leading-relaxed">
+                                    Algoritmos de aprendizaje profundo que clasifican objetivos humanos y vehiculares para filtrar alarmas irrelevantes.
+                                </p>
+                                <ul className="space-y-3">
+                                    {features.ai_detection.map((feature: string, i: number) => (
+                                        <li key={i} className="flex items-center gap-3 text-sm font-medium text-app-text">
+                                            <span className="material-icons-outlined text-primary text-lg">check</span>
+                                            {feature}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
 
-                    {/* Night Vision */}
-                    <div className="group bg-app-surface rounded-3xl p-8 hover:shadow-lg transition-shadow duration-300 border border-transparent hover:border-app-border flex flex-col">
-                        <div className="flex size-12 items-center justify-center rounded-lg bg-blue-50 text-primary transition-colors group-hover:bg-primary group-hover:text-white mb-6">
-                            <span className="material-symbols-outlined">{sectionIcons.nightVision}</span>
-                        </div>
-                        <h3 className="text-xl font-bold mb-3 text-app-text">Visión Nocturna EXIR</h3>
-                        <p className="text-sm text-app-text-sec mb-6 leading-relaxed">
-                            Tecnología infrarroja avanzada que proporciona una iluminación uniforme y de largo alcance hasta 30 metros en oscuridad total (0 Lux).
-                        </p>
-                        <div className="mt-auto rounded-xl overflow-hidden h-40 relative group">
-                            <img
-                                alt="Night vision sample"
-                                className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
-                                decoding="async"
-                                fetchPriority="low"
-                                loading="lazy"
-                                src={images.night_vision}
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                            <span className="absolute bottom-3 left-3 text-xs text-white font-medium px-2 py-1 bg-black/50 rounded backdrop-blur-sm">Modo Nocturno</span>
-                        </div>
-                    </div>
+                            {/* Night Vision */}
+                            <div className="group bg-app-surface rounded-3xl p-8 hover:shadow-lg transition-shadow duration-300 border border-transparent hover:border-app-border flex flex-col">
+                                <div className="flex size-12 items-center justify-center rounded-lg bg-blue-50 text-primary transition-colors group-hover:bg-primary group-hover:text-white mb-6">
+                                    <span className="material-symbols-outlined">{sectionIcons.nightVision}</span>
+                                </div>
+                                <h3 className="text-xl font-bold mb-3 text-app-text">Visión Nocturna EXIR</h3>
+                                <p className="text-sm text-app-text-sec mb-6 leading-relaxed">
+                                    Tecnología infrarroja avanzada que proporciona una iluminación uniforme y de largo alcance hasta 30 metros en oscuridad total (0 Lux).
+                                </p>
+                                <div className="mt-auto rounded-xl overflow-hidden h-40 relative group">
+                                    <img
+                                        alt="Night vision sample"
+                                        className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+                                        decoding="async"
+                                        fetchPriority="low"
+                                        loading="lazy"
+                                        src={images.night_vision}
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                                    <span className="absolute bottom-3 left-3 text-xs text-white font-medium px-2 py-1 bg-black/50 rounded backdrop-blur-sm">Modo Nocturno</span>
+                                </div>
+                            </div>
 
-                    {/* Pro Specs */}
-                    <div className="group bg-app-surface rounded-3xl p-8 hover:shadow-lg transition-shadow duration-300 border border-transparent hover:border-app-border">
-                        <div className="flex size-12 items-center justify-center rounded-lg bg-blue-50 text-primary transition-colors group-hover:bg-primary group-hover:text-white mb-6">
-                            <span className="material-symbols-outlined">{sectionIcons.specs}</span>
-                        </div>
-                        <h3 className="text-xl font-bold mb-3 text-app-text">Especificaciones Pro</h3>
-                        <p className="text-sm text-app-text-sec mb-6 leading-relaxed">
-                            Hardware robusto preparado para integraciones profesionales y condiciones climáticas adversas.
-                        </p>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="bg-app-bg-subtle p-3 rounded-xl border border-app-border">
-                                <p className="text-[10px] uppercase text-app-text-sec font-bold mb-1">Protección IP</p>
-                                <p className="font-semibold text-primary">{specs.protection}</p>
-                            </div>
-                            <div className="bg-app-bg-subtle p-3 rounded-xl border border-app-border">
-                                <p className="text-[10px] uppercase text-app-text-sec font-bold mb-1">Compresión</p>
-                                <p className="font-semibold text-primary">{specs.compression}</p>
-                            </div>
-                            <div className="bg-app-bg-subtle p-3 rounded-xl border border-app-border">
-                                <p className="text-[10px] uppercase text-app-text-sec font-bold mb-1">Lente</p>
-                                <p className="font-semibold text-primary">{specs.lens}</p>
-                            </div>
-                            <div className="bg-app-bg-subtle p-3 rounded-xl border border-app-border">
-                                <p className="text-[10px] uppercase text-app-text-sec font-bold mb-1">Alimentación</p>
-                                <p className="font-semibold text-primary">{specs.power}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* Mobile App Showcase */}
-            <section className="relative rounded-[2.5rem] overflow-hidden bg-gray-900 mb-24">
-                <div className="absolute inset-0">
-                    <img
-                        alt="Modern home interior blurred"
-                        className="w-full h-full object-cover opacity-20"
-                        decoding="async"
-                        fetchPriority="low"
-                        loading="lazy"
-                        src={images.app_demo}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/95 to-transparent"></div>
-                </div>
-                <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center p-5 sm:p-8 md:p-20">
-                    <div className="text-white space-y-8">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm border border-white/20">
-                            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                            <span className="text-xs font-medium tracking-wide">{appShowcase.badge}</span>
-                        </div>
-                        <h2 className="text-3xl md:text-5xl font-bold leading-tight">{appShowcase.title}</h2>
-                        <p className="text-gray-400 text-lg font-light max-w-md">
-                            {appShowcase.description}
-                        </p>
-                    </div>
-                    <div className="flex justify-center lg:justify-end">
-                        <div className="relative w-full max-w-64 h-[500px] bg-gray-800 rounded-[2.5rem] border-[8px] border-gray-700 shadow-2xl overflow-hidden transform rotate-[-3deg] hover:rotate-0 transition-transform duration-500">
-                            <div className="bg-gray-900 h-14 flex items-center justify-between px-4 text-white z-10 relative">
-                                <span className="material-icons-outlined text-sm">menu</span>
-                                <span className="font-medium text-sm">TecnoVision</span>
-                                <span className="material-icons-outlined text-sm">notifications</span>
-                            </div>
-                            <div className="relative h-48 bg-gray-800">
-                                <img
-                                    alt="Security footage on phone"
-                                    className="w-full h-full object-cover opacity-80"
-                                    decoding="async"
-                                    fetchPriority="low"
-                                    loading="lazy"
-                                    src="/humano.png"
-                                />
-                                <div className="absolute top-2 right-2 bg-red-600 rounded-full h-2 w-2 animate-pulse"></div>
-                                <div className="absolute bottom-2 left-2 text-[10px] text-white bg-black/50 px-1 rounded">Cam 01 - Exterior</div>
-                            </div>
-                            <div className="p-4 bg-gray-50 h-full">
-                                <div className="space-y-3">
-                                    <div className="bg-white p-3 rounded-lg shadow-sm border-l-4 border-red-500 flex gap-3">
-                                        <div className="bg-red-50 p-2 rounded-full text-red-500 shrink-0">
-                                            <span className="material-icons-outlined text-sm">warning</span>
-                                        </div>
-                                        <div>
-                                            <p className="text-xs font-bold text-gray-800">Cruce de línea detectado</p>
-                                            <p className="text-[10px] text-gray-500">Perímetro Norte • Hace 1 min</p>
-                                        </div>
+                            {/* Pro Specs */}
+                            <div className="group bg-app-surface rounded-3xl p-8 hover:shadow-lg transition-shadow duration-300 border border-transparent hover:border-app-border">
+                                <div className="flex size-12 items-center justify-center rounded-lg bg-blue-50 text-primary transition-colors group-hover:bg-primary group-hover:text-white mb-6">
+                                    <span className="material-symbols-outlined">{sectionIcons.specs}</span>
+                                </div>
+                                <h3 className="text-xl font-bold mb-3 text-app-text">Especificaciones Pro</h3>
+                                <p className="text-sm text-app-text-sec mb-6 leading-relaxed">
+                                    Hardware robusto preparado para integraciones profesionales y condiciones climáticas adversas.
+                                </p>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="bg-app-bg-subtle p-3 rounded-xl border border-app-border">
+                                        <p className="text-[10px] uppercase text-app-text-sec font-bold mb-1">Protección IP</p>
+                                        <p className="font-semibold text-primary">{specs.protection}</p>
                                     </div>
-                                    <div className="bg-white p-3 rounded-lg shadow-sm border-l-4 border-primary flex gap-3">
-                                        <div className="bg-blue-50 p-2 rounded-full text-primary shrink-0">
-                                            <span className="material-icons-outlined text-sm">directions_car</span>
-                                        </div>
-                                        <div>
-                                            <p className="text-xs font-bold text-gray-800">Vehículo en zona de carga</p>
-                                            <p className="text-[10px] text-gray-500">Acceso Sur • Hace 3 min</p>
-                                        </div>
+                                    <div className="bg-app-bg-subtle p-3 rounded-xl border border-app-border">
+                                        <p className="text-[10px] uppercase text-app-text-sec font-bold mb-1">Compresión</p>
+                                        <p className="font-semibold text-primary">{specs.compression}</p>
+                                    </div>
+                                    <div className="bg-app-bg-subtle p-3 rounded-xl border border-app-border">
+                                        <p className="text-[10px] uppercase text-app-text-sec font-bold mb-1">Lente</p>
+                                        <p className="font-semibold text-primary">{specs.lens}</p>
+                                    </div>
+                                    <div className="bg-app-bg-subtle p-3 rounded-xl border border-app-border">
+                                        <p className="text-[10px] uppercase text-app-text-sec font-bold mb-1">Alimentación</p>
+                                        <p className="font-semibold text-primary">{specs.power}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
+
+                    {/* Mobile App Showcase */}
+                    <section className="relative rounded-[2.5rem] overflow-hidden bg-gray-900 mb-24">
+                        <div className="absolute inset-0">
+                            <img
+                                alt="Modern home interior blurred"
+                                className="w-full h-full object-cover opacity-20"
+                                decoding="async"
+                                fetchPriority="low"
+                                loading="lazy"
+                                src={images.app_demo}
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/95 to-transparent"></div>
+                        </div>
+                        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center p-5 sm:p-8 md:p-20">
+                            <div className="text-white space-y-8">
+                                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm border border-white/20">
+                                    <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                                    <span className="text-xs font-medium tracking-wide">{appShowcase.badge}</span>
+                                </div>
+                                <h2 className="text-3xl md:text-5xl font-bold leading-tight">{appShowcase.title}</h2>
+                                <p className="text-gray-400 text-lg font-light max-w-md">
+                                    {appShowcase.description}
+                                </p>
+                            </div>
+                            <div className="flex justify-center lg:justify-end">
+                                <div className="relative w-full max-w-64 h-[500px] bg-gray-800 rounded-[2.5rem] border-[8px] border-gray-700 shadow-2xl overflow-hidden transform rotate-[-3deg] hover:rotate-0 transition-transform duration-500">
+                                    <div className="bg-gray-900 h-14 flex items-center justify-between px-4 text-white z-10 relative">
+                                        <span className="material-icons-outlined text-sm">menu</span>
+                                        <span className="font-medium text-sm">TecnoVision</span>
+                                        <span className="material-icons-outlined text-sm">notifications</span>
+                                    </div>
+                                    <div className="relative h-48 bg-gray-800">
+                                        <img
+                                            alt="Security footage on phone"
+                                            className="w-full h-full object-cover opacity-80"
+                                            decoding="async"
+                                            fetchPriority="low"
+                                            loading="lazy"
+                                            src="/humano.webp"
+                                        />
+                                        <div className="absolute top-2 right-2 bg-red-600 rounded-full h-2 w-2 animate-pulse"></div>
+                                        <div className="absolute bottom-2 left-2 text-[10px] text-white bg-black/50 px-1 rounded">Cam 01 - Exterior</div>
+                                    </div>
+                                    <div className="p-4 bg-gray-50 h-full">
+                                        <div className="space-y-3">
+                                            <div className="bg-white p-3 rounded-lg shadow-sm border-l-4 border-red-500 flex gap-3">
+                                                <div className="bg-red-50 p-2 rounded-full text-red-500 shrink-0">
+                                                    <span className="material-icons-outlined text-sm">warning</span>
+                                                </div>
+                                                <div>
+                                                    <p className="text-xs font-bold text-gray-800">Cruce de línea detectado</p>
+                                                    <p className="text-[10px] text-gray-500">Perímetro Norte • Hace 1 min</p>
+                                                </div>
+                                            </div>
+                                            <div className="bg-white p-3 rounded-lg shadow-sm border-l-4 border-primary flex gap-3">
+                                                <div className="bg-blue-50 p-2 rounded-full text-primary shrink-0">
+                                                    <span className="material-icons-outlined text-sm">directions_car</span>
+                                                </div>
+                                                <div>
+                                                    <p className="text-xs font-bold text-gray-800">Vehículo en zona de carga</p>
+                                                    <p className="text-[10px] text-gray-500">Acceso Sur • Hace 3 min</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                 </>
             )}
 

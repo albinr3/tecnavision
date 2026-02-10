@@ -31,8 +31,8 @@ const NVR_SPEC_TEMPLATE = [
     { key: "PoE", value: "" },
 ];
 
-const CAMERA_NIGHT_VISION_DEFAULT = "/NIGHT.png";
-const NVR_NIGHT_VISION_DEFAULT = "/graficonvr.png";
+const CAMERA_NIGHT_VISION_DEFAULT = "/NIGHT.webp";
+const NVR_NIGHT_VISION_DEFAULT = "/graficonvr.webp";
 
 export default function ProductForm({ categories, initialData }: ProductFormProps) {
     const router = useRouter();
