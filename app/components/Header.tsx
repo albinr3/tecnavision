@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import ThemeLogo from "./ThemeLogo";
 import ThemeToggle from "./ThemeToggle";
+import LoadingLink from "./LoadingLink";
 
 type MenuCategory = {
     id: string;
@@ -93,10 +94,14 @@ export default function Header() {
                     <nav className="hidden md:flex items-center gap-8">
                         {/* Productos Dropdown */}
                         <div className="group relative">
-                            <Link className="flex items-center gap-1 text-[17px] font-medium text-app-text hover:text-primary transition-colors py-6 px-3 -mx-1 rounded-xl dark:hover:bg-white dark:hover:text-primary cursor-pointer" href="/products">
+                            <LoadingLink
+                                href="/products"
+                                pendingLabel="Abriendo catálogo..."
+                                className="flex items-center gap-1 text-[17px] font-medium text-app-text hover:text-primary transition-colors py-6 px-3 -mx-1 rounded-xl dark:hover:bg-white dark:hover:text-primary cursor-pointer disabled:cursor-wait disabled:opacity-80"
+                            >
                                 Productos
                                 <span className="material-symbols-outlined text-[18px] transition-transform group-hover:rotate-180">expand_more</span>
-                            </Link>
+                            </LoadingLink>
 
                             {/* Mega Menu Dropdown */}
                             <div className="absolute left-1/2 -translate-x-1/2 top-full w-[600px] bg-app-surface rounded-2xl shadow-xl border border-app-border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 translate-y-2 group-hover:translate-y-0 p-6 z-50">

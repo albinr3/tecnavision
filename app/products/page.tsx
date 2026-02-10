@@ -7,6 +7,7 @@ import Image from "next/image";
 import type { Prisma } from "@prisma/client";
 
 const PRODUCTS_PER_PAGE = 9;
+const EAGER_PRODUCT_IMAGE_COUNT = 8;
 
 export const metadata: Metadata = {
     title: "Catálogo de Productos - TecnaVision",
@@ -218,8 +219,9 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
                                         <Image
                                             alt={product.name}
                                             className="object-contain mix-blend-multiply dark:mix-blend-normal group-hover:scale-105 transition-transform duration-500"
-                                            fetchPriority={index < 8 ? "high" : "auto"}
+                                            fetchPriority={index < EAGER_PRODUCT_IMAGE_COUNT ? "high" : "auto"}
                                             fill
+                                            loading={index === 0 ? undefined : index < EAGER_PRODUCT_IMAGE_COUNT ? "eager" : "lazy"}
                                             priority={index === 0}
                                             sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                                             src={product.mainImage || "/placeholder-camera.png"}

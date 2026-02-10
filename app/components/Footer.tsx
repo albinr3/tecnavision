@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import ThemeLogo from "./ThemeLogo";
+import LoadingLink from "./LoadingLink";
 
 export default function Footer() {
   return (
@@ -19,12 +20,13 @@ export default function Footer() {
             devolución de dinero de 30 días.
           </p>
           <div className="relative mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Link
+            <LoadingLink
               href="/products"
-              className="flex h-12 w-full items-center justify-center min-w-[160px] rounded-xl bg-app-surface px-6 font-bold text-primary dark:text-white transition hover:bg-app-bg-subtle sm:w-auto"
+              pendingLabel="Abriendo catálogo..."
+              className="flex h-12 w-full items-center justify-center min-w-[160px] rounded-xl bg-app-surface px-6 font-bold text-primary dark:text-white transition hover:bg-app-bg-subtle sm:w-auto disabled:opacity-90 disabled:cursor-wait"
             >
               Comenzar
-            </Link>
+            </LoadingLink>
             <Link
               href="/contacto"
               className="flex h-12 w-full items-center justify-center min-w-[160px] rounded-xl border border-white/30 bg-primary/20 px-6 font-bold text-white transition hover:bg-primary/30 sm:w-auto"
@@ -78,24 +80,24 @@ export default function Footer() {
             <h3 className="mb-4 text-sm font-bold text-app-text">Productos</h3>
             <ul className="flex flex-col gap-2 text-sm text-app-text-sec">
               <li>
-                <a className="hover:text-primary" href="/products">
+                <LoadingLink href="/products" className="hover:text-primary">
                   Cámaras
-                </a>
+                </LoadingLink>
               </li>
               <li>
-                <a className="hover:text-primary" href="/products">
+                <LoadingLink href="/products" className="hover:text-primary">
                   NVR
-                </a>
+                </LoadingLink>
               </li>
               <li>
-                <a className="hover:text-primary" href="/products">
+                <LoadingLink href="/products" className="hover:text-primary">
                   Cerraduras inteligentes
-                </a>
+                </LoadingLink>
               </li>
               <li>
-                <a className="hover:text-primary" href="/products">
+                <LoadingLink href="/products" className="hover:text-primary">
                   Accesorios
-                </a>
+                </LoadingLink>
               </li>
             </ul>
           </div>
