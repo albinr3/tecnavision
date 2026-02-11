@@ -380,12 +380,13 @@ export default function Home() {
                   </div>
                   <h3 className="text-2xl font-bold text-app-text">Seguridad para el hogar</h3>
                   <p className="mt-4 text-sm leading-relaxed text-app-text-sec">Protege lo que más importa con cámaras discretas, cerraduras inteligentes y sensores que se integran con tu decoración, mientras brindan protección de grado militar.</p>
-                  <a
+                  <LoadingLink
                     className="mt-6 inline-flex items-center gap-1 rounded-full px-4 py-2 text-sm font-bold text-primary transition-colors hover:bg-primary/10 hover:no-underline dark:border dark:border-white/20 dark:bg-white/10 dark:text-white dark:hover:bg-white/20"
-                    href="#"
+                    href="/products"
+                    pendingLabel="Abriendo catálogo..."
                   >
                     Explora nuestros productos <span className="material-symbols-outlined text-sm">arrow_forward</span>
-                  </a>
+                  </LoadingLink>
                 </div>
                 <div className="order-1 h-64 w-full bg-cover bg-center lg:order-2 lg:h-auto" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuByTf9LYbkROr_ZScXqQP1EBVH10c_4n2U43qi1LIZIIMX590KEetED9S8ZghVd5YCxPhv7RtPn99DOBdAIbBcb5HrKpfGgnImTBjEyQEc_4hLReSaX_TzgfbUdAVcmm9T2EOFx5rOXTYT-KGPmCvyIFe_RlHFNeQX_FluhR4hdKSMIRa5hzbT4zkByRXcgc_bKf-ZI785zUuzo82Y_BoMQ3gqQuib_xSAXwY306V6Pb9EaSaal0oFKTutxW89_Zeljt3SuM8-dakud')" }}></div>
               </div>
@@ -398,13 +399,14 @@ export default function Home() {
                     <span className="material-symbols-outlined">business</span>
                   </div>
                   <h3 className="text-2xl font-bold text-app-text">Vigilancia para negocios</h3>
-                  <p className="mt-4 text-sm leading-relaxed text-app-text-sec">Escala tu seguridad desde un solo local hasta una empresa con múltiples sedes. Incluye integración con POS, seguimiento de ocupación y control de acceso multiusuario.</p>
-                  <a
+                  <p className="mt-4 text-sm leading-relaxed text-app-text-sec">Escala tu seguridad desde un solo local hasta una empresa con múltiples sedes.</p>
+                  <LoadingLink
                     className="mt-6 inline-flex items-center gap-1 rounded-full px-4 py-2 text-sm font-bold text-primary transition-colors hover:bg-primary/10 hover:no-underline dark:border dark:border-white/20 dark:bg-white/10 dark:text-white dark:hover:bg-white/20"
-                    href="#"
+                    href="/products"
+                    pendingLabel="Abriendo catálogo..."
                   >
                     Explora nuestros productos <span className="material-symbols-outlined text-sm">arrow_forward</span>
-                  </a>
+                  </LoadingLink>
                 </div>
                 <div className="order-1 h-64 w-full bg-cover bg-center lg:order-2 lg:h-auto" style={{ backgroundImage: "url('/business-hero.jpg')" }}></div>
               </div>
