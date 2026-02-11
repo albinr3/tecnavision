@@ -185,9 +185,13 @@ export default function Header() {
                 </div>
                 <nav className="flex flex-col gap-3 px-6 py-4 overflow-y-auto">
                     <div>
-                        <p className="px-3 py-2 text-xs font-bold uppercase tracking-wider text-app-text-sec">
+                        <Link
+                            href="/products"
+                            onClick={handleNavClick}
+                            className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-app-text-sec hover:text-primary transition-colors"
+                        >
                             Productos
-                        </p>
+                        </Link>
                         <div className="flex flex-col gap-2">
                             {menuCategories.map((category) => (
                                 <Link

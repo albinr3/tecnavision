@@ -221,7 +221,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
                 />
 
                 {/* Main Content */}
-                <main className="flex-1 flex flex-col p-6 lg:p-10">
+                <main className="flex-1 flex flex-col p-6 pb-28 lg:p-10 lg:pb-10">
                     {/* Breadcrumbs */}
                     <div className="flex flex-wrap gap-2 mb-6">
                         <Link className="text-app-text-sec text-sm font-medium hover:text-primary transition-colors" href="/">Inicio</Link>
