@@ -48,7 +48,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
     const images = {
         main: product.mainImage || "",
         gallery: product.galleryImages || [],
-        night_vision: product.nightVisionImg || product.mainImage || "",
+        night_vision: product.nightVisionImg || "/NIGHT.webp",
         app_demo: product.appDemoImg || product.mainImage || "",
     };
 
@@ -520,6 +520,10 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                                         fetchPriority="low"
                                         loading="lazy"
                                         src={images.night_vision}
+                                        onError={(event) => {
+                                            event.currentTarget.onerror = null;
+                                            event.currentTarget.src = "/NIGHT.webp";
+                                        }}
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                                     <span className="absolute bottom-3 left-3 text-xs text-white font-medium px-2 py-1 bg-black/50 rounded backdrop-blur-sm">Modo Nocturno</span>
