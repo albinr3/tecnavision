@@ -48,8 +48,10 @@ export default function Footer() {
             <div className="flex gap-4">
               <a
                 className="text-app-text-sec hover:text-primary transition-colors"
-                href="#"
+                href="https://www.facebook.com/Tecnavision"
                 aria-label="Facebook"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <svg
                   className="size-6"
@@ -62,8 +64,10 @@ export default function Footer() {
               </a>
               <a
                 className="text-app-text-sec hover:text-primary transition-colors"
-                href="#"
+                href="https://www.instagram.com/tecnavision"
                 aria-label="Instagram"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <svg
                   className="size-6"
