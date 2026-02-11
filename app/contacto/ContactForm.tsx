@@ -16,22 +16,39 @@ export default function ContactForm() {
         e.preventDefault();
         setIsSubmitting(true);
 
-        // Simulate form submission
-        await new Promise((resolve) => setTimeout(resolve, 1500));
+        try {
+            const response = await fetch("/api/contact", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
 
-        console.log("Form submitted:", formData);
+            const payload = (await response.json()) as { error?: string };
 
-        // Reset form
-        setFormData({
-            name: "",
-            email: "",
-            company: "",
-            subject: "",
-            message: "",
-        });
+            if (!response.ok) {
+                throw new Error(payload.error || "No se pudo enviar el mensaje.");
+            }
 
-        setIsSubmitting(false);
-        alert("¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.");
+            setFormData({
+                name: "",
+                email: "",
+                company: "",
+                subject: "",
+                message: "",
+            });
+
+            alert("¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.");
+        } catch (error) {
+            const message =
+                error instanceof Error
+                    ? error.message
+                    : "Error inesperado al enviar el mensaje.";
+            alert(message);
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const handleChange = (
