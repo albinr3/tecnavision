@@ -5,6 +5,7 @@ import { prisma } from "@/lib/db";
 import Link from "next/link";
 import Image from "next/image";
 import type { Prisma } from "@prisma/client";
+import ProductsFiltersSidebar from "./ProductsFiltersSidebar";
 
 const PRODUCTS_PER_PAGE = 9;
 const EAGER_PRODUCT_IMAGE_COUNT = 8;
@@ -12,21 +13,58 @@ const EAGER_PRODUCT_IMAGE_COUNT = 8;
 export const metadata: Metadata = {
     title: "Catálogo de Productos - TecnaVision",
     description: "Explora nuestra gama completa de cámaras de seguridad con IA, visión nocturna y tecnología 4K.",
+    openGraph: {
+        title: "Catálogo de Productos - TecnaVision",
+        description: "Explora nuestra gama completa de cámaras de seguridad con IA, visión nocturna y tecnología 4K.",
+        url: "/products",
+        type: "website",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Catálogo de Productos - TecnaVision",
+        description: "Explora nuestra gama completa de cámaras de seguridad con IA, visión nocturna y tecnología 4K.",
+    },
 };
 
-async function getProducts(categoryFilter?: string, searchFilter?: string, page = 1) {
+async function getProducts(
+    categoryFilters: string[] = [],
+    resolutionFilters: string[] = [],
+    featureFilters: string[] = [],
+    searchFilter?: string,
+    page = 1
+) {
     try {
         const filters: Prisma.ProductWhereInput[] = [];
 
-        if (categoryFilter) {
+        if (categoryFilters.length > 0) {
             filters.push({
                 category: {
                     is: {
                         OR: [
-                            { slug: { equals: categoryFilter, mode: "insensitive" as const } },
-                            { name: { contains: categoryFilter.replace(/-/g, " "), mode: "insensitive" as const } },
+                            ...categoryFilters.map((categoryFilter) => ({
+                                slug: { equals: categoryFilter, mode: "insensitive" as const },
+                            })),
+                            ...categoryFilters.map((categoryFilter) => ({
+                                name: { contains: categoryFilter.replace(/-/g, " "), mode: "insensitive" as const },
+                            })),
                         ],
                     },
+                },
+            });
+        }
+
+        if (resolutionFilters.length > 0) {
+            filters.push({
+                resolutionOpts: {
+                    hasSome: resolutionFilters,
+                },
+            });
+        }
+
+        if (featureFilters.length > 0) {
+            filters.push({
+                aiDetection: {
+                    hasSome: featureFilters,
                 },
             });
         }
@@ -80,25 +118,87 @@ function resolveFirstParam(value: string | string[] | undefined) {
     return value || "";
 }
 
+function resolveParamList(value: string | string[] | undefined) {
+    if (!value) return [];
+    const values = Array.isArray(value) ? value : [value];
+    return values.map((item) => item.trim()).filter(Boolean);
+}
+
 export default async function ShopPage({ searchParams }: ShopPageProps) {
     const resolvedSearchParams = searchParams
         ? ("then" in searchParams ? await searchParams : searchParams)
         : {};
 
-    const requestedCategory = resolveFirstParam(resolvedSearchParams.category).trim();
+    const requestedCategories = resolveParamList(resolvedSearchParams.category);
+    const requestedResolutions = resolveParamList(resolvedSearchParams.resolution);
+    const requestedFeatures = resolveParamList(resolvedSearchParams.feature);
     const requestedQuery = resolveFirstParam(resolvedSearchParams.q).trim();
     const requestedPage = Number.parseInt(resolveFirstParam(resolvedSearchParams.page), 10);
     const currentPage = Number.isFinite(requestedPage) && requestedPage > 0 ? requestedPage : 1;
     const { total, items: products, page: safeCurrentPage, totalPages } = await getProducts(
-        requestedCategory || undefined,
+        requestedCategories,
+        requestedResolutions,
+        requestedFeatures,
         requestedQuery || undefined,
         currentPage
     );
-    const activeCategoryName = products[0]?.category?.name
-        || (requestedCategory ? requestedCategory.replace(/-/g, " ") : "Todas las categorías");
+    const categories = await prisma.category.findMany({
+        select: {
+            id: true,
+            name: true,
+            slug: true,
+        },
+        orderBy: {
+            createdAt: "desc",
+        },
+    });
+    const categoryFilters = categories.length > 0
+        ? categories
+        : [
+            { id: "camaras-ip", name: "Camaras IP", slug: "camaras-ip" },
+            { id: "nvr-grabadores", name: "NVR / Grabadores", slug: "nvr-grabadores" },
+            { id: "cerraduras-inteligentes", name: "Cerraduras Inteligentes", slug: "cerraduras-inteligentes" },
+            { id: "accesorios", name: "Accesorios", slug: "accesorios" },
+        ];
+    const filterSourceProducts = await prisma.product.findMany({
+        select: {
+            resolutionOpts: true,
+            aiDetection: true,
+        },
+        orderBy: {
+            createdAt: "desc",
+        },
+    });
+    const resolutionFilters = Array.from(
+        new Set(
+            filterSourceProducts
+                .flatMap((product) => product.resolutionOpts)
+                .map((value) => value.trim())
+                .filter(Boolean)
+        )
+    );
+    const featureFilters = Array.from(
+        new Set(
+            filterSourceProducts
+                .flatMap((product) => product.aiDetection)
+                .map((value) => value.trim())
+                .filter(Boolean)
+        )
+    );
+    const safeResolutionFilters = resolutionFilters.length > 0
+        ? resolutionFilters
+        : ["4 Megapixel", "6 Megapixel", "8 MP (4K Ultra)"];
+    const safeFeatureFilters = featureFilters.length > 0
+        ? featureFilters
+        : ["Cruce de linea", "Intrusion de area", "Reconocimiento facial"];
+    const activeCategoryName = requestedCategories.length === 1
+        ? (products[0]?.category?.name || requestedCategories[0].replace(/-/g, " "))
+        : "Todas las categorías";
     const createPageHref = (page: number) => {
         const params = new URLSearchParams();
-        if (requestedCategory) params.set("category", requestedCategory);
+        requestedCategories.forEach((category) => params.append("category", category));
+        requestedResolutions.forEach((resolution) => params.append("resolution", resolution));
+        requestedFeatures.forEach((feature) => params.append("feature", feature));
         if (requestedQuery) params.set("q", requestedQuery);
         if (page > 1) params.set("page", String(page));
         const query = params.toString();
@@ -110,53 +210,15 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
             <Header />
 
             <div className="flex flex-1 w-full max-w-7xl mx-auto">
-                {/* Sidebar Filters - Hidden on mobile, fixed on desktop */}
-                <aside className="hidden lg:flex flex-col w-72 shrink-0 border-r border-app-border bg-app-bg-subtle/50 p-6 sticky top-20 h-[calc(100vh-80px)] overflow-y-auto">
-                    <h3 className="text-lg font-bold mb-6 text-app-text">Filtros</h3>
-
-                    {/* Categories */}
-                    <div className="mb-8">
-                        <h4 className="text-xs font-bold text-app-text-sec mb-4 uppercase tracking-wider">Categorías</h4>
-                        <div className="space-y-3">
-                            {["Cámaras de Interior", "Seguridad Exterior", "Soluciones para Negocios", "Hogar Inteligente"].map((item, i) => (
-                                <label key={i} className="flex items-center gap-3 cursor-pointer group">
-                                    <input
-                                        type="checkbox"
-                                        defaultChecked={i === 1}
-                                        className="size-4 rounded border-app-border bg-transparent text-primary focus:ring-primary focus:ring-offset-app-surface"
-                                    />
-                                    <span className="text-sm text-app-text group-hover:text-primary transition-colors">{item}</span>
-                                </label>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Resolution */}
-                    <div className="mb-8">
-                        <h4 className="text-xs font-bold text-app-text-sec mb-4 uppercase tracking-wider">Resolución</h4>
-                        <div className="space-y-3">
-                            {["2K QHD", "4K UHD", "8K Ultra"].map((item, i) => (
-                                <label key={i} className="flex items-center gap-3 cursor-pointer group">
-                                    <input type="checkbox" className="size-4 rounded border-app-border bg-transparent text-primary focus:ring-primary focus:ring-offset-app-surface" />
-                                    <span className="text-sm text-app-text group-hover:text-primary transition-colors">{item}</span>
-                                </label>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Features */}
-                    <div className="mb-8">
-                        <h4 className="text-xs font-bold text-app-text-sec mb-4 uppercase tracking-wider">Características</h4>
-                        <div className="space-y-3">
-                            {["Visión Nocturna a Color", "Audio Bidireccional", "Detección de Personas con IA"].map((item, i) => (
-                                <label key={i} className="flex items-center gap-3 cursor-pointer group">
-                                    <input type="checkbox" className="size-4 rounded border-app-border bg-transparent text-primary focus:ring-primary focus:ring-offset-app-surface" />
-                                    <span className="text-sm text-app-text group-hover:text-primary transition-colors">{item}</span>
-                                </label>
-                            ))}
-                        </div>
-                    </div>
-                </aside>
+                <ProductsFiltersSidebar
+                    categories={categoryFilters}
+                    resolutions={safeResolutionFilters}
+                    features={safeFeatureFilters}
+                    selectedCategories={requestedCategories}
+                    selectedResolutions={requestedResolutions}
+                    selectedFeatures={requestedFeatures}
+                    requestedQuery={requestedQuery}
+                />
 
                 {/* Main Content */}
                 <main className="flex-1 flex flex-col p-6 lg:p-10">
@@ -172,7 +234,15 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
                     {/* Controls Bar */}
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
                         <form action="/products" method="get" className="relative w-full md:max-w-md">
-                            {requestedCategory && <input type="hidden" name="category" value={requestedCategory} />}
+                            {requestedCategories.map((category) => (
+                                <input key={`search-category-${category}`} type="hidden" name="category" value={category} />
+                            ))}
+                            {requestedResolutions.map((resolution) => (
+                                <input key={`search-resolution-${resolution}`} type="hidden" name="resolution" value={resolution} />
+                            ))}
+                            {requestedFeatures.map((feature) => (
+                                <input key={`search-feature-${feature}`} type="hidden" name="feature" value={feature} />
+                            ))}
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <span className="material-symbols-outlined text-gray-400 text-xl">search</span>
                             </div>

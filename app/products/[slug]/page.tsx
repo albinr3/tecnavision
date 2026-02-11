@@ -4,6 +4,7 @@ import Footer from "@/app/components/Footer";
 import Header from "@/app/components/Header";
 import ProductDetail from "@/app/components/ProductDetail";
 import prisma from "@/lib/db";
+import { getSiteUrl } from "@/lib/site-url";
 
 // Define Props locally as Next.js types can be tricky
 type Props = {
@@ -18,10 +19,18 @@ async function getProduct(slug: string) {
     });
 }
 
+function toAbsoluteUrl(pathOrUrl: string, siteUrl: string) {
+    if (pathOrUrl.startsWith("http://") || pathOrUrl.startsWith("https://")) {
+        return pathOrUrl;
+    }
+    return `${siteUrl}${pathOrUrl.startsWith("/") ? "" : "/"}${pathOrUrl}`;
+}
+
 // SEO Metadata Generation
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
     const product = await getProduct(slug);
+    const siteUrl = getSiteUrl();
 
     if (!product) {
         return {
@@ -29,9 +38,38 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         };
     }
 
+    const productPath = `/products/${product.slug}`;
+    const imageUrl = toAbsoluteUrl(
+        product.mainImage || "/web-app-manifest-512x512.png",
+        siteUrl
+    );
+    const title = `${product.name} ${product.model} - TecnaVision`;
+    const description = product.description || product.subtitle || "Producto TecnaVision";
+
     return {
-        title: `${product.name} ${product.model} - TecnaVision`,
-        description: product.description || product.subtitle || "",
+        title,
+        description,
+        alternates: {
+            canonical: productPath,
+        },
+        openGraph: {
+            title,
+            description,
+            type: "website",
+            url: productPath,
+            images: [
+                {
+                    url: imageUrl,
+                    alt: `${product.name} ${product.model}`,
+                },
+            ],
+        },
+        twitter: {
+            card: "summary_large_image",
+            title,
+            description,
+            images: [imageUrl],
+        },
     };
 }
 

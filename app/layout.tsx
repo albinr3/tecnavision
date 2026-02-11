@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ToasterRegistry from "./components/ToasterRegistry";
 import { ThemeProvider } from "./components/ThemeProvider";
+import { getSiteUrl } from "@/lib/site-url";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,9 +15,37 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl = getSiteUrl();
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "TecnaVision - Seguridad inteligente",
   description: "Monitoreo avanzado con AI, resolución 4K ultra nítida e integración perfecta con la app para una tranquilidad total, estés donde estés.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    url: siteUrl,
+    siteName: "TecnaVision",
+    locale: "es_DO",
+    title: "TecnaVision - Seguridad inteligente",
+    description: "Monitoreo avanzado con AI, resolución 4K ultra nítida e integración perfecta con la app para una tranquilidad total, estés donde estés.",
+    images: [
+      {
+        url: "/web-app-manifest-512x512.png",
+        width: 512,
+        height: 512,
+        alt: "TecnaVision",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "TecnaVision - Seguridad inteligente",
+    description: "Monitoreo avanzado con AI, resolución 4K ultra nítida e integración perfecta con la app para una tranquilidad total, estés donde estés.",
+    images: ["/web-app-manifest-512x512.png"],
+  },
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },

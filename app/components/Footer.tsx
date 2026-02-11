@@ -139,6 +139,9 @@ export default function Footer() {
             <a className="hover:text-app-text" href="/cookies">
               Cookies
             </a>
+            <a className="hover:text-app-text" href="/sitemap.xml">
+              Sitemap
+            </a>
           </div>
         </div>
       </div>
