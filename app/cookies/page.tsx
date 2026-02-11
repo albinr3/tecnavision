@@ -1,10 +1,14 @@
+import type { Metadata } from "next";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Política de cookies - TecnaVision",
   description:
     "Información sobre el uso de cookies y tecnologías similares en el sitio web de TecnaVision.",
+  alternates: {
+    canonical: "/cookies",
+  },
 };
 
 export default function CookiesPage() {

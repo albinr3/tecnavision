@@ -21,9 +21,6 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: "TecnaVision - Seguridad inteligente",
   description: "Monitoreo avanzado con AI, resolución 4K ultra nítida e integración perfecta con la app para una tranquilidad total, estés donde estés.",
-  alternates: {
-    canonical: "/",
-  },
   openGraph: {
     type: "website",
     url: siteUrl,

@@ -10,22 +10,6 @@ import ProductsFiltersSidebar from "./ProductsFiltersSidebar";
 const PRODUCTS_PER_PAGE = 9;
 const EAGER_PRODUCT_IMAGE_COUNT = 8;
 
-export const metadata: Metadata = {
-    title: "Catálogo de Productos - TecnaVision",
-    description: "Explora nuestra gama completa de cámaras de seguridad con IA, visión nocturna y tecnología 4K.",
-    openGraph: {
-        title: "Catálogo de Productos - TecnaVision",
-        description: "Explora nuestra gama completa de cámaras de seguridad con IA, visión nocturna y tecnología 4K.",
-        url: "/products",
-        type: "website",
-    },
-    twitter: {
-        card: "summary_large_image",
-        title: "Catálogo de Productos - TecnaVision",
-        description: "Explora nuestra gama completa de cámaras de seguridad con IA, visión nocturna y tecnología 4K.",
-    },
-};
-
 async function getProducts(
     categoryFilters: string[] = [],
     resolutionFilters: string[] = [],
@@ -122,6 +106,48 @@ function resolveParamList(value: string | string[] | undefined) {
     if (!value) return [];
     const values = Array.isArray(value) ? value : [value];
     return values.map((item) => item.trim()).filter(Boolean);
+}
+
+export async function generateMetadata({ searchParams }: ShopPageProps): Promise<Metadata> {
+    const resolvedSearchParams = searchParams
+        ? ("then" in searchParams ? await searchParams : searchParams)
+        : {};
+
+    const requestedCategories = resolveParamList(resolvedSearchParams.category);
+    const requestedResolutions = resolveParamList(resolvedSearchParams.resolution);
+    const requestedFeatures = resolveParamList(resolvedSearchParams.feature);
+    const requestedQuery = resolveFirstParam(resolvedSearchParams.q).trim();
+    const requestedPage = Number.parseInt(resolveFirstParam(resolvedSearchParams.page), 10);
+    const currentPage = Number.isFinite(requestedPage) && requestedPage > 0 ? requestedPage : 1;
+
+    const shouldNoindex =
+        requestedCategories.length > 0
+        || requestedResolutions.length > 0
+        || requestedFeatures.length > 0
+        || Boolean(requestedQuery)
+        || currentPage > 1;
+
+    return {
+        title: "Catálogo de Productos - TecnaVision",
+        description: "Explora nuestra gama completa de cámaras de seguridad con IA, visión nocturna y tecnología 4K.",
+        alternates: {
+            canonical: "/products",
+        },
+        robots: shouldNoindex
+            ? { index: false, follow: true }
+            : { index: true, follow: true },
+        openGraph: {
+            title: "Catálogo de Productos - TecnaVision",
+            description: "Explora nuestra gama completa de cámaras de seguridad con IA, visión nocturna y tecnología 4K.",
+            url: "/products",
+            type: "website",
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: "Catálogo de Productos - TecnaVision",
+            description: "Explora nuestra gama completa de cámaras de seguridad con IA, visión nocturna y tecnología 4K.",
+        },
+    };
 }
 
 export default async function ShopPage({ searchParams }: ShopPageProps) {
@@ -222,6 +248,10 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
 
                 {/* Main Content */}
                 <main className="flex-1 flex flex-col p-6 pb-28 lg:p-10 lg:pb-10">
+                    <h1 className="text-app-text text-2xl sm:text-3xl font-bold tracking-tight mb-4">
+                        Catálogo de Productos de Seguridad
+                    </h1>
+
                     {/* Breadcrumbs */}
                     <div className="flex flex-wrap gap-2 mb-6">
                         <Link className="text-app-text-sec text-sm font-medium hover:text-primary transition-colors" href="/">Inicio</Link>

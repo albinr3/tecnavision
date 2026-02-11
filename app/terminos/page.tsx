@@ -1,10 +1,14 @@
+import type { Metadata } from "next";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Términos del servicio - TecnaVision",
   description:
     "Términos y condiciones de uso del sitio web y de los servicios de TecnaVision, productos de seguridad y vigilancia.",
+  alternates: {
+    canonical: "/terminos",
+  },
 };
 
 export default function TerminosPage() {

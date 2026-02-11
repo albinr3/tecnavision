@@ -1,12 +1,122 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import LoadingLink from "./components/LoadingLink";
+import { getSiteUrl } from "@/lib/site-url";
+
+const siteUrl = getSiteUrl();
+
+export const metadata: Metadata = {
+  title: "TecnaVision - Seguridad inteligente para hogar y negocio",
+  description:
+    "Cámaras IP, NVR y soluciones de vigilancia profesional con monitoreo en tiempo real, AI y soporte local en República Dominicana.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "TecnaVision - Seguridad inteligente para hogar y negocio",
+    description:
+      "Cámaras IP, NVR y soluciones de vigilancia profesional con monitoreo en tiempo real, AI y soporte local en República Dominicana.",
+    url: "/",
+    type: "website",
+    images: [
+      {
+        url: "/cameraHome.webp",
+        width: 1200,
+        height: 630,
+        alt: "TecnaVision seguridad inteligente",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "TecnaVision - Seguridad inteligente para hogar y negocio",
+    description:
+      "Cámaras IP, NVR y soluciones de vigilancia profesional con monitoreo en tiempo real, AI y soporte local en República Dominicana.",
+    images: ["/cameraHome.webp"],
+  },
+};
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "TecnaVision",
+  url: siteUrl,
+  logo: `${siteUrl}/web-app-manifest-512x512.png`,
+  email: "Tecnavision1@gmail.com",
+  telephone: "+1-829-796-0509",
+  sameAs: [],
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "TecnaVision",
+  url: siteUrl,
+  inLanguage: "es-DO",
+  potentialAction: {
+    "@type": "SearchAction",
+    target: `${siteUrl}/products?q={search_term_string}`,
+    "query-input": "required name=search_term_string",
+  },
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "¿Qué tipo de soluciones ofrece TecnaVision?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "TecnaVision ofrece cámaras IP, grabadores NVR y switches PoE para hogares y negocios.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "¿Dónde puedo comprar los productos TecnaVision?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A través de distribuidores e instaladores autorizados en República Dominicana.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "¿Las cámaras funcionan sin internet?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Sí. Graban en el NVR sin internet. La conexión se requiere para acceso remoto.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "¿Puedo ver las cámaras desde mi celular?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Sí. Puedes ver video en tiempo real y revisar grabaciones desde apps seguras.",
+      },
+    },
+  ],
+};
 
 export default function Home() {
   return (
     <div className="bg-app-bg text-app-text antialiased selection:bg-primary selection:text-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       {/* Top Navigation */}
       <Header />
 

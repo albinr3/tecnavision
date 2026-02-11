@@ -1,10 +1,14 @@
+import type { Metadata } from "next";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Política de privacidad - TecnaVision",
   description:
     "Política de privacidad de TecnaVision. Cómo recopilamos, usamos y protegemos tus datos en relación con nuestros productos de seguridad y vigilancia.",
+  alternates: {
+    canonical: "/privacidad",
+  },
 };
 
 export default function PoliticaPrivacidadPage() {

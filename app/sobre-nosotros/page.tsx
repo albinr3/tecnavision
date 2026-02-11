@@ -1,9 +1,52 @@
+import type { Metadata } from "next";
+import Link from "next/link";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { getSiteUrl } from "@/lib/site-url";
+
+const siteUrl = getSiteUrl();
+
+export const metadata: Metadata = {
+    title: "Sobre nosotros - TecnaVision",
+    description:
+        "Conoce la historia, especialización y visión de futuro de TecnaVision en soluciones de videovigilancia profesional.",
+    alternates: {
+        canonical: "/sobre-nosotros",
+    },
+    openGraph: {
+        title: "Sobre nosotros - TecnaVision",
+        description:
+            "Conoce la historia, especialización y visión de futuro de TecnaVision en soluciones de videovigilancia profesional.",
+        url: "/sobre-nosotros",
+        type: "article",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Sobre nosotros - TecnaVision",
+        description:
+            "Conoce la historia, especialización y visión de futuro de TecnaVision en soluciones de videovigilancia profesional.",
+    },
+};
 
 export default function SobreNosotros() {
     return (
         <div className="bg-app-bg text-app-text antialiased selection:bg-primary selection:text-white">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "AboutPage",
+                        name: "Sobre nosotros - TecnaVision",
+                        url: `${siteUrl}/sobre-nosotros`,
+                        about: {
+                            "@type": "Organization",
+                            name: "TecnaVision",
+                            url: siteUrl,
+                        },
+                    }),
+                }}
+            />
             <Header />
 
             <main>
@@ -129,12 +172,12 @@ export default function SobreNosotros() {
                                     Estamos transformando la vigilancia electrónica con soluciones pensadas para el mundo real.
                                 </p>
                                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                                    <a href="/products" className="bg-white text-primary px-8 py-4 rounded-2xl font-bold text-lg hover:bg-blue-50 transition-colors shadow-xl">
+                                    <Link href="/products" className="bg-white text-primary px-8 py-4 rounded-2xl font-bold text-lg hover:bg-blue-50 transition-colors shadow-xl">
                                         Ver Productos
-                                    </a>
-                                    <a href="/contacto" className="bg-primary-dark/50 border border-white/20 backdrop-blur-sm px-8 py-4 rounded-2xl font-bold text-lg hover:bg-primary-dark transition-colors">
+                                    </Link>
+                                    <Link href="/contacto" className="bg-primary-dark/50 border border-white/20 backdrop-blur-sm px-8 py-4 rounded-2xl font-bold text-lg hover:bg-primary-dark transition-colors">
                                         Ser Distribuidor
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
 

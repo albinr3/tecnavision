@@ -1,10 +1,26 @@
+import type { Metadata } from "next";
+import Image from "next/image";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import ContactForm from "./ContactForm";
 
-export const metadata = {
+export const metadata: Metadata = {
     title: "Contacto - TecnaVision",
     description: "Estamos aquí para asegurar tu tranquilidad. Hablemos de tus necesidades de seguridad hoy mismo.",
+    alternates: {
+        canonical: "/contacto",
+    },
+    openGraph: {
+        title: "Contacto - TecnaVision",
+        description: "Estamos aquí para asegurar tu tranquilidad. Hablemos de tus necesidades de seguridad hoy mismo.",
+        url: "/contacto",
+        type: "website",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Contacto - TecnaVision",
+        description: "Estamos aquí para asegurar tu tranquilidad. Hablemos de tus necesidades de seguridad hoy mismo.",
+    },
 };
 
 export default function ContactPage() {
@@ -82,9 +98,11 @@ export default function ContactPage() {
                             {/* Map Placeholder */}
                             <div className="relative w-full h-64 rounded-xl overflow-hidden shadow-sm group">
                                 {/* Map Image */}
-                                <img
+                                <Image
                                     alt="Ubicación de TecnaVision en la región del Cibao, República Dominicana"
-                                    className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300 grayscale hover:grayscale-0"
+                                    className="object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300 grayscale hover:grayscale-0"
+                                    fill
+                                    sizes="(min-width: 1024px) 50vw, 100vw"
                                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJNQ0FrOGvGts1oFUdzPT-4OaeFRS9QFjfUyEQIg36VHW8SIhkwGEBAkoD1kt507T0ANm1RJ-0a1GKHZ3X1glnGQG4SmepUY-3q_c4j3BOfmvtLzumMdmsUyfqQ2Xyu8zK7VicfQZHYTM84jJ1XlV_36RHxuRoKjT-ZC_9s8jEqDNgMJ7Bw0pAt1hgyWOVORQvyQ-iIKZmb2D3PuOSYsWunHegLLts4BtQgMTHhLX_r4O9zYO7LRbT2FPh5BIPaaWqpSRZFKEPmoBY"
                                 />
                                 {/* Overlay Pin */}
