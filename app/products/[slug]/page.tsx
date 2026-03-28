@@ -7,6 +7,22 @@ import prisma from "@/lib/db";
 import { getSiteUrl } from "@/lib/site-url";
 import { getActiveMarket } from "@/lib/market";
 import { getLocalizedProductText } from "@/lib/product-localization";
+import { Prisma } from "@prisma/client";
+
+function isMissingAvailableMarketsColumn(error: unknown) {
+    if (!(error instanceof Prisma.PrismaClientKnownRequestError)) {
+        return false;
+    }
+
+    if (error.code !== "P2022") {
+        return false;
+    }
+
+    const missingColumn =
+        typeof error.meta?.column === "string" ? error.meta.column : "";
+
+    return missingColumn === "" || missingColumn.includes("availableMarkets");
+}
 
 // Define Props locally as Next.js types can be tricky
 type Props = {
@@ -15,15 +31,30 @@ type Props = {
 
 // Helper to get product from DB
 async function getProduct(slug: string, market: "RD" | "US") {
-    return prisma.product.findFirst({
-        where: {
-            slug,
-            availableMarkets: {
-                has: market,
+    try {
+        return await prisma.product.findFirst({
+            where: {
+                slug,
+                availableMarkets: {
+                    has: market,
+                },
             },
-        },
-        include: { category: true },
-    });
+            include: { category: true },
+        });
+    } catch (error) {
+        if (!isMissingAvailableMarketsColumn(error)) {
+            throw error;
+        }
+
+        console.warn(
+            'Missing "availableMarkets" column while fetching product metadata. Falling back to slug-only query.'
+        );
+
+        return prisma.product.findFirst({
+            where: { slug },
+            include: { category: true },
+        });
+    }
 }
 
 function toAbsoluteUrl(pathOrUrl: string, siteUrl: string) {
@@ -88,18 +119,39 @@ export default async function ProductPage({ params }: Props) {
     const activeMarket = getActiveMarket();
 
     // Fetch product with variants
-    const product = await prisma.product.findFirst({
-        where: {
-            slug,
-            availableMarkets: {
-                has: activeMarket,
+    let product = null;
+    try {
+        product = await prisma.product.findFirst({
+            where: {
+                slug,
+                availableMarkets: {
+                    has: activeMarket,
+                },
             },
-        },
-        include: {
-            category: true,
-            variants: true // Fetch variants
-        },
-    });
+            include: {
+                category: true,
+                variants: true // Fetch variants
+            },
+        });
+    } catch (error) {
+        if (!isMissingAvailableMarketsColumn(error)) {
+            throw error;
+        }
+
+        console.warn(
+            'Missing "availableMarkets" column while rendering product detail. Falling back to slug-only query.'
+        );
+
+        product = await prisma.product.findFirst({
+            where: {
+                slug,
+            },
+            include: {
+                category: true,
+                variants: true,
+            },
+        });
+    }
 
     if (!product) {
         notFound();

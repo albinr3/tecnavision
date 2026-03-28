@@ -4,13 +4,28 @@ import Header from "@/app/components/Header";
 import { prisma } from "@/lib/db";
 import Link from "next/link";
 import Image from "next/image";
-import type { Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import ProductsFiltersSidebar from "./ProductsFiltersSidebar";
 import { getActiveMarket } from "@/lib/market";
 import { getLocalizedProductText } from "@/lib/product-localization";
 
 const PRODUCTS_PER_PAGE = 9;
 const EAGER_PRODUCT_IMAGE_COUNT = 8;
+
+function isMissingAvailableMarketsColumn(error: unknown) {
+    if (!(error instanceof Prisma.PrismaClientKnownRequestError)) {
+        return false;
+    }
+
+    if (error.code !== "P2022") {
+        return false;
+    }
+
+    const missingColumn =
+        typeof error.meta?.column === "string" ? error.meta.column : "";
+
+    return missingColumn === "" || missingColumn.includes("availableMarkets");
+}
 
 async function getProducts(
     market: "RD" | "US",
@@ -105,6 +120,28 @@ async function getProducts(
 
         return { total, items, page: safePage, totalPages };
     } catch (error) {
+        if (isMissingAvailableMarketsColumn(error)) {
+            console.warn(
+                'Missing "availableMarkets" column while fetching products. Falling back to unfiltered products.'
+            );
+
+            const total = await prisma.product.count();
+            const totalPages = Math.max(1, Math.ceil(total / PRODUCTS_PER_PAGE));
+            const safePage = Math.min(Math.max(page, 1), totalPages);
+            const items = await prisma.product.findMany({
+                include: {
+                    category: true,
+                },
+                orderBy: {
+                    createdAt: "desc",
+                },
+                skip: (safePage - 1) * PRODUCTS_PER_PAGE,
+                take: PRODUCTS_PER_PAGE,
+            });
+
+            return { total, items, page: safePage, totalPages };
+        }
+
         console.error("Error fetching products:", error);
         return { total: 0, items: [], page: 1, totalPages: 1 };
     }
@@ -207,20 +244,41 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
             { id: "cerraduras-inteligentes", name: "Cerraduras Inteligentes", slug: "cerraduras-inteligentes" },
             { id: "accesorios", name: "Accesorios", slug: "accesorios" },
         ];
-    const filterSourceProducts = await prisma.product.findMany({
-        where: {
-            availableMarkets: {
-                has: activeMarket,
+    let filterSourceProducts: Array<{ resolutionOpts: string[]; aiDetection: string[] }> = [];
+    try {
+        filterSourceProducts = await prisma.product.findMany({
+            where: {
+                availableMarkets: {
+                    has: activeMarket,
+                },
             },
-        },
-        select: {
-            resolutionOpts: true,
-            aiDetection: true,
-        },
-        orderBy: {
-            createdAt: "desc",
-        },
-    });
+            select: {
+                resolutionOpts: true,
+                aiDetection: true,
+            },
+            orderBy: {
+                createdAt: "desc",
+            },
+        });
+    } catch (error) {
+        if (!isMissingAvailableMarketsColumn(error)) {
+            throw error;
+        }
+
+        console.warn(
+            'Missing "availableMarkets" column while building product filters. Falling back to all products.'
+        );
+
+        filterSourceProducts = await prisma.product.findMany({
+            select: {
+                resolutionOpts: true,
+                aiDetection: true,
+            },
+            orderBy: {
+                createdAt: "desc",
+            },
+        });
+    }
     const resolutionFilters = Array.from(
         new Set(
             filterSourceProducts
