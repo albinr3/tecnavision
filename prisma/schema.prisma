@@ -9,6 +9,11 @@ datasource db {
   provider = "postgresql"
 }
 
+enum Market {
+  RD
+  US
+}
+
 model Product {
   id              String   @id @default(cuid())
   slug            String   @unique
@@ -16,6 +21,11 @@ model Product {
   model           String
   subtitle        String?
   description     String?
+  title_es        String?
+  title_en        String?
+  description_es  String?
+  description_en  String?
+  availableMarkets Market[] @default([RD, US])
   badge           String?
   rating          Int      @default(5)
   reviewsCount    Int      @default(0)

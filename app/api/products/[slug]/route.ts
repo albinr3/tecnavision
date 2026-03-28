@@ -1,17 +1,42 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/db";
+import { parseMarketQuery, sanitizeAvailableMarkets } from "@/lib/market";
 
 type Props = {
     params: Promise<{ slug: string }>;
 };
 
+function normalizeOptionalText(value: unknown) {
+    if (typeof value !== "string") {
+        return null;
+    }
+
+    const trimmed = value.trim();
+    return trimmed.length > 0 ? trimmed : null;
+}
+
 // GET /api/products/[slug] - Get a single product
 export async function GET(request: Request, { params }: Props) {
     try {
         const { slug } = await params;
+        const { searchParams } = new URL(request.url);
+        const { market, error } = parseMarketQuery(searchParams.get("market"));
 
-        const product = await prisma.product.findUnique({
-            where: { slug },
+        if (error) {
+            return NextResponse.json({ error }, { status: 400 });
+        }
+
+        const product = await prisma.product.findFirst({
+            where: {
+                slug,
+                ...(market
+                    ? {
+                        availableMarkets: {
+                            has: market,
+                        },
+                    }
+                    : {}),
+            },
             include: {
                 category: true,
             },
@@ -39,6 +64,14 @@ export async function PUT(request: Request, { params }: Props) {
     try {
         const { slug } = await params;
         const body = await request.json();
+        const sanitizedAvailableMarkets = sanitizeAvailableMarkets(body.availableMarkets);
+
+        if (sanitizedAvailableMarkets.length === 0) {
+            return NextResponse.json(
+                { error: "At least one available market is required" },
+                { status: 400 }
+            );
+        }
 
         const product = await prisma.product.update({
             where: { slug },
@@ -47,6 +80,11 @@ export async function PUT(request: Request, { params }: Props) {
                 model: body.model,
                 subtitle: body.subtitle,
                 description: body.description,
+                title_es: normalizeOptionalText(body.title_es),
+                title_en: normalizeOptionalText(body.title_en),
+                description_es: normalizeOptionalText(body.description_es),
+                description_en: normalizeOptionalText(body.description_en),
+                availableMarkets: sanitizedAvailableMarkets,
                 badge: body.badge,
                 mainImage: body.mainImage,
                 galleryImages: body.galleryImages || [],

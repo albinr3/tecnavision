@@ -33,6 +33,10 @@ const NVR_SPEC_TEMPLATE = [
 
 const CAMERA_NIGHT_VISION_DEFAULT = "/NIGHT.webp";
 const NVR_NIGHT_VISION_DEFAULT = "/graficonvr.webp";
+const MARKET_OPTIONS = [
+    { value: "RD", label: "República Dominicana (RD)" },
+    { value: "US", label: "Estados Unidos (US)" },
+];
 
 export default function ProductForm({ categories, initialData }: ProductFormProps) {
     const router = useRouter();
@@ -50,6 +54,13 @@ export default function ProductForm({ categories, initialData }: ProductFormProp
     const [model, setModel] = useState(initialData?.model || "");
     const [subtitle, setSubtitle] = useState(initialData?.subtitle || "");
     const [description, setDescription] = useState(initialData?.description || "");
+    const [titleEs, setTitleEs] = useState(initialData?.title_es || "");
+    const [titleEn, setTitleEn] = useState(initialData?.title_en || "");
+    const [descriptionEs, setDescriptionEs] = useState(initialData?.description_es || "");
+    const [descriptionEn, setDescriptionEn] = useState(initialData?.description_en || "");
+    const [availableMarkets, setAvailableMarkets] = useState<string[]>(
+        initialData?.availableMarkets?.length ? [...initialData.availableMarkets] : ["RD", "US"]
+    );
     const [badge, setBadge] = useState(initialData?.badge || "");
     const [category, setCategory] = useState(initialData?.categoryId || "");
     const [mainImage, setMainImage] = useState(initialData?.mainImage || "");
@@ -97,6 +108,14 @@ export default function ProductForm({ categories, initialData }: ProductFormProp
         const updated = [...specs];
         updated[index][field] = value;
         setSpecs(updated);
+    };
+
+    const toggleMarket = (market: string) => {
+        setAvailableMarkets((prev) =>
+            prev.includes(market)
+                ? prev.filter((item) => item !== market)
+                : [...prev, market]
+        );
     };
 
     const normalizeSpecKey = (value: string) => value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -360,6 +379,12 @@ export default function ProductForm({ categories, initialData }: ProductFormProp
             toast.warning(msg);
             return;
         }
+        if (availableMarkets.length === 0) {
+            const msg = "Selecciona al menos un mercado disponible (RD o US).";
+            setError(msg);
+            toast.warning(msg);
+            return;
+        }
 
         setIsSubmitting(true);
         setError(null);
@@ -378,6 +403,11 @@ export default function ProductForm({ categories, initialData }: ProductFormProp
                     model,
                     subtitle,
                     description,
+                    title_es: titleEs.trim() || null,
+                    title_en: titleEn.trim() || null,
+                    description_es: descriptionEs.trim() || null,
+                    description_en: descriptionEn.trim() || null,
+                    availableMarkets,
                     badge: badge || null,
                     mainImage: mainImage || null,
                     galleryImages,
@@ -620,6 +650,30 @@ export default function ProductForm({ categories, initialData }: ProductFormProp
                                 </div>
                             </div>
                         </label>
+                        <div className="md:col-span-2">
+                            <span className="text-sm font-medium text-app-text">
+                                Mercados Disponibles <span className="text-red-500">*</span>
+                            </span>
+                            <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                {MARKET_OPTIONS.map((option) => (
+                                    <label
+                                        key={option.value}
+                                        className="flex items-center gap-3 rounded-lg border border-app-border bg-app-bg-subtle px-4 py-3 cursor-pointer"
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            checked={availableMarkets.includes(option.value)}
+                                            onChange={() => toggleMarket(option.value)}
+                                            className="h-4 w-4 rounded border-app-border text-primary focus:ring-primary"
+                                        />
+                                        <span className="text-sm text-app-text">{option.label}</span>
+                                    </label>
+                                ))}
+                            </div>
+                            <p className="mt-2 text-xs text-app-text-sec">
+                                Debes seleccionar al menos un mercado para publicar el producto.
+                            </p>
+                        </div>
                     </div>
                 </div>
 
@@ -648,6 +702,49 @@ export default function ProductForm({ categories, initialData }: ProductFormProp
                             placeholder="Escribe una descripción detallada del producto aquí..."
                         />
                     </label>
+                    <div className="mt-5 border-t border-app-border pt-5">
+                        <h4 className="text-sm font-semibold text-app-text mb-3">Contenido por Idioma (Opcional)</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <label className="flex flex-col gap-2">
+                                <span className="text-sm font-medium text-app-text">Título (ES)</span>
+                                <input
+                                    type="text"
+                                    value={titleEs}
+                                    onChange={(e) => setTitleEs(e.target.value)}
+                                    className="w-full rounded-lg border border-app-border bg-app-surface h-11 px-4 text-sm text-app-text focus:border-primary focus:ring-0 placeholder:text-app-text-sec/70"
+                                    placeholder="Título para mercado RD"
+                                />
+                            </label>
+                            <label className="flex flex-col gap-2">
+                                <span className="text-sm font-medium text-app-text">Título (EN)</span>
+                                <input
+                                    type="text"
+                                    value={titleEn}
+                                    onChange={(e) => setTitleEn(e.target.value)}
+                                    className="w-full rounded-lg border border-app-border bg-app-surface h-11 px-4 text-sm text-app-text focus:border-primary focus:ring-0 placeholder:text-app-text-sec/70"
+                                    placeholder="Title for US market"
+                                />
+                            </label>
+                            <label className="flex flex-col gap-2">
+                                <span className="text-sm font-medium text-app-text">Descripción (ES)</span>
+                                <textarea
+                                    value={descriptionEs}
+                                    onChange={(e) => setDescriptionEs(e.target.value)}
+                                    className="w-full h-28 p-4 text-sm text-app-text border border-app-border rounded-lg focus:border-primary focus:ring-0 resize-y outline-none placeholder:text-app-text-sec/70"
+                                    placeholder="Descripción para RD"
+                                />
+                            </label>
+                            <label className="flex flex-col gap-2">
+                                <span className="text-sm font-medium text-app-text">Descripción (EN)</span>
+                                <textarea
+                                    value={descriptionEn}
+                                    onChange={(e) => setDescriptionEn(e.target.value)}
+                                    className="w-full h-28 p-4 text-sm text-app-text border border-app-border rounded-lg focus:border-primary focus:ring-0 resize-y outline-none placeholder:text-app-text-sec/70"
+                                    placeholder="Description for US"
+                                />
+                            </label>
+                        </div>
+                    </div>
                 </div>
 
                 {/* Section 3: Specs & Features */}

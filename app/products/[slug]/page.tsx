@@ -5,6 +5,8 @@ import Header from "@/app/components/Header";
 import ProductDetail from "@/app/components/ProductDetail";
 import prisma from "@/lib/db";
 import { getSiteUrl } from "@/lib/site-url";
+import { getActiveMarket } from "@/lib/market";
+import { getLocalizedProductText } from "@/lib/product-localization";
 
 // Define Props locally as Next.js types can be tricky
 type Props = {
@@ -12,9 +14,14 @@ type Props = {
 };
 
 // Helper to get product from DB
-async function getProduct(slug: string) {
-    return prisma.product.findUnique({
-        where: { slug },
+async function getProduct(slug: string, market: "RD" | "US") {
+    return prisma.product.findFirst({
+        where: {
+            slug,
+            availableMarkets: {
+                has: market,
+            },
+        },
         include: { category: true },
     });
 }
@@ -29,7 +36,8 @@ function toAbsoluteUrl(pathOrUrl: string, siteUrl: string) {
 // SEO Metadata Generation
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
-    const product = await getProduct(slug);
+    const activeMarket = getActiveMarket();
+    const product = await getProduct(slug, activeMarket);
     const siteUrl = getSiteUrl();
 
     if (!product) {
@@ -38,13 +46,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         };
     }
 
+    const localized = getLocalizedProductText(product, activeMarket);
     const productPath = `/products/${product.slug}`;
     const imageUrl = toAbsoluteUrl(
         product.mainImage || "/web-app-manifest-512x512.png",
         siteUrl
     );
-    const title = `${product.name} ${product.model} - TecnaVision`;
-    const description = product.description || product.subtitle || "Producto TecnaVision";
+    const title = `${localized.name} ${product.model} - TecnaVision`;
+    const description = localized.description || product.subtitle || "Producto TecnaVision";
 
     return {
         title,
@@ -60,7 +69,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             images: [
                 {
                     url: imageUrl,
-                    alt: `${product.name} ${product.model}`,
+                    alt: `${localized.name} ${product.model}`,
                 },
             ],
         },
@@ -76,10 +85,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 // Page Component
 export default async function ProductPage({ params }: Props) {
     const { slug } = await params;
+    const activeMarket = getActiveMarket();
 
     // Fetch product with variants
-    const product = await prisma.product.findUnique({
-        where: { slug },
+    const product = await prisma.product.findFirst({
+        where: {
+            slug,
+            availableMarkets: {
+                has: activeMarket,
+            },
+        },
         include: {
             category: true,
             variants: true // Fetch variants
@@ -89,12 +104,18 @@ export default async function ProductPage({ params }: Props) {
     if (!product) {
         notFound();
     }
+    const localized = getLocalizedProductText(product, activeMarket);
+    const localizedProduct = {
+        ...product,
+        name: localized.name,
+        description: localized.description,
+    };
     const siteUrl = getSiteUrl();
     const productPath = `/products/${product.slug}`;
     const productUrl = `${siteUrl}${productPath}`;
     const imageUrl = toAbsoluteUrl(product.mainImage || "/web-app-manifest-512x512.png", siteUrl);
-    const productName = `${product.name} ${product.model}`.trim();
-    const description = product.description || product.subtitle || "Producto TecnaVision";
+    const productName = `${localized.name} ${product.model}`.trim();
+    const description = localized.description || product.subtitle || "Producto TecnaVision";
     const additionalProperty = [
         product.protection ? { "@type": "PropertyValue", name: "Protección", value: product.protection } : null,
         product.compression ? { "@type": "PropertyValue", name: "Compresión", value: product.compression } : null,
@@ -162,7 +183,7 @@ export default async function ProductPage({ params }: Props) {
             />
             <Header />
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-                <ProductDetail product={product} />
+                <ProductDetail product={localizedProduct} />
             </main>
 
             <Footer />

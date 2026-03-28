@@ -6,11 +6,14 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Prisma } from "@prisma/client";
 import ProductsFiltersSidebar from "./ProductsFiltersSidebar";
+import { getActiveMarket } from "@/lib/market";
+import { getLocalizedProductText } from "@/lib/product-localization";
 
 const PRODUCTS_PER_PAGE = 9;
 const EAGER_PRODUCT_IMAGE_COUNT = 8;
 
 async function getProducts(
+    market: "RD" | "US",
     categoryFilters: string[] = [],
     resolutionFilters: string[] = [],
     featureFilters: string[] = [],
@@ -18,7 +21,13 @@ async function getProducts(
     page = 1
 ) {
     try {
-        const filters: Prisma.ProductWhereInput[] = [];
+        const filters: Prisma.ProductWhereInput[] = [
+            {
+                availableMarkets: {
+                    has: market,
+                },
+            },
+        ];
 
         if (categoryFilters.length > 0) {
             filters.push({
@@ -54,12 +63,22 @@ async function getProducts(
         }
 
         if (searchFilter) {
+            const localizedTextFields = market === "RD"
+                ? [
+                    { title_es: { contains: searchFilter, mode: "insensitive" as const } },
+                    { description_es: { contains: searchFilter, mode: "insensitive" as const } },
+                ]
+                : [
+                    { title_en: { contains: searchFilter, mode: "insensitive" as const } },
+                    { description_en: { contains: searchFilter, mode: "insensitive" as const } },
+                ];
             filters.push({
                 OR: [
                     { name: { contains: searchFilter, mode: "insensitive" } },
                     { model: { contains: searchFilter, mode: "insensitive" } },
                     { subtitle: { contains: searchFilter, mode: "insensitive" } },
                     { description: { contains: searchFilter, mode: "insensitive" } },
+                    ...localizedTextFields,
                 ],
             });
         }
@@ -151,6 +170,7 @@ export async function generateMetadata({ searchParams }: ShopPageProps): Promise
 }
 
 export default async function ShopPage({ searchParams }: ShopPageProps) {
+    const activeMarket = getActiveMarket();
     const resolvedSearchParams = searchParams
         ? ("then" in searchParams ? await searchParams : searchParams)
         : {};
@@ -162,6 +182,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
     const requestedPage = Number.parseInt(resolveFirstParam(resolvedSearchParams.page), 10);
     const currentPage = Number.isFinite(requestedPage) && requestedPage > 0 ? requestedPage : 1;
     const { total, items: products, page: safeCurrentPage, totalPages } = await getProducts(
+        activeMarket,
         requestedCategories,
         requestedResolutions,
         requestedFeatures,
@@ -187,6 +208,11 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
             { id: "accesorios", name: "Accesorios", slug: "accesorios" },
         ];
     const filterSourceProducts = await prisma.product.findMany({
+        where: {
+            availableMarkets: {
+                has: activeMarket,
+            },
+        },
         select: {
             resolutionOpts: true,
             aiDetection: true,
@@ -308,46 +334,49 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
                                 <p className="text-app-text-sec">No se encontraron productos disponibles.</p>
                             </div>
                         ) : (
-                            products.map((product, index) => (
-                                <Link
-                                    key={product.id}
-                                    href={`/products/${product.slug}`}
-                                    className="group flex flex-col bg-app-surface rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 border border-app-border hover:border-primary/20"
-                                >
-                                    <div className="relative w-full aspect-square bg-app-bg-subtle p-6 flex items-center justify-center overflow-hidden">
-                                        {/* First cards are likely LCP candidates on desktop/tablet viewports. */}
-                                        <Image
-                                            alt={product.name}
-                                            className="object-contain mix-blend-multiply dark:mix-blend-normal group-hover:scale-105 transition-transform duration-500"
-                                            fetchPriority={index < EAGER_PRODUCT_IMAGE_COUNT ? "high" : "auto"}
-                                            fill
-                                            loading={index === 0 ? undefined : index < EAGER_PRODUCT_IMAGE_COUNT ? "eager" : "lazy"}
-                                            priority={index === 0}
-                                            sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-                                            src={product.mainImage || "/placeholder-camera.png"}
-                                        />
-                                        {product.badge && (
-                                            <div className="absolute top-4 left-4">
-                                                <span className="bg-primary text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">{product.badge}</span>
+                            products.map((product, index) => {
+                                const localized = getLocalizedProductText(product, activeMarket);
+                                return (
+                                    <Link
+                                        key={product.id}
+                                        href={`/products/${product.slug}`}
+                                        className="group flex flex-col bg-app-surface rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 border border-app-border hover:border-primary/20"
+                                    >
+                                        <div className="relative w-full aspect-square bg-app-bg-subtle p-6 flex items-center justify-center overflow-hidden">
+                                            {/* First cards are likely LCP candidates on desktop/tablet viewports. */}
+                                            <Image
+                                                alt={localized.name}
+                                                className="object-contain mix-blend-multiply dark:mix-blend-normal group-hover:scale-105 transition-transform duration-500"
+                                                fetchPriority={index < EAGER_PRODUCT_IMAGE_COUNT ? "high" : "auto"}
+                                                fill
+                                                loading={index === 0 ? undefined : index < EAGER_PRODUCT_IMAGE_COUNT ? "eager" : "lazy"}
+                                                priority={index === 0}
+                                                sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                                                src={product.mainImage || "/placeholder-camera.png"}
+                                            />
+                                            {product.badge && (
+                                                <div className="absolute top-4 left-4">
+                                                    <span className="bg-primary text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">{product.badge}</span>
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="p-5 flex flex-col flex-1">
+                                            <div className="flex-1">
+                                                <h3 className="text-app-text text-lg font-bold mb-2 group-hover:text-primary transition-colors">{localized.name} {product.model}</h3>
+                                                <div className="flex flex-wrap gap-2 mb-4">
+                                                    <span className="text-[11px] font-medium text-app-text-sec bg-app-bg-subtle px-2 py-1 rounded-md">{product.category?.name || "General"}</span>
+                                                    {product.resolutionOpts.slice(0, 2).map((opt) => (
+                                                        <span key={opt} className="text-[11px] font-medium text-app-text-sec bg-app-bg-subtle px-2 py-1 rounded-md">{opt}</span>
+                                                    ))}
+                                                </div>
                                             </div>
-                                        )}
-                                    </div>
-                                    <div className="p-5 flex flex-col flex-1">
-                                        <div className="flex-1">
-                                            <h3 className="text-app-text text-lg font-bold mb-2 group-hover:text-primary transition-colors">{product.name} {product.model}</h3>
-                                            <div className="flex flex-wrap gap-2 mb-4">
-                                                <span className="text-[11px] font-medium text-app-text-sec bg-app-bg-subtle px-2 py-1 rounded-md">{product.category?.name || 'General'}</span>
-                                                {product.resolutionOpts.slice(0, 2).map((opt) => (
-                                                    <span key={opt} className="text-[11px] font-medium text-app-text-sec bg-app-bg-subtle px-2 py-1 rounded-md">{opt}</span>
-                                                ))}
+                                            <div className="mt-4 w-full h-10 rounded-full bg-primary text-white hover:bg-primary-dark transition-all duration-300 text-sm font-bold flex items-center justify-center shadow-lg shadow-primary/20">
+                                                Ver Detalles
                                             </div>
                                         </div>
-                                        <div className="mt-4 w-full h-10 rounded-full bg-primary text-white hover:bg-primary-dark transition-all duration-300 text-sm font-bold flex items-center justify-center shadow-lg shadow-primary/20">
-                                            Ver Detalles
-                                        </div>
-                                    </div>
-                                </Link>
-                            ))
+                                    </Link>
+                                );
+                            })
                         )}
                     </div>
 

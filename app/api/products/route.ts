@@ -1,10 +1,34 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/db";
+import { parseMarketQuery, sanitizeAvailableMarkets } from "@/lib/market";
+
+function normalizeOptionalText(value: unknown) {
+    if (typeof value !== "string") {
+        return null;
+    }
+
+    const trimmed = value.trim();
+    return trimmed.length > 0 ? trimmed : null;
+}
 
 // GET /api/products - List all products
-export async function GET() {
+export async function GET(request: Request) {
     try {
+        const { searchParams } = new URL(request.url);
+        const { market, error } = parseMarketQuery(searchParams.get("market"));
+
+        if (error) {
+            return NextResponse.json({ error }, { status: 400 });
+        }
+
         const products = await prisma.product.findMany({
+            where: market
+                ? {
+                    availableMarkets: {
+                        has: market,
+                    },
+                }
+                : undefined,
             include: {
                 category: true,
             },
@@ -56,9 +80,27 @@ export async function POST(request: Request) {
             guarantee,
             support,
         } = body;
+        const availableMarkets = sanitizeAvailableMarkets(body.availableMarkets);
+
+        if (availableMarkets.length === 0) {
+            return NextResponse.json(
+                { error: "At least one available market is required" },
+                { status: 400 }
+            );
+        }
+
+        const normalizedName = typeof name === "string" ? name.trim() : "";
+        const normalizedModel = typeof model === "string" ? model.trim() : "";
+
+        if (!normalizedName || !normalizedModel) {
+            return NextResponse.json(
+                { error: "Name and model are required" },
+                { status: 400 }
+            );
+        }
 
         // Generate slug from name and model
-        const slug = `${name}-${model}`
+        const slug = `${normalizedName}-${normalizedModel}`
             .toLowerCase()
             .normalize("NFD")
             .replace(/[\u0300-\u036f]/g, "")
@@ -77,10 +119,15 @@ export async function POST(request: Request) {
         const product = await prisma.product.create({
             data: {
                 slug,
-                name,
-                model,
+                name: normalizedName,
+                model: normalizedModel,
                 subtitle,
                 description,
+                title_es: normalizeOptionalText(body.title_es),
+                title_en: normalizeOptionalText(body.title_en),
+                description_es: normalizeOptionalText(body.description_es),
+                description_en: normalizeOptionalText(body.description_en),
+                availableMarkets,
                 badge,
                 mainImage,
                 galleryImages: galleryImages || [],

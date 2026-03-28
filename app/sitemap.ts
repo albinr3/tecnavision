@@ -1,11 +1,18 @@
 import type { MetadataRoute } from "next";
 import { getSiteUrl } from "@/lib/site-url";
 import { prisma } from "@/lib/db";
+import { getActiveMarket } from "@/lib/market";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl = getSiteUrl();
+  const activeMarket = getActiveMarket();
   const lastModified = new Date();
   const products = await prisma.product.findMany({
+    where: {
+      availableMarkets: {
+        has: activeMarket,
+      },
+    },
     select: {
       slug: true,
       updatedAt: true,
