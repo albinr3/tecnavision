@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db";
 import EditCategoryForm from "./EditCategoryForm";
+import { Prisma } from "@prisma/client";
 
 interface EditCategoryPageProps {
     params: Promise<{
@@ -13,9 +14,51 @@ export default async function EditCategoryPage(props: EditCategoryPageProps) {
     const params = await props.params;
     const { id } = params;
 
-    const category = await prisma.category.findUnique({
-        where: { id },
-    });
+    let category: {
+        id: string;
+        name: string;
+        name_es?: string | null;
+        name_en?: string | null;
+        slug: string;
+        icon: string | null;
+        description: string | null;
+    } | null = null;
+
+    try {
+        category = await prisma.category.findUnique({
+            where: { id },
+            select: {
+                id: true,
+                name: true,
+                name_es: true,
+                name_en: true,
+                slug: true,
+                icon: true,
+                description: true,
+            },
+        });
+    } catch (error) {
+        const isMissingI18n =
+            error instanceof Prisma.PrismaClientKnownRequestError &&
+            error.code === "P2022";
+
+        if (!isMissingI18n) throw error;
+
+        const fallback = await prisma.category.findUnique({
+            where: { id },
+            select: {
+                id: true,
+                name: true,
+                slug: true,
+                icon: true,
+                description: true,
+            },
+        });
+
+        category = fallback
+            ? { ...fallback, name_es: null, name_en: null }
+            : null;
+    }
 
     if (!category) {
         notFound();

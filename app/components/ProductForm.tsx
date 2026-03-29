@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Category, Product, ProductVariant } from "@prisma/client";
+import { Product, ProductVariant } from "@prisma/client";
 import { toast } from "sonner";
 import ProductPreview from "@/app/admin/components/ProductPreview";
 
@@ -12,8 +12,14 @@ type ProductWithVariants = Product & {
     variants?: ProductVariant[];
 };
 
+type ProductCategoryOption = {
+    id: string;
+    name: string;
+    slug: string;
+};
+
 interface ProductFormProps {
-    categories: Category[];
+    categories: ProductCategoryOption[];
     initialData?: ProductWithVariants;
 }
 

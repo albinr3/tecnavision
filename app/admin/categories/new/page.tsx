@@ -10,6 +10,8 @@ export default function NewCategoryPage() {
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         name: "",
+        name_es: "",
+        name_en: "",
         slug: "",
         icon: "category",
         description: "",
@@ -21,7 +23,9 @@ export default function NewCategoryPage() {
             ...prev,
             [name]: value,
             // Auto-generate slug from name if slug is being touched or empty
-            ...(name === "name" && !prev.slug ? { slug: value.toLowerCase().replace(/ /g, "-") } : {}),
+            ...((name === "name" || name === "name_en" || name === "name_es") && !prev.slug
+                ? { slug: value.toLowerCase().replace(/ /g, "-") }
+                : {}),
         }));
     };
 
@@ -30,6 +34,9 @@ export default function NewCategoryPage() {
         setLoading(true);
 
         try {
+            if (!formData.name_es.trim() && !formData.name_en.trim() && !formData.name.trim()) {
+                throw new Error("Debes completar al menos un nombre de categoría (ES o EN).");
+            }
             const res = await fetch("/api/categories", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -68,19 +75,45 @@ export default function NewCategoryPage() {
                 <div className="mx-auto max-w-2xl">
                     <form onSubmit={handleSubmit} className="bg-app-surface rounded-xl border border-app-border shadow-sm p-6 md:p-8 space-y-6">
 
-                        {/* Name */}
+                        {/* Names */}
                         <div>
-                            <label htmlFor="name" className="block text-sm font-semibold text-app-text mb-2">Nombre</label>
+                            <label htmlFor="name_es" className="block text-sm font-semibold text-app-text mb-2">Nombre (ES)</label>
+                            <input
+                                type="text"
+                                id="name_es"
+                                name="name_es"
+                                value={formData.name_es}
+                                onChange={handleChange}
+                                className="w-full px-4 py-2.5 bg-app-bg-subtle border border-app-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-app-text"
+                                placeholder="Ej. Cámaras de Seguridad"
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="name_en" className="block text-sm font-semibold text-app-text mb-2">Nombre (EN)</label>
+                            <input
+                                type="text"
+                                id="name_en"
+                                name="name_en"
+                                value={formData.name_en}
+                                onChange={handleChange}
+                                className="w-full px-4 py-2.5 bg-app-bg-subtle border border-app-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-app-text"
+                                placeholder="Ej. Security Cameras"
+                            />
+                        </div>
+
+                        {/* Legacy/Fallback Name */}
+                        <div>
+                            <label htmlFor="name" className="block text-sm font-semibold text-app-text mb-2">Nombre Base (Fallback)</label>
                             <input
                                 type="text"
                                 id="name"
                                 name="name"
-                                required
                                 value={formData.name}
                                 onChange={handleChange}
                                 className="w-full px-4 py-2.5 bg-app-bg-subtle border border-app-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-app-text"
                                 placeholder="Ej. Cámaras de Seguridad"
                             />
+                            <p className="mt-1 text-xs text-[#645e8d]">Opcional. Si se deja vacío, se usa EN o ES como nombre canónico.</p>
                         </div>
 
                         {/* Slug */}

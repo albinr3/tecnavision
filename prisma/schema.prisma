@@ -89,6 +89,8 @@ model ProductVariant {
 model Category {
   id          String    @id @default(cuid())
   name        String
+  name_es     String?
+  name_en     String?
   slug        String    @unique
   icon        String?   // Material icon name
   description String?
@@ -124,3 +126,5 @@ model Distributor {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
+

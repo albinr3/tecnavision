@@ -8,6 +8,7 @@ import { Prisma } from "@prisma/client";
 import ProductsFiltersSidebar from "./ProductsFiltersSidebar";
 import { getActiveMarket } from "@/lib/market";
 import { getLocalizedProductText } from "@/lib/product-localization";
+import { getLocalizedCategoryName } from "@/lib/category-localization";
 
 const PRODUCTS_PER_PAGE = 9;
 const EAGER_PRODUCT_IMAGE_COUNT = 8;
@@ -25,6 +26,21 @@ function isMissingAvailableMarketsColumn(error: unknown) {
         typeof error.meta?.column === "string" ? error.meta.column : "";
 
     return missingColumn === "" || missingColumn.includes("availableMarkets");
+}
+
+function isMissingCategoryI18nColumn(error: unknown) {
+    if (!(error instanceof Prisma.PrismaClientKnownRequestError)) {
+        return false;
+    }
+
+    if (error.code !== "P2022") {
+        return false;
+    }
+
+    const missingColumn =
+        typeof error.meta?.column === "string" ? error.meta.column.toLowerCase() : "";
+
+    return missingColumn === "" || missingColumn.includes("name_es") || missingColumn.includes("name_en");
 }
 
 async function getProducts(
@@ -226,24 +242,59 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
         requestedQuery || undefined,
         currentPage
     );
-    const categories = await prisma.category.findMany({
-        select: {
-            id: true,
-            name: true,
-            slug: true,
-        },
-        orderBy: {
-            createdAt: "desc",
-        },
-    });
+    let categories: Array<{ id: string; name: string; slug: string; name_es?: string | null; name_en?: string | null }> = [];
+    try {
+        categories = await prisma.category.findMany({
+            select: {
+                id: true,
+                name: true,
+                name_es: true,
+                name_en: true,
+                slug: true,
+            },
+            orderBy: {
+                createdAt: "desc",
+            },
+        });
+    } catch (error) {
+        if (!isMissingCategoryI18nColumn(error)) {
+            throw error;
+        }
+
+        const fallbackCategories = await prisma.category.findMany({
+            select: {
+                id: true,
+                name: true,
+                slug: true,
+            },
+            orderBy: {
+                createdAt: "desc",
+            },
+        });
+        categories = fallbackCategories.map((item) => ({
+            ...item,
+            name_es: null,
+            name_en: null,
+        }));
+    }
     const categoryFilters = categories.length > 0
-        ? categories
-        : [
-            { id: "camaras-ip", name: "Camaras IP", slug: "camaras-ip" },
-            { id: "nvr-grabadores", name: "NVR / Grabadores", slug: "nvr-grabadores" },
-            { id: "cerraduras-inteligentes", name: "Cerraduras Inteligentes", slug: "cerraduras-inteligentes" },
-            { id: "accesorios", name: "Accesorios", slug: "accesorios" },
-        ];
+        ? categories.map((category) => ({
+            ...category,
+            name: getLocalizedCategoryName(category, activeMarket),
+        }))
+        : activeMarket === "RD"
+            ? [
+                { id: "camaras-ip", name: "Camaras IP", slug: "camaras-ip" },
+                { id: "nvr-grabadores", name: "NVR / Grabadores", slug: "nvr-grabadores" },
+                { id: "cerraduras-inteligentes", name: "Cerraduras Inteligentes", slug: "cerraduras-inteligentes" },
+                { id: "accesorios", name: "Accesorios", slug: "accesorios" },
+            ]
+            : [
+                { id: "security-cameras", name: "Security Cameras", slug: "security-cameras" },
+                { id: "nvr-recorders", name: "NVR / Recorders", slug: "nvr-recorders" },
+                { id: "smart-locks", name: "Smart Locks", slug: "smart-locks" },
+                { id: "accessories", name: "Accessories", slug: "accessories" },
+            ];
     let filterSourceProducts: Array<{ resolutionOpts: string[]; aiDetection: string[] }> = [];
     try {
         filterSourceProducts = await prisma.product.findMany({
@@ -302,7 +353,11 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
         ? featureFilters
         : ["Cruce de linea", "Intrusion de area", "Reconocimiento facial"];
     const activeCategoryName = requestedCategories.length === 1
-        ? (products[0]?.category?.name || requestedCategories[0].replace(/-/g, " "))
+        ? (
+            products[0]?.category
+                ? getLocalizedCategoryName(products[0].category, activeMarket)
+                : requestedCategories[0].replace(/-/g, " ")
+        )
         : "Todas las categorías";
     const createPageHref = (page: number) => {
         const params = new URLSearchParams();
@@ -422,7 +477,9 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
                                             <div className="flex-1">
                                                 <h3 className="text-app-text text-lg font-bold mb-2 group-hover:text-primary transition-colors">{localized.name} {product.model}</h3>
                                                 <div className="flex flex-wrap gap-2 mb-4">
-                                                    <span className="text-[11px] font-medium text-app-text-sec bg-app-bg-subtle px-2 py-1 rounded-md">{product.category?.name || "General"}</span>
+                                                    <span className="text-[11px] font-medium text-app-text-sec bg-app-bg-subtle px-2 py-1 rounded-md">
+                                                        {product.category ? getLocalizedCategoryName(product.category, activeMarket) : "General"}
+                                                    </span>
                                                     {product.resolutionOpts.slice(0, 2).map((opt) => (
                                                         <span key={opt} className="text-[11px] font-medium text-app-text-sec bg-app-bg-subtle px-2 py-1 rounded-md">{opt}</span>
                                                     ))}

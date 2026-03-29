@@ -5,19 +5,23 @@ import Link from "next/link";
 import ThemeLogo from "./ThemeLogo";
 import ThemeToggle from "./ThemeToggle";
 import LoadingLink from "./LoadingLink";
+import { getLocalizedCategoryName } from "@/lib/category-localization";
+import type { AppMarket } from "@/lib/market";
 
 type MenuCategory = {
     id: string;
     name: string;
+    name_es?: string | null;
+    name_en?: string | null;
     slug: string;
     icon: string | null;
 };
 
 const FALLBACK_MENU_CATEGORIES: MenuCategory[] = [
-    { id: "camaras-seguridad", name: "Cámaras de Seguridad", slug: "camaras-seguridad", icon: "videocam" },
-    { id: "grabadores-nvr", name: "Grabadores (NVR)", slug: "nvr-grabadores", icon: "dns" },
-    { id: "control-acceso", name: "Control de Acceso", slug: "control-acceso", icon: "lock_open" },
-    { id: "accesorios", name: "Accesorios", slug: "accesorios", icon: "cable" },
+    { id: "camaras-seguridad", name: "Security Cameras", name_es: "Cámaras de Seguridad", name_en: "Security Cameras", slug: "camaras-seguridad", icon: "videocam" },
+    { id: "grabadores-nvr", name: "Recorders (NVR)", name_es: "Grabadores (NVR)", name_en: "Recorders (NVR)", slug: "nvr-grabadores", icon: "dns" },
+    { id: "control-acceso", name: "Access Control", name_es: "Control de Acceso", name_en: "Access Control", slug: "control-acceso", icon: "lock_open" },
+    { id: "accesorios", name: "Accessories", name_es: "Accesorios", name_en: "Accessories", slug: "accesorios", icon: "cable" },
 ];
 
 const normalizeText = (value: string) =>
@@ -26,24 +30,30 @@ const normalizeText = (value: string) =>
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "");
 
-const getCategoryPriority = (category: MenuCategory) => {
-    const key = `${normalizeText(category.name)} ${normalizeText(category.slug)}`;
+const getCategoryPriority = (category: MenuCategory, market: AppMarket) => {
+    const displayName = getLocalizedCategoryName(category, market);
+    const key = `${normalizeText(displayName)} ${normalizeText(category.slug)}`;
     if (key.includes("camara")) return 0;
     if (key.includes("nvr") || key.includes("grabador")) return 1;
     if (key.includes("accesorio")) return 99;
     return 50;
 };
 
-const sortMenuCategories = (categories: MenuCategory[]) =>
+const sortMenuCategories = (categories: MenuCategory[], market: AppMarket) =>
     [...categories].sort((a, b) => {
-        const diff = getCategoryPriority(a) - getCategoryPriority(b);
+        const diff = getCategoryPriority(a, market) - getCategoryPriority(b, market);
         if (diff !== 0) return diff;
-        return a.name.localeCompare(b.name, "es", { sensitivity: "base" });
+        const aName = getLocalizedCategoryName(a, market);
+        const bName = getLocalizedCategoryName(b, market);
+        return aName.localeCompare(bName, market === "RD" ? "es" : "en", { sensitivity: "base" });
     });
+
+const ACTIVE_MARKET: AppMarket =
+    process.env.NEXT_PUBLIC_SITE_MARKET?.trim().toUpperCase() === "RD" ? "RD" : "US";
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [menuCategories, setMenuCategories] = useState<MenuCategory[]>(sortMenuCategories(FALLBACK_MENU_CATEGORIES));
+    const [menuCategories, setMenuCategories] = useState<MenuCategory[]>(sortMenuCategories(FALLBACK_MENU_CATEGORIES, ACTIVE_MARKET));
 
     useEffect(() => {
         if (typeof document === "undefined") return;
@@ -65,11 +75,13 @@ export default function Header() {
                     .map((item) => ({
                         id: item.id as string,
                         name: item.name as string,
+                        name_es: (item.name_es as string | null) || null,
+                        name_en: (item.name_en as string | null) || null,
                         slug: item.slug as string,
                         icon: (item.icon as string | null) || null,
                     }));
                 if (normalized.length > 0) {
-                    setMenuCategories(sortMenuCategories(normalized));
+                    setMenuCategories(sortMenuCategories(normalized, ACTIVE_MARKET));
                 }
             } catch {
                 // Keep fallback menu when request fails.
@@ -115,7 +127,7 @@ export default function Header() {
                                             <span className="flex size-10 items-center justify-center rounded-lg bg-primary/10 dark:bg-white text-primary shrink-0">
                                                 <span className="material-symbols-outlined text-[22px]">{category.icon || "category"}</span>
                                             </span>
-                                            <h3 className="font-bold text-app-text text-sm uppercase tracking-wider">{category.name}</h3>
+                                            <h3 className="font-bold text-app-text text-sm uppercase tracking-wider">{getLocalizedCategoryName(category, ACTIVE_MARKET)}</h3>
                                         </Link>
                                     ))}
                                 </div>
@@ -201,7 +213,7 @@ export default function Header() {
                                     className="flex items-center gap-3 rounded-lg border border-app-border bg-app-surface px-3 py-2 text-sm font-semibold text-app-text hover:bg-app-bg-subtle hover:text-primary transition-colors"
                                 >
                                     <span className="material-symbols-outlined text-[18px] text-primary">{category.icon || "category"}</span>
-                                    {category.name}
+                                    {getLocalizedCategoryName(category, ACTIVE_MARKET)}
                                 </Link>
                             ))}
                         </div>

@@ -4,6 +4,7 @@ import ProductForm from "@/app/components/ProductForm";
 
 export default async function NewProductPage() {
     const categories = await prisma.category.findMany({
+        select: { id: true, name: true, slug: true },
         orderBy: { name: 'asc' }
     });
 

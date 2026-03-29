@@ -8,6 +8,8 @@ interface Category {
     id: string;
     slug: string;
     name: string;
+    name_es?: string | null;
+    name_en?: string | null;
     icon: string | null;
     description: string | null;
     _count: {
@@ -116,7 +118,7 @@ export default function AdminCategoriesPage() {
                                 <table className="w-full min-w-[720px]">
                                     <thead className="bg-app-bg-subtle border-b border-app-border">
                                         <tr>
-                                            <th className="text-left px-6 py-4 text-sm font-semibold text-app-text">Nombre</th>
+                                            <th className="text-left px-6 py-4 text-sm font-semibold text-app-text">Nombre (EN / ES)</th>
                                             <th className="text-left px-6 py-4 text-sm font-semibold text-app-text hidden md:table-cell">Slug</th>
                                             <th className="text-left px-6 py-4 text-sm font-semibold text-app-text hidden lg:table-cell">Descripción</th>
                                             <th className="text-center px-6 py-4 text-sm font-semibold text-app-text">Productos</th>
@@ -131,7 +133,10 @@ export default function AdminCategoriesPage() {
                                                         <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
                                                             <span className="material-symbols-outlined">{category.icon || "category"}</span>
                                                         </div>
-                                                        <span className="font-semibold text-app-text">{category.name}</span>
+                                                        <span className="font-semibold text-app-text">
+                                                            {(category.name_en || category.name) || "-"}
+                                                            {(category.name_es ? ` / ${category.name_es}` : "")}
+                                                        </span>
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-4 hidden md:table-cell">

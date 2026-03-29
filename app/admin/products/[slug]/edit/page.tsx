@@ -19,6 +19,7 @@ export default async function EditProductPage(props: EditProductPageProps) {
             include: { variants: true }
         }),
         prisma.category.findMany({
+            select: { id: true, name: true, slug: true },
             orderBy: { name: 'asc' }
         })
     ]);

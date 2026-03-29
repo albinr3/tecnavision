@@ -7,6 +7,7 @@ import prisma from "@/lib/db";
 import { getSiteUrl } from "@/lib/site-url";
 import { getActiveMarket } from "@/lib/market";
 import { getLocalizedProductText } from "@/lib/product-localization";
+import { getLocalizedCategoryName } from "@/lib/category-localization";
 import { Prisma } from "@prisma/client";
 
 function isMissingAvailableMarketsColumn(error: unknown) {
@@ -157,6 +158,9 @@ export default async function ProductPage({ params }: Props) {
         notFound();
     }
     const localized = getLocalizedProductText(product, activeMarket);
+    const localizedCategoryName = product.category
+        ? getLocalizedCategoryName(product.category, activeMarket)
+        : "Seguridad";
     const localizedProduct = {
         ...product,
         name: localized.name,
@@ -186,7 +190,7 @@ export default async function ProductPage({ params }: Props) {
             "@type": "Brand",
             name: "TecnaVision",
         },
-        category: product.category?.name || "Seguridad",
+        category: localizedCategoryName,
         url: productUrl,
         additionalProperty,
         ...(product.reviewsCount > 0 ? {

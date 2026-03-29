@@ -3,10 +3,19 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Category } from "@prisma/client";
+
+type EditableCategory = {
+    id: string;
+    name: string;
+    name_es?: string | null;
+    name_en?: string | null;
+    slug: string;
+    icon: string | null;
+    description: string | null;
+};
 
 interface EditCategoryFormProps {
-    category: Category;
+    category: EditableCategory;
 }
 
 export default function EditCategoryForm({ category }: EditCategoryFormProps) {
@@ -14,6 +23,8 @@ export default function EditCategoryForm({ category }: EditCategoryFormProps) {
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         name: category.name,
+        name_es: category.name_es || "",
+        name_en: category.name_en || "",
         slug: category.slug,
         icon: category.icon || "",
         description: category.description || "",
@@ -32,6 +43,9 @@ export default function EditCategoryForm({ category }: EditCategoryFormProps) {
         setLoading(true);
 
         try {
+            if (!formData.name_es.trim() && !formData.name_en.trim() && !formData.name.trim()) {
+                throw new Error("Debes completar al menos un nombre de categoría (ES o EN).");
+            }
             const res = await fetch(`/api/categories/${category.id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
@@ -51,14 +65,38 @@ export default function EditCategoryForm({ category }: EditCategoryFormProps) {
 
     return (
         <form onSubmit={handleSubmit} className="bg-app-surface rounded-xl border border-app-border shadow-sm p-6 md:p-8 space-y-6">
-            {/* Name */}
+            {/* Names */}
             <div>
-                <label htmlFor="name" className="block text-sm font-semibold text-app-text mb-2">Nombre</label>
+                <label htmlFor="name_es" className="block text-sm font-semibold text-app-text mb-2">Nombre (ES)</label>
+                <input
+                    type="text"
+                    id="name_es"
+                    name="name_es"
+                    value={formData.name_es}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2.5 bg-app-bg-subtle border border-app-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-app-text"
+                />
+            </div>
+
+            <div>
+                <label htmlFor="name_en" className="block text-sm font-semibold text-app-text mb-2">Nombre (EN)</label>
+                <input
+                    type="text"
+                    id="name_en"
+                    name="name_en"
+                    value={formData.name_en}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2.5 bg-app-bg-subtle border border-app-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-app-text"
+                />
+            </div>
+
+            {/* Legacy/Fallback Name */}
+            <div>
+                <label htmlFor="name" className="block text-sm font-semibold text-app-text mb-2">Nombre Base (Fallback)</label>
                 <input
                     type="text"
                     id="name"
                     name="name"
-                    required
                     value={formData.name}
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 bg-app-bg-subtle border border-app-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-app-text"
