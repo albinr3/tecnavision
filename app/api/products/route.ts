@@ -56,6 +56,8 @@ export async function POST(request: Request) {
             name,
             model,
             subtitle,
+            subtitle_es,
+            subtitle_en,
             description,
             badge,
             mainImage,
@@ -91,6 +93,10 @@ export async function POST(request: Request) {
 
         const normalizedName = typeof name === "string" ? name.trim() : "";
         const normalizedModel = typeof model === "string" ? model.trim() : "";
+        const normalizedSubtitle = normalizeOptionalText(subtitle);
+        const normalizedSubtitleEs = normalizeOptionalText(subtitle_es);
+        const normalizedSubtitleEn = normalizeOptionalText(subtitle_en);
+        const subtitleFallback = normalizedSubtitle ?? normalizedSubtitleEs ?? normalizedSubtitleEn;
 
         if (!normalizedName || !normalizedModel) {
             return NextResponse.json(
@@ -121,7 +127,9 @@ export async function POST(request: Request) {
                 slug,
                 name: normalizedName,
                 model: normalizedModel,
-                subtitle,
+                subtitle: subtitleFallback,
+                subtitle_es: normalizedSubtitleEs,
+                subtitle_en: normalizedSubtitleEn,
                 description,
                 title_es: normalizeOptionalText(body.title_es),
                 title_en: normalizeOptionalText(body.title_en),

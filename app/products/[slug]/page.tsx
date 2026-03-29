@@ -85,7 +85,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         siteUrl
     );
     const title = `${localized.name} ${product.model} - TecnaVision`;
-    const description = localized.description || product.subtitle || "Producto TecnaVision";
+    const description = localized.description || localized.subtitle || product.subtitle || "Producto TecnaVision";
 
     return {
         title,
@@ -164,6 +164,7 @@ export default async function ProductPage({ params }: Props) {
     const localizedProduct = {
         ...product,
         name: localized.name,
+        subtitle: localized.subtitle,
         description: localized.description,
     };
     const siteUrl = getSiteUrl();
@@ -171,7 +172,7 @@ export default async function ProductPage({ params }: Props) {
     const productUrl = `${siteUrl}${productPath}`;
     const imageUrl = toAbsoluteUrl(product.mainImage || "/web-app-manifest-512x512.png", siteUrl);
     const productName = `${localized.name} ${product.model}`.trim();
-    const description = localized.description || product.subtitle || "Producto TecnaVision";
+    const description = localized.description || localized.subtitle || product.subtitle || "Producto TecnaVision";
     const additionalProperty = [
         product.protection ? { "@type": "PropertyValue", name: "Protección", value: product.protection } : null,
         product.compression ? { "@type": "PropertyValue", name: "Compresión", value: product.compression } : null,

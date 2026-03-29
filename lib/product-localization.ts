@@ -2,7 +2,10 @@ import type { AppMarket } from "@/lib/market";
 
 type LocalizableProduct = {
     name: string;
+    subtitle: string | null;
     description: string | null;
+    subtitle_es: string | null;
+    subtitle_en: string | null;
     title_es: string | null;
     title_en: string | null;
     description_es: string | null;
@@ -34,9 +37,18 @@ export function getLocalizedProductDescription(product: LocalizableProduct, mark
     return pickPreferredText(product.description_en, product.description);
 }
 
+export function getLocalizedProductSubtitle(product: LocalizableProduct, market: AppMarket) {
+    if (market === "RD") {
+        return pickPreferredText(product.subtitle_es, product.subtitle);
+    }
+
+    return pickPreferredText(product.subtitle_en, product.subtitle);
+}
+
 export function getLocalizedProductText(product: LocalizableProduct, market: AppMarket) {
     return {
         name: getLocalizedProductName(product, market),
+        subtitle: getLocalizedProductSubtitle(product, market),
         description: getLocalizedProductDescription(product, market),
     };
 }

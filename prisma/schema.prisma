@@ -20,6 +20,8 @@ model Product {
   name            String
   model           String
   subtitle        String?
+  subtitle_es     String?
+  subtitle_en     String?
   description     String?
   title_es        String?
   title_en        String?

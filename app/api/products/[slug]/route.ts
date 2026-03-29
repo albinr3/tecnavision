@@ -65,6 +65,10 @@ export async function PUT(request: Request, { params }: Props) {
         const { slug } = await params;
         const body = await request.json();
         const sanitizedAvailableMarkets = sanitizeAvailableMarkets(body.availableMarkets);
+        const normalizedSubtitle = normalizeOptionalText(body.subtitle);
+        const normalizedSubtitleEs = normalizeOptionalText(body.subtitle_es);
+        const normalizedSubtitleEn = normalizeOptionalText(body.subtitle_en);
+        const subtitleFallback = normalizedSubtitle ?? normalizedSubtitleEs ?? normalizedSubtitleEn;
 
         if (sanitizedAvailableMarkets.length === 0) {
             return NextResponse.json(
@@ -78,7 +82,9 @@ export async function PUT(request: Request, { params }: Props) {
             data: {
                 name: body.name,
                 model: body.model,
-                subtitle: body.subtitle,
+                subtitle: subtitleFallback,
+                subtitle_es: normalizedSubtitleEs,
+                subtitle_en: normalizedSubtitleEn,
                 description: body.description,
                 title_es: normalizeOptionalText(body.title_es),
                 title_en: normalizeOptionalText(body.title_en),
